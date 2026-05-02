@@ -222,6 +222,7 @@ header {
     padding: 0 1em;
     background: var(--fg);
     border-bottom: 3px solid var(--border);
+    position: relative;
 }
 
 header h2 {
@@ -264,9 +265,75 @@ header .social-links a {
     color: var(--bg);
 }
 
+/* Hamburger button — hidden on desktop */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.4em;
+    flex-shrink: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--bg);
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+header.menu-open .menu-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+header.menu-open .menu-toggle span:nth-child(2) {
+    opacity: 0;
+}
+header.menu-open .menu-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 720px) {
     header .social-links {
         display: none;
+    }
+
+    header h2 {
+        flex: 1;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    header .internal-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--fg);
+        border-bottom: 3px solid var(--border);
+        padding: 0.5em 1em;
+        z-index: 100;
+    }
+
+    header.menu-open .internal-links {
+        display: flex;
+    }
+
+    header .internal-links a {
+        padding: 0.75em 0;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+        font-size: 1rem;
+    }
+
+    header .internal-links a:last-child {
+        border-bottom: none;
     }
 }
 
