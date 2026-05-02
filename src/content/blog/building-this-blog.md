@@ -5,7 +5,7 @@ pubDate: 'May 02 2025'
 heroImage: 'https://images.unsplash.com/photo-1548755343-4e4e6f6515c2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 ---
 
-It all started with a bursitis, a day before labors day holliday. I was remembering things I used to like when I was still learning things on the internet. 
+It all started with bursitis, a day before labors day holliday. I was remembering things I used to like when I was still learning things on the internet. 
 
 I had a couple of blogs way before it was a big thing. Hosted blogs on the old Uol Zip.Net, Wordpress and Blogger/Blogspot (before google bought them).
 
@@ -26,7 +26,7 @@ No framework, no runtime JS on the client unless you explicitly add it.
 
 The aesthetic is deliberately brutalist: hard edges, no border-radius anywhere, a `4px 4px 0` offset box shadow that moves with the theme instead of blurring out, and Courier New for all metadata (dates, tags, labels).
 
-As a font enthusiast, I opted to use a serif font on the body. After quite some time looking my option, I went with [Redaction](https://www.redaction.us/). The code snippets are being powered by [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/)
+As a font enthusiast, I opted to use a serif font on the body. After quite some time looking the possible options, I went with [Redaction](https://www.redaction.us/). The code snippets are written by [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/)
 
 The palette is two CSS custom properties, `--bg` and `--fg`, that flip on `[data-theme="dark"]`. Everything else derives from those two values. This means adding dark mode to any new component is essentially free.
 
@@ -61,14 +61,16 @@ const blog = defineCollection({
         pubDate: z.coerce.date(),
         updatedDate: z.coerce.date().optional(),
         heroImage: z.string().optional(),
+        hidden: z.boolean().optional(),
     }),
 });
 ```
 
-Querying posts is then typed and sorted at build time:
+Querying posts is then typed and sorted at build time, it also can hidden unwanted posts, if that is the case:
 
 ```ts
-const posts = (await getCollection('blog'))
+const posts = (await getCollection("blog"))
+    .filter((post) => !post.data.hidden)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ```
 
@@ -101,10 +103,10 @@ Global constants (site title, description, links) live in `src/consts.ts` and ar
 
 **Markdown is a first-class citizen.** Writing a post is creating a `.md` file. The schema validation catches typos in frontmatter before the build goes out.
 
-**Incremental complexity.** You start simple and add only what you need. This blog has no bundler config, no state management, no API routes. If it grows to need them, Astro supports it without a rewrite.
+**Incremental complexity.** This blog has no bundler config, no state management, no API routes. If it grows to need them, Astro supports it without a rewrite.
 
 The tradeoff: there is no live preview in a GUI and no admin panel. Posts are written in a text editor and committed to git. That is a feature, not a bug.
 
-This is the most minimalistic way that I can find in the modern web to express myself. 
+This is the most minimalistic way that I can find in the modern web to express myself. Kinda remember the FTP use back in the day.
 
 Thank you, take care and keep rocking 🤘- Matheus.
