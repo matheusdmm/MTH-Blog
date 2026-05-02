@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, GITHUB } from "../consts";
+import { SITE_TITLE, GITHUB, BANDCAMP, KOFI } from "../consts";
 import HeaderLink from "./HeaderLink.astro";
 ---
 
@@ -14,7 +14,7 @@ import HeaderLink from "./HeaderLink.astro";
         </div>
         <div class="social-links">
             <a href={GITHUB} target="_blank">
-                <span class="sr-only">Go to Astro's GitHub repo</span>
+                <span class="sr-only">Go to my GH Profile</span>
                 <svg
                     viewBox="0 0 16 16"
                     aria-hidden="true"
@@ -26,9 +26,44 @@ import HeaderLink from "./HeaderLink.astro";
                     ></path></svg
                 >
             </a>
+            <a href={BANDCAMP} target="_blank">
+                <span class="sr-only">Go to My Bandcamp</span>
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    width="32"
+                    height="32"
+                    ><path
+                        fill="currentColor"
+                        d="M0 18.75l7.437-13.5H24L16.563 18.75z"
+                    ></path></svg
+                >
+            </a>
+            <a href={KOFI} target="_blank">
+                <span class="sr-only">Support me on Ko-fi</span>
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    width="32"
+                    height="32"
+                    ><path
+                        fill="currentColor"
+                        d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 004 4h6a4 4 0 004-4V9h2a2 2 0 002-2V5a2 2 0 00-2-2z"
+                    ></path></svg
+                >
+            </a>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">DARK</button>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle dark mode">DARK</button
+        >
+        <button
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+        >
             <span></span>
             <span></span>
             <span></span>
@@ -36,26 +71,30 @@ import HeaderLink from "./HeaderLink.astro";
     </nav>
 </header>
 <script>
-    const themeBtn = document.getElementById('theme-toggle') as HTMLButtonElement;
-    const menuBtn = document.getElementById('menu-toggle') as HTMLButtonElement;
-    const headerEl = menuBtn.closest('header') as HTMLElement;
+    const themeBtn = document.getElementById(
+        "theme-toggle",
+    ) as HTMLButtonElement;
+    const menuBtn = document.getElementById("menu-toggle") as HTMLButtonElement;
+    const headerEl = menuBtn.closest("header") as HTMLElement;
 
     function syncTheme() {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        themeBtn.textContent = isDark ? 'LIGHT' : 'DARK';
+        const isDark =
+            document.documentElement.getAttribute("data-theme") === "dark";
+        themeBtn.textContent = isDark ? "LIGHT" : "DARK";
     }
 
-    themeBtn.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') || 'light';
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
+    themeBtn.addEventListener("click", () => {
+        const current =
+            document.documentElement.getAttribute("data-theme") || "light";
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
         syncTheme();
     });
 
-    menuBtn.addEventListener('click', () => {
-        const isOpen = headerEl.classList.toggle('menu-open');
-        menuBtn.setAttribute('aria-expanded', String(isOpen));
+    menuBtn.addEventListener("click", () => {
+        const isOpen = headerEl.classList.toggle("menu-open");
+        menuBtn.setAttribute("aria-expanded", String(isOpen));
     });
 
     syncTheme();

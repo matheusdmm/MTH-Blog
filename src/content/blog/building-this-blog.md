@@ -24,7 +24,9 @@ No framework, no runtime JS on the client unless you explicitly add it.
 
 ## Design choices
 
-The aesthetic is deliberately brutalist: hard edges, no border-radius anywhere, a `4px 4px 0` offset box shadow that moves with the theme instead of blurring out, and Courier New for all metadata (dates, tags, labels). The main body font is Atkinson — designed for readability.
+The aesthetic is deliberately brutalist: hard edges, no border-radius anywhere, a `4px 4px 0` offset box shadow that moves with the theme instead of blurring out, and Courier New for all metadata (dates, tags, labels).
+
+As a font enthusiast, I opted to use a serif font on the body. After quite some time looking my option, I went with [Redaction](https://www.redaction.us/). The code snippets are being powered by [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/)
 
 The palette is two CSS custom properties, `--bg` and `--fg`, that flip on `[data-theme="dark"]`. Everything else derives from those two values. This means adding dark mode to any new component is essentially free.
 
