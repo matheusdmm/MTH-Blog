@@ -301,12 +301,36 @@ header.menu-open .menu-toggle span:nth-child(3) {
         display: none;
     }
 
+    header {
+        padding: 0 1.25em;
+    }
+
+    header nav {
+        min-height: 64px;
+    }
+
     header h2 {
         flex: 1;
+        font-size: 1.1em;
     }
 
     .menu-toggle {
         display: flex;
+        padding: 0.6em;
+        gap: 6px;
+    }
+
+    .menu-toggle span {
+        width: 26px;
+        height: 2px;
+    }
+
+    header.menu-open .menu-toggle span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    header.menu-open .menu-toggle span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
     }
 
     header .internal-links {
@@ -318,7 +342,7 @@ header.menu-open .menu-toggle span:nth-child(3) {
         flex-direction: column;
         background: var(--fg);
         border-bottom: 3px solid var(--border);
-        padding: 0.5em 1em;
+        padding: 0.25em 1.25em;
         z-index: 100;
     }
 
@@ -327,9 +351,9 @@ header.menu-open .menu-toggle span:nth-child(3) {
     }
 
     header .internal-links a {
-        padding: 0.75em 0;
+        padding: 1em 0;
         border-bottom: 1px solid rgba(128, 128, 128, 0.25);
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     header .internal-links a:last-child {
