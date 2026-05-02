@@ -1,63 +1,68 @@
-# Astro Starter Kit: Blog
+# MATHEUSDMM
+
+Personal blog and portfolio built with [Astro](https://astro.build).
+
+## Stack
+
+- **Astro 6** — static site generator, zero JS by default
+- **@astrojs/mdx** — Markdown + JSX for blog posts
+- **@astrojs/rss** — RSS feed at `/rss.xml`
+- **@astrojs/sitemap** — auto-generated sitemap
+- **sharp** — build-time image optimization
+
+## Pages
+
+| Route | Description |
+| :---- | :---------- |
+| `/` | Home / landing |
+| `/blog` | Post listing |
+| `/blog/[slug]` | Individual post |
+| `/projects` | Project cards |
+| `/about` | Resume / profile |
+
+## Project structure
+
+```
+src/
+├── assets/
+│   └── fonts/          # Local font files
+├── components/         # Astro components (Header, Footer, BaseHead…)
+├── content/
+│   └── blog/           # Markdown/MDX posts — add files here
+├── layouts/            # BlogPost layout
+├── pages/              # File-based routes
+└── styles/
+    └── global.css      # Design tokens, base styles
+astro.config.mjs
+```
+
+## Commands
 
 ```sh
-npm create astro@latest -- --template blog
+npm install        # Install dependencies
+npm run dev        # Dev server at localhost:4321
+npm run build      # Production build to ./dist/
+npm run preview    # Preview the production build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Design
 
-Features:
+Brutalist aesthetic: high-contrast black/white, hard `4px 4px 0` offset shadows with no blur, zero border-radius, monospace UI labels. Light/dark theme driven by two CSS custom properties (`--bg` / `--fg`) toggled via `data-theme` on `<html>`.
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Fonts
 
-## 🚀 Project Structure
+### Redaction — body text
 
-Inside of your Astro project, you'll see the following folders and files:
+Designed by **Forest Young** (Wolff Olins) and **Jeremy Mickel** (MCKL), commissioned for the book *Until* by Reginald Dwayne Betts.
 
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+Licensed under the [SIL Open Font License 1.1](https://openfontlicense.org). You are free to use, study, modify, and redistribute this font, including in commercial projects, provided derivative fonts are released under the same license and the font is not sold on its own.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Source: [https://www.redaction.us](https://www.redaction.us)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### JetBrains Mono — code blocks
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Designed by **JetBrains**, served via Google Fonts.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). You are free to use this font for any purpose, including commercial use, modification, and redistribution.
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Source: [https://www.jetbrains.com/lp/mono](https://www.jetbrains.com/lp/mono)

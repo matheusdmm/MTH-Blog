@@ -1,63 +1,230 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_TITLE } from "../consts";
+
+const avatarUrl = "https://avatars.githubusercontent.com/u/11928307?v=4";
+
+const skills = {
+    languages: [
+        "JavaScript",
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "Java",
+        "Python",
+        "C#/.NET",
+    ],
+    technologies: [
+        "React",
+        "Next.js",
+        "NestJS",
+        "Jest",
+        "Tailwind",
+        "Docker",
+        "MongoDB",
+        "Firebase",
+        "MySQL",
+        "Node.js",
+        "Git",
+        "Linux/Unix",
+        "Azure",
+        "AWS",
+        "Figma",
+    ],
+    soft: [
+        "Agile/Scrum",
+        "Self-driven",
+        "Fast learner",
+        "Team Player",
+        "Communicative",
+        "Adaptable",
+    ],
+};
+
+const experience = [
+    {
+        role: "Project Leader",
+        company: "Philip Morris International",
+        period: "May 2022 — Present",
+        bullets: [
+            "Sprints management, project monitoring, interface usability and automation across dev and business teams.",
+            "Used JavaScript and Python daily to ship features and build benchmarks that drove a 50% performance improvement.",
+        ],
+    },
+    {
+        role: "Senior Frontend Developer",
+        company: "Bosch USA",
+        period: "Oct 2022 — Dec 2022",
+        bullets: [
+            "Led migration of legacy pages to React, including localization (i18n), routing, new backend connections and a revamped shopping cart.",
+            "Full migration delivered and live within 90 days.",
+        ],
+    },
+    {
+        role: "Staff Developer",
+        company: "Discovery Bowl",
+        period: "May 2020 — Dec 2021",
+        bullets: [
+            "Built the frontend UI of an access control system in React and integrated it with backend services via Axios.",
+            "Delivered a fully cross-platform solution running on smart TVs, smartphones, and any internet-connected device.",
+        ],
+    },
+    {
+        role: "Professor Tutor",
+        company: "SENAI",
+        period: "Jan 2021 — Jul 2022",
+        bullets: [
+            "First teacher of the System Development class in the state — taught algorithms, logic, and web/desktop technologies using a project-based approach.",
+        ],
+    },
+    {
+        role: "Freelancer Analyst",
+        company: "Various local companies",
+        period: "Jan 2016 — 2023",
+        bullets: [
+            "System integration, workflow automation, Linux server configuration, and Python data dashboards for small businesses.",
+            "Full-stack support and development.",
+        ],
+    },
+    {
+        role: "Network Engineer",
+        company: "Viavale Telecom",
+        period: "Feb 2015 — Jul 2015",
+        bullets: [
+            "Designed optical fiber routes, handled server-side configurations and used AutoCAD, Python and Bash to tailor networks to client specs on physical and digital domain.",
+        ],
+    },
+];
+
+const education = [
+    {
+        title: "Postgraduate Specialization in Computer Engineering",
+        institution: "Uninter",
+        year: "2022",
+    },
+    {
+        title: "Bachelor's Degree in Analysis and Systems Development",
+        institution: "Uninter",
+        year: "2020",
+    },
+    { title: "UI/UX", institution: "FIAP", year: "2020" },
+    { title: "Machine Learning", institution: "FIAP", year: "2021" },
+    { title: "Linux/Unix", institution: "Cisco", year: "2022" },
+    { title: "Automation Engine", institution: "Esko", year: "2026" },
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title={`About — ${SITE_TITLE}`} description="About me" />
+    </head>
+    <body>
+        <Header />
+        <main>
+            <div class="profile">
+                <img src={avatarUrl} alt="Matheus" />
+                <div class="profile-info">
+                    <h1>Matheus Dummer</h1>
+                    <p>Software Engineer · Working hard since 2015 · Brazil</p>
+                </div>
+            </div>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+            <p>
+                Hey, I'm Matheus! software engineer by day, musician and writer
+                whenever I can get away with it (sometimes all at once,
+                depending on the coffee).
+            </p>
+            <p>
+                I've spent over 10 years solving complex problems with code,
+                going through optical fiber networks, Linux servers, classrooms,
+                and now leading projects at Philip Morris International. Along
+                the way I learned that the best solution is rarely the most
+                obvious one — and that patience to truly understand a problem is
+                worth more than any trendy framework.
+            </p>
+            <p>
+                Outside the terminal, you'll find me composing, playing, or
+                writing. I believe that coding and creating art come from the
+                same place: the urge to turn an idea into something other people
+                can actually feel.
+            </p>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+            <section class="resume-section">
+                <h2 class="section-title">Skills</h2>
+                <div class="skill-group">
+                    <div class="skill-row">
+                        <span class="skill-label">Languages</span>
+                        {
+                            skills.languages.map((s) => (
+                                <span class="tag">{s}</span>
+                            ))
+                        }
+                    </div>
+                    <div class="skill-row">
+                        <span class="skill-label">Technologies</span>
+                        {
+                            skills.technologies.map((s) => (
+                                <span class="tag">{s}</span>
+                            ))
+                        }
+                    </div>
+                    <div class="skill-row">
+                        <span class="skill-label">Soft skills</span>
+                        {skills.soft.map((s) => <span class="tag">{s}</span>)}
+                    </div>
+                </div>
+            </section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+            <section class="resume-section">
+                <h2 class="section-title">Experience</h2>
+                <div class="exp-list">
+                    {
+                        experience.map((e) => (
+                            <div class="exp-item">
+                                <div class="exp-header">
+                                    <span>
+                                        <span class="exp-role">{e.role}</span>
+                                        {" · "}
+                                        <span class="exp-company">
+                                            {e.company}
+                                        </span>
+                                    </span>
+                                    <span class="exp-period">{e.period}</span>
+                                </div>
+                                <ul class="exp-bullets">
+                                    {e.bullets.map((b) => (
+                                        <li>{b}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+            <section class="resume-section">
+                <h2 class="section-title">Education</h2>
+                <div class="edu-list">
+                    {
+                        education.map((e) => (
+                            <div class="edu-item">
+                                <span class="edu-title">{e.title}</span>
+                                <span class="edu-meta">
+                                    {e.institution} · {e.year}
+                                </span>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <a href="/resume.pdf" target="_blank" class="resume-link"
+                >Download Resume (PDF)</a
+            >
+        </main>
+        <Footer />
+    </body>
+</html>
