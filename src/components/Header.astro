@@ -13,7 +13,7 @@ const langToggleUrl = getOtherLocaleUrl(Astro.url.pathname, targetLang);
   <nav>
     <h2><a href={lang === 'en' ? '/en' : '/'}>{SITE_TITLE}</a></h2>
     <div class="internal-links">
-      <HeaderLink href={lang === 'en' ? '/en' : '/'}>{t('nav.home')}</HeaderLink>
+      <HeaderLink href={lang === 'en' ? '/en' : '/'} exact>{t('nav.home')}</HeaderLink>
       <HeaderLink href={lang === 'en' ? '/en/blog' : '/blog'}>{t('nav.blog')}</HeaderLink>
       <HeaderLink href={lang === 'en' ? '/en/projects' : '/projects'}>{t('nav.projects')}</HeaderLink>
       <HeaderLink href={lang === 'en' ? '/en/about' : '/about'}>{t('nav.about')}</HeaderLink>
