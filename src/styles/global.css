@@ -36,9 +36,9 @@
 
     /* Light theme */
     --bg: #ffffff;
-    --fg: #000000;
+    --fg: #0d0d0d;
     --fg-muted: #555555;
-    --border: #000000;
+    --border: #0d0d0d;
     --surface: #f0f0f0;
 
     /* Hard offset shadow — no blur, moves with theme */
@@ -358,6 +358,7 @@ header.menu-open .menu-toggle span:nth-child(3) {
         padding: 1em 0;
         border-bottom: 1px solid rgba(128, 128, 128, 0.25);
         font-size: 1.1rem;
+        text-decoration: none;
     }
 
     header .internal-links a:last-child {
@@ -375,8 +376,7 @@ header.menu-open .menu-toggle span:nth-child(3) {
 
 .header-link.active {
     font-weight: 900;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    text-decoration: none;
 }
 
 /* ============================================================
@@ -398,6 +398,27 @@ header.menu-open .menu-toggle span:nth-child(3) {
 }
 
 .theme-toggle:hover {
+    background: var(--bg);
+    color: var(--fg);
+}
+
+.lang-toggle {
+    background: transparent;
+    color: var(--bg);
+    border: 2px solid var(--bg);
+    padding: 0.3em 0.7em;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: "Courier New", Courier, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.lang-toggle:hover {
     background: var(--bg);
     color: var(--fg);
 }

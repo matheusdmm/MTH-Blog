@@ -2,7 +2,7 @@
 title: 'Talisman: Self-host safe heaven for independent artists'
 description: 'OSS project to self-host albums and content for independent artists.'
 pubDate: 'May 03 2025'
-heroImage: '../../assets/talisman.jpg'
+heroImage: '../../../assets/talisman/talisman.jpg'
 ---
 
 ## A bit of background
@@ -23,7 +23,7 @@ Tailwind was another obvious choice for me. Back in the day, I was a Bootstrap u
 
 WaveSurfer.js is a OpenSource audio visualization library, it can generate waveforms and cool things with audio as the input source. On the case of TALISMAN, it gets the audio sources from the albums/singles/eps and generate the waveform to act as the slider duration. You can see it in action on the screenshot below together with Lucice, which is a component library with tons of interface icons.
 
-[![TALISMAN](../../assets/talisman-player.jpg)](https://talisman-eight.vercel.app/)
+[![TALISMAN](../../../assets/talisman/talisman-player.jpg)](https://talisman-eight.vercel.app/)
 
 ## The usage
 You will have to host the source on a git repo, does not matter if is private or not, ideally a clone of My repo locally and then performing the changes accordingly, like the site/artist name and then accessing the `/admin` page to generate the songs and events blob.
