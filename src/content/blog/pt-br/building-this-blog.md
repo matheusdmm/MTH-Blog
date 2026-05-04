@@ -1,84 +1,84 @@
 ---
-title: 'Building this blog'
-description: 'Design choices, Astro internals, and why it was worth it.'
+title: 'Construindo o blog'
+description: 'Escolhas de design, Um pouco do Astro e porque foi massa fazer isso.'
 pubDate: 'May 02 2025'
 heroImage: 'https://images.unsplash.com/photo-1548755343-4e4e6f6515c2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 ---
 
-It all started with bursitis, a day before labors day holliday. I was remembering things I used to like when I was still learning things on the internet. 
+Tudo começou com um diagnostico de bursite um dia antes do feriado do dia do trabalhador. Eu tava nostalgico em relação as coisas que eu gostava quando tava aprendendo sobre a internet.
 
-I had a couple of blogs way before it was a big thing. Hosted blogs on the old Uol Zip.Net, Wordpress and Blogger/Blogspot (before google bought them).
+Eu tinha alguns blogs beeeem antes disso ser `mainstream ou cool`. Hosteava eles na antiga Uol Zip.Net, Wordpress ou no Blogger/Blogspot (antes do google comprar). De certo modo, foi minha porta de entrada pra programação.
 
-With this in mind, I started to scratch a couple Ideas. I wanted a site that was fast, easy to maintain, and looked exactly how I wanted — no themes, no CMS drag-and-drop, no bullshit. This is what I ended up with and how it works.
+Com isso em mente, eu comecei a juntar algumas possibilidades. Queria um site que fosse rapido, facil de manter e que visualmente se parecece com o que eu queria. Sem temas, sem CMS de arrastar e soltar, sem porra nenhuma. Isso nos trás até o presente momento.
 
-## The stack
+## A stack
 
-The blog runs on [Astro](https://astro.build), a static site generator that ships zero JavaScript (the irony, seeing that javascript was my entrypoint to tech) by default. The only dependencies are:
+O blog roda em cima do [Astro](https://astro.build), um gerator de sites estaticos que builda um total de zero JavaScript (olha a ironia, visto que foi por causa dele que eu tenho um trabalho hoje em dia) por padrão. As unicas dependencias são:
 
-- `@astrojs/mdx` — write posts in Markdown with JSX components if needed
-- `@astrojs/rss` — automatic RSS feed at `/rss.xml`
-- `@astrojs/sitemap` — sitemap for SEO
-- `sharp` — local image optimization at build time
+- `@astrojs/mdx` — Escreve os posts em Markdown com JSX se eu quiser
+- `@astrojs/rss` — RSS Automatico feed em `/rss.xml`
+- `@astrojs/sitemap` — Mapa do site
+- `sharp` — Otimização de imagens durante a build
 
-No framework, no runtime JS on the client unless you explicitly add it.
+Sem nenhum framework, sem nenhum runtime de JS no cliente, a não ser que eu precise adicionar em uma pagina especifica.
 
-## Design choices
+## Escolhas de design
 
-The aesthetic is deliberately brutalist: hard edges, no border-radius anywhere, a `4px 4px 0` offset box shadow that moves with the theme instead of blurring out, and Courier New for all metadata (dates, tags, labels).
+A estetica é deliberadamente brutalista, cantos vivos, sem border-radius, sombra de `4px 4px 0` que se mexe com o tema ao invés de desfocar as coisas. Fonte serifada pra todos os metadados (datas, tags, rotulos, etc)
 
-As a font enthusiast, I opted to use a serif font on the body. After quite some time looking the possible options, I went with [Redaction](https://www.redaction.us/). The code snippets are written by [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/)
+Como um entusiasta de fontes, Eu optei por usar a [Redaction](https://www.redaction.us/). Os snippets são escritos pela [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/).
 
-The palette is two CSS custom properties, `--bg` and `--fg`, that flip on `[data-theme="dark"]`. Everything else derives from those two values. This means adding dark mode to any new component is essentially free.
+A paleta de cor são duas propriedades CSS `--bg` e `--fg` que flipam no `[data-theme="dark"]`. Todo o resto deriva dessas duas opções, logo qualquer outro componente que eu adicionar, vai ter o tema dark por padrão.
 
 ```css
 :root {
-    --bg: #ffffff;
-    --fg: #000000;
-    --shadow: 4px 4px 0 var(--fg);
+  --bg: #ffffff;
+  --fg: #000000;
+  --shadow: 4px 4px 0 var(--fg);
 }
 
-[data-theme="dark"] {
-    --bg: #0d0d0d;
-    --fg: #f0f0f0;
+[data-theme='dark'] {
+  --bg: #0d0d0d;
+  --fg: #f0f0f0;
 }
 ```
 
-The theme toggle writes `data-theme` to `<html>` and persists the choice in `localStorage`.
+Quando tu altera o tema, ele escreve a informação `data-theme` pro html e a escolha é salva no `localStorage`.
 
-## How Astro works
+## Como o Astro funciona
 
-Astro uses a file-based router. A file at `src/pages/blog/index.astro` becomes `/blog`. Pages are `.astro` components — a fenced frontmatter block for imports and logic, then HTML-like template below.
+O Astro utiliza um roteador baseado em arquivos. Um arquivo em `src/pages/blog/index.astro` torna-se `/blog`. As páginas são componentes .astro.
 
-Blog posts live in `src/content/blog/` as Markdown or MDX files. Astro's **Content Collections** enforce a schema on the frontmatter so TypeScript knows the shape of every post at build time:
+Os posts do blog ficam em `src/content/blog/` como arquivos Markdown ou MDX. As **Content Collections** do Astro impõem um esquema ao frontmatter para que o TypeScript conheça a estrutura de cada post em tempo de build:
 
 ```ts
 // src/content.config.ts
 const blog = defineCollection({
-    type: 'content',
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        pubDate: z.coerce.date(),
-        updatedDate: z.coerce.date().optional(),
-        heroImage: z.string().optional(),
-        hidden: z.boolean().optional(),
-    }),
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    heroImage: z.string().optional(),
+    hidden: z.boolean().optional(),
+  }),
 });
 ```
 
-Querying posts is then typed and sorted at build time, it also can hidden unwanted posts, if that is the case:
+Armazenando os posts e então sorteando eles durante a build, eu posso inclusive esconder posts que estão em desenvolvimento ou revisão:
 
 ```ts
-const posts = (await getCollection("blog"))
-    .filter((post) => !post.data.hidden)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.hidden)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ```
 
-No database, no API — just files.
+Sem banco de dados, sem API, só arquivos.
 
-## Configuration
+## Configuração
 
-`astro.config.mjs` is where integrations are registered:
+`astro.config.mjs` é onde todas as integrações são registradas:
 
 ```js
 import { defineConfig } from 'astro/config';
@@ -86,27 +86,27 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-    site: 'https://yourdomain.com',
-    integrations: [mdx(), sitemap()],
+  site: 'https://yourdomain.com',
+  integrations: [mdx(), sitemap()],
 });
 ```
 
-Setting `site` is required for the sitemap and RSS feed to generate absolute URLs correctly.
+Configurando o `site` é necessario pro mapa do site e pro RSS, ele vai gerar as URLs corretamente.
 
-Global constants (site title, description, links) live in `src/consts.ts` and are imported wherever needed — one place to update them.
+As globais vivem em `src/consts.ts`e são importadas sempre que necessario, só tem um lugar pra se preocupar em atualizar tudo.
 
-## Why Astro
+## Porque Astro
 
-**Output is static HTML.** No server to maintain, no cold starts. Deploy to Vercel, Netlify, or any CDN with `npm run build`.
+**O output é HTML estático.** Sem servidor para manter, sem _cold starts_. Faça o deploy na Vercel, Netlify ou qualquer CDN com `npm run build`.
 
-**Zero JS by default.** The reader downloads only what they need. Interactive components can opt in with `client:load` or `client:idle` directives.
+**Zero JS por padrão.** O client baixa apenas o que for estritamente necessário. Componentes interativos podem ser habilitados com as diretivas `client:load` ou `client:idle`.
 
-**Markdown is a first-class citizen.** Writing a post is creating a `.md` file. The schema validation catches typos in frontmatter before the build goes out.
+**Markdown é simplificar.** Escrever um post é criar um arquivo `.md`. A validação captura os erros no _frontmatter_ antes mesmo do build ser finalizado.
 
-**Incremental complexity.** This blog has no bundler config, no state management, no API routes. If it grows to need them, Astro supports it without a rewrite.
+**Complexidade incremental.** O blog não possui configuração de _bundler_, gerenciamento de estado ou rotas de API. Se ele crescer e precisar disso, o Astro suporta sem exigir um _rewrite_, do contrário, continua sendo um HTML simples.
 
-The tradeoff: there is no live preview in a GUI and no admin panel. Posts are written in a text editor and committed to git. That is a feature, not a bug.
+**O tradeoff:** não tem _live preview_ em GUI e nem painel admin. Os posts são escritos em um editor de texto e commitados no git. Isso é um feature, não um bug. Uma forma de pensar.
 
-This is the most minimalistic way that I can find in the modern web to express myself. Kinda remember the FTP use back in the day.
+Isso é a maneira mais minimalista que eu encontrei na web moderna para me expressar. De longe lembra um pouco a epoca do FTP. Massa demais.
 
-Thank you, take care and keep rocking 🤘- Matheus.
+Valeu demais, continua arrasando 🤘- Matheus.

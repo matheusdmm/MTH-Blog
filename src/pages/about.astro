@@ -1,230 +1,219 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import { SITE_TITLE } from "../consts";
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
 
-const avatarUrl = "https://avatars.githubusercontent.com/u/11928307?v=4";
+const avatarUrl = 'https://avatars.githubusercontent.com/u/11928307?v=4';
 
 const skills = {
-    languages: [
-        "JavaScript",
-        "TypeScript",
-        "HTML",
-        "CSS",
-        "Java",
-        "Python",
-        "C#/.NET",
-    ],
-    technologies: [
-        "React",
-        "Next.js",
-        "NestJS",
-        "Jest",
-        "Tailwind",
-        "Docker",
-        "MongoDB",
-        "Firebase",
-        "MySQL",
-        "Node.js",
-        "Git",
-        "Linux/Unix",
-        "Azure",
-        "AWS",
-        "Figma",
-    ],
-    soft: [
-        "Agile/Scrum",
-        "Self-driven",
-        "Fast learner",
-        "Team Player",
-        "Communicative",
-        "Adaptable",
-    ],
+  languages: [
+    'JavaScript',
+    'TypeScript',
+    'HTML',
+    'CSS',
+    'Java',
+    'Python',
+    'C#/.NET',
+  ],
+  technologies: [
+    'React',
+    'Next.js',
+    'NestJS',
+    'Jest',
+    'Tailwind',
+    'Docker',
+    'MongoDB',
+    'Firebase',
+    'MySQL',
+    'Node.js',
+    'Git',
+    'Linux/Unix',
+    'Azure',
+    'AWS',
+    'Figma',
+  ],
+  soft: [
+    'Agile/Scrum',
+    'Self-driven',
+    'Fast learner',
+    'Team Player',
+    'Communicative',
+    'Adaptable',
+  ],
 };
 
 const experience = [
-    {
-        role: "Project Leader",
-        company: "Philip Morris International",
-        period: "May 2022 — Present",
-        bullets: [
-            "Sprints management, project monitoring, interface usability and automation across dev and business teams.",
-            "Used JavaScript and Python daily to ship features and build benchmarks that drove a 50% performance improvement.",
-        ],
-    },
-    {
-        role: "Senior Frontend Developer",
-        company: "Bosch USA",
-        period: "Oct 2022 — Dec 2022",
-        bullets: [
-            "Led migration of legacy pages to React, including localization (i18n), routing, new backend connections and a revamped shopping cart.",
-            "Full migration delivered and live within 90 days.",
-        ],
-    },
-    {
-        role: "Staff Developer",
-        company: "Discovery Bowl",
-        period: "May 2020 — Dec 2021",
-        bullets: [
-            "Built the frontend UI of an access control system in React and integrated it with backend services via Axios.",
-            "Delivered a fully cross-platform solution running on smart TVs, smartphones, and any internet-connected device.",
-        ],
-    },
-    {
-        role: "Professor Tutor",
-        company: "SENAI",
-        period: "Jan 2021 — Jul 2022",
-        bullets: [
-            "First teacher of the System Development class in the state — taught algorithms, logic, and web/desktop technologies using a project-based approach.",
-        ],
-    },
-    {
-        role: "Freelancer Analyst",
-        company: "Various local companies",
-        period: "Jan 2016 — 2023",
-        bullets: [
-            "System integration, workflow automation, Linux server configuration, and Python data dashboards for small businesses.",
-            "Full-stack support and development.",
-        ],
-    },
-    {
-        role: "Network Engineer",
-        company: "Viavale Telecom",
-        period: "Feb 2015 — Jul 2015",
-        bullets: [
-            "Designed optical fiber routes, handled server-side configurations and used AutoCAD, Python and Bash to tailor networks to client specs on physical and digital domain.",
-        ],
-    },
+  {
+    role: 'Project Leader',
+    company: 'Philip Morris International',
+    period: 'May 2022 — Present',
+    bullets: [
+      'Sprints management, project monitoring, interface usability and automation across dev and business teams.',
+      'Used JavaScript and Python daily to ship features and build benchmarks that drove a 50% performance improvement.',
+    ],
+  },
+  {
+    role: 'Senior Frontend Developer',
+    company: 'Bosch USA',
+    period: 'Oct 2022 — Dec 2022',
+    bullets: [
+      'Led migration of legacy pages to React, including localization (i18n), routing, new backend connections and a revamped shopping cart.',
+      'Full migration delivered and live within 90 days.',
+    ],
+  },
+  {
+    role: 'Staff Developer',
+    company: 'Discovery Bowl',
+    period: 'May 2020 — Dec 2021',
+    bullets: [
+      'Built the frontend UI of an access control system in React and integrated it with backend services via Axios.',
+      'Delivered a fully cross-platform solution running on smart TVs, smartphones, and any internet-connected device.',
+    ],
+  },
+  {
+    role: 'Professor Tutor',
+    company: 'SENAI',
+    period: 'Jan 2021 — Jul 2022',
+    bullets: [
+      'First teacher of the System Development class in the state — taught algorithms, logic, and web/desktop technologies using a project-based approach.',
+    ],
+  },
+  {
+    role: 'Freelancer Analyst',
+    company: 'Various local companies',
+    period: 'Jan 2016 — 2023',
+    bullets: [
+      'System integration, workflow automation, Linux server configuration, and Python data dashboards for small businesses.',
+      'Full-stack support and development.',
+    ],
+  },
+  {
+    role: 'Network Engineer',
+    company: 'Viavale Telecom',
+    period: 'Feb 2015 — Jul 2015',
+    bullets: [
+      'Designed optical fiber routes, handled server-side configurations and used AutoCAD, Python and Bash to tailor networks to client specs on physical and digital domain.',
+    ],
+  },
 ];
 
 const education = [
-    {
-        title: "Postgraduate Specialization in Computer Engineering",
-        institution: "Uninter",
-        year: "2022",
-    },
-    {
-        title: "Bachelor's Degree in Analysis and Systems Development",
-        institution: "Uninter",
-        year: "2020",
-    },
-    { title: "UI/UX", institution: "FIAP", year: "2020" },
-    { title: "Machine Learning", institution: "FIAP", year: "2021" },
-    { title: "Linux/Unix", institution: "Cisco", year: "2022" },
-    { title: "Automation Engine", institution: "Esko", year: "2026" },
+  {
+    title: 'Postgraduate Specialization in Computer Engineering',
+    institution: 'Uninter',
+    year: '2022',
+  },
+  {
+    title: "Bachelor's Degree in Analysis and Systems Development",
+    institution: 'Uninter',
+    year: '2020',
+  },
+  { title: 'UI/UX', institution: 'FIAP', year: '2020' },
+  { title: 'Machine Learning', institution: 'FIAP', year: '2021' },
+  { title: 'Linux/Unix', institution: 'Cisco', year: '2022' },
+  { title: 'Automation Engine', institution: 'Esko', year: '2026' },
 ];
 ---
 
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <BaseHead title={`About — ${SITE_TITLE}`} description="About me" />
-    </head>
-    <body>
-        <Header />
-        <main>
-            <div class="profile">
-                <img src={avatarUrl} alt="Matheus" />
-                <div class="profile-info">
-                    <h1>Matheus Dummer</h1>
-                    <p>Software Engineer · Working hard since 2015 · Brazil</p>
-                </div>
+  <head>
+    <BaseHead title={`About — ${SITE_TITLE}`} description="About me" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="profile">
+        <img src={avatarUrl} alt="Matheus" />
+        <div class="profile-info">
+          <h1>Matheus aqui!</h1>
+          <p>
+            Engenheiro de software de dia, musico e escritor sempre que eu tenho
+            um tempo livre (as vezes pode ser tudo isso misturado também,
+            depende do café).
+          </p>
+          <p>
+            Eu passei mais de 10 anos resolvendo uma série de problemas com
+            codigo, indo desde rede em fibra óptica, passando por servidores
+            Linux e salas de aula, e mais recentemente como lider de projeto na
+            Philip Morris International. No meio do caminho eu acabei aprendendo
+            que nem sempre a melhor solução pode ser a mais obvia (e que
+            paciencia pra entender os problemas vale um pouco mais do que
+            qualquer framework da moda).
+          </p>
+          <p>
+            Fora do terminal tu vai me encontrar compondo, tocando ou
+            escrevendo. Acredito que a arte e o código venham do mesmo lugar: A
+            vontade de fazer uma ideia se tornar algo que outras pessoas possam
+            sentir.
+          </p>
+
+          <section class="resume-section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skill-group">
+              <div class="skill-row">
+                <span class="skill-label">Languages</span>
+                {skills.languages.map((s) => <span class="tag">{s}</span>)}
+              </div>
+              <div class="skill-row">
+                <span class="skill-label">Technologies</span>
+                {skills.technologies.map((s) => <span class="tag">{s}</span>)}
+              </div>
+              <div class="skill-row">
+                <span class="skill-label">Soft skills</span>
+                {skills.soft.map((s) => <span class="tag">{s}</span>)}
+              </div>
             </div>
+          </section>
 
-            <p>
-                Hey, I'm Matheus! software engineer by day, musician and writer
-                whenever I can get away with it (sometimes all at once,
-                depending on the coffee).
-            </p>
-            <p>
-                I've spent over 10 years solving complex problems with code,
-                going through optical fiber networks, Linux servers, classrooms,
-                and now leading projects at Philip Morris International. Along
-                the way I learned that the best solution is rarely the most
-                obvious one — and that patience to truly understand a problem is
-                worth more than any trendy framework.
-            </p>
-            <p>
-                Outside the terminal, you'll find me composing, playing, or
-                writing. I believe that coding and creating art come from the
-                same place: the urge to turn an idea into something other people
-                can actually feel.
-            </p>
-
-            <section class="resume-section">
-                <h2 class="section-title">Skills</h2>
-                <div class="skill-group">
-                    <div class="skill-row">
-                        <span class="skill-label">Languages</span>
-                        {
-                            skills.languages.map((s) => (
-                                <span class="tag">{s}</span>
-                            ))
-                        }
+          <section class="resume-section">
+            <h2 class="section-title">Experience</h2>
+            <div class="exp-list">
+              {
+                experience.map((e) => (
+                  <div class="exp-item">
+                    <div class="exp-header">
+                      <span>
+                        <span class="exp-role">{e.role}</span>
+                        {' · '}
+                        <span class="exp-company">{e.company}</span>
+                      </span>
+                      <span class="exp-period">{e.period}</span>
                     </div>
-                    <div class="skill-row">
-                        <span class="skill-label">Technologies</span>
-                        {
-                            skills.technologies.map((s) => (
-                                <span class="tag">{s}</span>
-                            ))
-                        }
-                    </div>
-                    <div class="skill-row">
-                        <span class="skill-label">Soft skills</span>
-                        {skills.soft.map((s) => <span class="tag">{s}</span>)}
-                    </div>
-                </div>
-            </section>
+                    <ul class="exp-bullets">
+                      {e.bullets.map((b) => (
+                        <li>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
 
-            <section class="resume-section">
-                <h2 class="section-title">Experience</h2>
-                <div class="exp-list">
-                    {
-                        experience.map((e) => (
-                            <div class="exp-item">
-                                <div class="exp-header">
-                                    <span>
-                                        <span class="exp-role">{e.role}</span>
-                                        {" · "}
-                                        <span class="exp-company">
-                                            {e.company}
-                                        </span>
-                                    </span>
-                                    <span class="exp-period">{e.period}</span>
-                                </div>
-                                <ul class="exp-bullets">
-                                    {e.bullets.map((b) => (
-                                        <li>{b}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
-                    }
-                </div>
-            </section>
+          <section class="resume-section">
+            <h2 class="section-title">Education</h2>
+            <div class="edu-list">
+              {
+                education.map((e) => (
+                  <div class="edu-item">
+                    <span class="edu-title">{e.title}</span>
+                    <span class="edu-meta">
+                      {e.institution} · {e.year}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
 
-            <section class="resume-section">
-                <h2 class="section-title">Education</h2>
-                <div class="edu-list">
-                    {
-                        education.map((e) => (
-                            <div class="edu-item">
-                                <span class="edu-title">{e.title}</span>
-                                <span class="edu-meta">
-                                    {e.institution} · {e.year}
-                                </span>
-                            </div>
-                        ))
-                    }
-                </div>
-            </section>
-
-            <a href="/resume.pdf" target="_blank" class="resume-link"
-                >Download Resume (PDF)</a
-            >
-        </main>
-        <Footer />
-    </body>
+          <a href="/resume.pdf" target="_blank" class="resume-link"
+            >Download Resume (PDF)</a
+          >
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
 </html>
