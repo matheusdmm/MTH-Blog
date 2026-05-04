@@ -402,6 +402,14 @@ header.menu-open .menu-toggle span:nth-child(3) {
     color: var(--fg);
 }
 
+/* light mode: show moon (click to go dark) */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+
+/* dark mode: show sun (click to go light) */
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
 .lang-toggle {
     background: transparent;
     color: var(--bg);
