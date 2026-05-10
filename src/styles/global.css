@@ -183,7 +183,7 @@ pre > code {
     all: unset;
     font-family: "JetBrains Mono", monospace;
     font-size: 14px;
-    line-height: 0 !important;
+    line-height: 1.6;
 }
 
 blockquote {
@@ -205,7 +205,32 @@ hr {
         font-size: 18px;
     }
     main {
-        padding: 1em;
+        max-width: 100%;
+        padding: 1.5em 1.25em;
+    }
+
+    h1 { font-size: 2.1em; }
+    h2 { font-size: 1.7em; }
+    h3 { font-size: 1.45em; }
+    h4 { font-size: 1.2em; }
+
+    .prose {
+        max-width: 100%;
+        padding: 1em 1.25em;
+    }
+
+    .post-title-block {
+        text-align: left;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hero-image img {
+        box-shadow: none;
     }
 }
 
@@ -465,7 +490,7 @@ footer .social-links a:hover {
    Blog post layout
    ============================================================ */
 main.post-main {
-    width: calc(100% - 2em);
+    width: 100%;
     max-width: 100%;
     margin: 0;
 }

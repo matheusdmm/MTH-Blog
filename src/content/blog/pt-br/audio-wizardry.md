@@ -1,19 +1,9 @@
 ---
 title: 'Audio Wizardry: Volume I'
 description: 'Quero falar um pouco sobre as escolhas de produção de áudio que costumo fazer quando tô escrevendo umas paradas novas.'
-pubDate: 'May 04 2025'
-heroImage: 'https://images.unsplash.com/photo-1548755343-4e4e6f6515c2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-hidden: true
+pubDate: 'May 04 2026'
+hidden: false
 ---
-
-```plaintext
-roteiro test
-1 - introdução - o que quero falar, como que surgiu o assunto
-2 - primeiras descobertas
-3 - novos caminhos
-4 - estudos
-5 - fechamento
-```
 
 Hoje quero fazer um pequeno experimento. Quero escrever sobre as paradas que amo usar quando tô compondo músicas novas, seja no mundo digital (plugins VST) ou no hardware mesmo (pedais e instrumentos).
 
@@ -54,8 +44,11 @@ Essa pedaleirazinha foi responsavel por eu experimentar e criar tantas texturas 
 As menções honrosas que eu devo citar, sem levar em conta ordem especifica, é:
 
 - Behringer SuperFuzz SF300 (Clone do Boss Hyperfuzz)
+- Danelectro FAB Overdrive (overdrive barato e sujão)
 
-## Dias atuais
+## E agora?
+
+Vou encerrar por aqui a trajetoria deste post, no próximo post vou falar um pouco mais sobre o que eu tô curtindo faze nos dias atuais e também algumas demos :)
 
 ## Por enquanto é isso
 
