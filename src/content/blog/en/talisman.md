@@ -2,6 +2,7 @@
 title: 'Talisman: Self-host safe heaven for independent artists'
 description: 'OSS project to self-host albums and content for independent artists.'
 pubDate: 'May 03 2026'
+tags: ['dev', 'music']
 heroImage: '../../../assets/talisman/talisman.jpg'
 ---
 

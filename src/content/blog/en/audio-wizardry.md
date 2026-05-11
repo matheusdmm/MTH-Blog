@@ -2,6 +2,7 @@
 title: 'Audio Wizardry: Volume I'
 description: 'I want to talk about some audio production choices I usually make when writing new stuff.'
 pubDate: 'May 04 2026'
+tags: ['music']
 heroImage: 'https://images.unsplash.com/photo-1548755343-4e4e6f6515c2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 hidden: false
 ---

@@ -2,6 +2,7 @@
 title: 'Hero Scribe'
 description: 'Tool for creating character sheet easily on DnD 5e and 5.5 .'
 pubDate: 'May 12 2026'
+tags: ['dev', 'dnd']
 heroImage: 'https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 hidden: false
 ---

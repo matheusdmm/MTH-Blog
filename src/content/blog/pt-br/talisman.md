@@ -2,6 +2,7 @@
 title: 'Talisman: Um framework para artistas indenpentes'
 description: 'Projeto pra self-host dos seus albuns ou singles e também divulgar eventos.'
 pubDate: 'May 03 2026'
+tags: ['dev', 'music']
 heroImage: '../../../assets/talisman/talisman.jpg'
 ---
 

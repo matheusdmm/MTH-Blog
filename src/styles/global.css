@@ -899,6 +899,76 @@ main.post-main {
 }
 
 /* ============================================================
+   Tag filter bar — blog index
+   ============================================================ */
+.tag-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tag-filter-btn {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+}
+
+.tag-filter-btn:hover,
+.tag-filter-btn.active {
+    background: var(--fg);
+    color: var(--bg);
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.1rem;
+}
+
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+html {
+    overflow-y: scroll;
+}
+
+/* Firefox */
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-width: auto;
+        scrollbar-color: var(--fg) var(--bg);
+    }
+}
+
+/* Chrome / Edge */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+    border-left: 2px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--fg);
+    border: 2px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* ============================================================
    Accessibility
    ============================================================ */
 .sr-only {

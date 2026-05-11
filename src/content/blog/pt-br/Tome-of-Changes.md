@@ -2,6 +2,7 @@
 title: 'Tome of Changes'
 description: 'Construi uma ferramenta pra comparar coisas do dnd 5e com o 5.5 e aprendi um monte de maluquice com isso.'
 pubDate: 'May 09 2026'
+tags: ['dev', 'dnd']
 heroImage: 'https://images.unsplash.com/photo-1651677584025-6c844f0bd65c?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 hidden: false
 ---

@@ -2,6 +2,7 @@
 title: 'Audio Wizardry: Volume I'
 description: 'Quero falar um pouco sobre as escolhas de produção de áudio que costumo fazer quando tô escrevendo umas paradas novas.'
 pubDate: 'May 04 2026'
+tags: ['music']
 hidden: false
 ---
 

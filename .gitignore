@@ -15,4 +15,5 @@ pnpm-workspace.yaml
 .DS_Store
 .idea/
 .claude/
+AGENTS.md
 .vscode/

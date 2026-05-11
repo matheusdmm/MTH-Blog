@@ -13,6 +13,8 @@ const t = useTranslations('pt-br');
 const posts = (await getCollection('blog'))
   .filter((p) => p.id.startsWith('pt-br/') && !p.data.hidden)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
 <!doctype html>
@@ -24,17 +26,28 @@ const posts = (await getCollection('blog'))
     <Header />
     <main class="wide">
       <section>
+        {allTags.length > 0 && (
+          <div class="tag-filters">
+            <button class="tag-filter-btn active" data-filter="all">All</button>
+            {allTags.map((tag) => (
+              <button class="tag-filter-btn" data-filter={tag}>{tag}</button>
+            ))}
+          </div>
+        )}
         <ul class="post-list">
           {
             posts.map((post) => (
-              <li class={post.data.heroImage ? 'has-image' : ''}>
+              <li
+                class={post.data.heroImage ? 'has-image' : ''}
+                data-tags={post.data.tags?.join(',') ?? ''}
+              >
                 <a href={`/blog/${post.id.replace('pt-br/', '')}/`}>
                   {post.data.heroImage && (
                     <Image
                       width={160}
                       height={100}
                       src={post.data.heroImage}
-                      alt=""
+                      alt={post.data.title}
                     />
                   )}
                   <div class="post-info">
@@ -43,6 +56,11 @@ const posts = (await getCollection('blog'))
                     <p class="post-date">
                       <FormattedDate date={post.data.pubDate} />
                     </p>
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="post-tags">
+                        {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                      </div>
+                    )}
                   </div>
                 </a>
               </li>
@@ -52,5 +70,27 @@ const posts = (await getCollection('blog'))
       </section>
     </main>
     <Footer />
+    <script>
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+      const items = document.querySelectorAll<HTMLLIElement>('[data-tags]');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tag = btn.dataset.filter!;
+
+          buttons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          items.forEach((item) => {
+            if (tag === 'all') {
+              item.hidden = false;
+            } else {
+              const tags = item.dataset.tags?.split(',').filter(Boolean) ?? [];
+              item.hidden = !tags.includes(tag);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

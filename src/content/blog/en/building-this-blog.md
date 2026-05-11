@@ -2,6 +2,7 @@
 title: 'Building this blog'
 description: 'Design choices, Astro internals, and why it was worth it.'
 pubDate: 'May 02 2026'
+tags: ['dev']
 heroImage: 'https://images.unsplash.com/photo-1548755343-4e4e6f6515c2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 ---
 
