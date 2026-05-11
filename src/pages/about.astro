@@ -128,91 +128,93 @@ const education = [
         <img src={avatarUrl} alt="Matheus" />
         <div class="profile-info">
           <h1>Matheus aqui!</h1>
-          <p>
-            Engenheiro de software de dia, musico e escritor sempre que eu tenho
-            um tempo livre (as vezes pode ser tudo isso misturado também,
-            depende do café).
-          </p>
-          <p>
-            Eu passei mais de 10 anos resolvendo uma série de problemas com
-            codigo, indo desde rede em fibra óptica, passando por servidores
-            Linux e salas de aula, e mais recentemente como lider de projeto na
-            Philip Morris International. No meio do caminho eu acabei aprendendo
-            que nem sempre a melhor solução pode ser a mais obvia (e que
-            paciencia pra entender os problemas vale um pouco mais do que
-            qualquer framework da moda).
-          </p>
-          <p>
-            Fora do terminal tu vai me encontrar compondo, tocando ou
-            escrevendo. Acredito que a arte e o código venham do mesmo lugar: A
-            vontade de fazer uma ideia se tornar algo que outras pessoas possam
-            sentir.
-          </p>
-
-          <section class="resume-section">
-            <h2 class="section-title">Skills</h2>
-            <div class="skill-group">
-              <div class="skill-row">
-                <span class="skill-label">Languages</span>
-                {skills.languages.map((s) => <span class="tag">{s}</span>)}
-              </div>
-              <div class="skill-row">
-                <span class="skill-label">Technologies</span>
-                {skills.technologies.map((s) => <span class="tag">{s}</span>)}
-              </div>
-              <div class="skill-row">
-                <span class="skill-label">Soft skills</span>
-                {skills.soft.map((s) => <span class="tag">{s}</span>)}
-              </div>
-            </div>
-          </section>
-
-          <section class="resume-section">
-            <h2 class="section-title">Experience</h2>
-            <div class="exp-list">
-              {
-                experience.map((e) => (
-                  <div class="exp-item">
-                    <div class="exp-header">
-                      <span>
-                        <span class="exp-role">{e.role}</span>
-                        {' · '}
-                        <span class="exp-company">{e.company}</span>
-                      </span>
-                      <span class="exp-period">{e.period}</span>
-                    </div>
-                    <ul class="exp-bullets">
-                      {e.bullets.map((b) => (
-                        <li>{b}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-              }
-            </div>
-          </section>
-
-          <section class="resume-section">
-            <h2 class="section-title">Education</h2>
-            <div class="edu-list">
-              {
-                education.map((e) => (
-                  <div class="edu-item">
-                    <span class="edu-title">{e.title}</span>
-                    <span class="edu-meta">
-                      {e.institution} · {e.year}
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
-          </section>
-
-          <a href="/resume.pdf" target="_blank" class="resume-link"
-            >Download Resume (PDF)</a
-          >
+          <p>Engenheiro de software · Trabalhando desde 2015 · Brasil</p>
         </div>
       </div>
+
+      <p>
+        Engenheiro de software de dia, musico e escritor sempre que eu tenho
+        um tempo livre (as vezes pode ser tudo isso misturado também,
+        depende do café).
+      </p>
+      <p>
+        Eu passei mais de 10 anos resolvendo uma série de problemas com
+        codigo, indo desde rede em fibra óptica, passando por servidores
+        Linux e salas de aula, e mais recentemente como lider de projeto na
+        Philip Morris International. No meio do caminho eu acabei aprendendo
+        que nem sempre a melhor solução pode ser a mais obvia (e que
+        paciencia pra entender os problemas vale um pouco mais do que
+        qualquer framework da moda).
+      </p>
+      <p>
+        Fora do terminal tu vai me encontrar compondo, tocando ou
+        escrevendo. Acredito que a arte e o código venham do mesmo lugar: A
+        vontade de fazer uma ideia se tornar algo que outras pessoas possam
+        sentir.
+      </p>
+
+      <section class="resume-section">
+        <h2 class="section-title">Skills</h2>
+        <div class="skill-group">
+          <div class="skill-row">
+            <span class="skill-label">Languages</span>
+            {skills.languages.map((s) => <span class="tag">{s}</span>)}
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Technologies</span>
+            {skills.technologies.map((s) => <span class="tag">{s}</span>)}
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Soft skills</span>
+            {skills.soft.map((s) => <span class="tag">{s}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <section class="resume-section">
+        <h2 class="section-title">Experience</h2>
+        <div class="exp-list">
+          {
+            experience.map((e) => (
+              <div class="exp-item">
+                <div class="exp-header">
+                  <span>
+                    <span class="exp-role">{e.role}</span>
+                    {' · '}
+                    <span class="exp-company">{e.company}</span>
+                  </span>
+                  <span class="exp-period">{e.period}</span>
+                </div>
+                <ul class="exp-bullets">
+                  {e.bullets.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="resume-section">
+        <h2 class="section-title">Education</h2>
+        <div class="edu-list">
+          {
+            education.map((e) => (
+              <div class="edu-item">
+                <span class="edu-title">{e.title}</span>
+                <span class="edu-meta">
+                  {e.institution} · {e.year}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <a href="/resume.pdf" target="_blank" class="resume-link"
+        >Download Resume (PDF)</a
+      >
     </main>
     <Footer />
   </body>
