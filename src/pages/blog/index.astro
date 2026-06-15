@@ -6,12 +6,9 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
-import { useTranslations } from '../../i18n/translations';
-
-const t = useTranslations('pt-br');
 
 const posts = (await getCollection('blog'))
-  .filter((p) => p.id.startsWith('pt-br/') && !p.data.hidden)
+  .filter((p) => !p.data.hidden)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
@@ -20,7 +17,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <BaseHead title=`Blog — ${SITE_TITLE}` description={t('site.description')} />
+    <BaseHead title=`Blog — ${SITE_TITLE}` description="Meu espaço, seja bem-vindo!" />
   </head>
   <body>
     <Header />
@@ -41,7 +38,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
                 class={post.data.heroImage ? 'has-image' : ''}
                 data-tags={post.data.tags?.join(',') ?? ''}
               >
-                <a href={`/blog/${post.id.replace('pt-br/', '')}/`}>
+                <a href={`/blog/${post.id}/`}>
                   {post.data.heroImage && (
                     <Image
                       width={160}

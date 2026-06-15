@@ -1,22 +1,16 @@
 ---
 import { SITE_TITLE, GITHUB, BANDCAMP } from '../consts';
-import { getLangFromUrl, getOtherLocaleUrl, useTranslations } from '../i18n/translations';
 import HeaderLink from './HeaderLink.astro';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const targetLang = lang === 'pt-br' ? 'en' : 'pt-br';
-const langToggleUrl = getOtherLocaleUrl(Astro.url.pathname, targetLang);
 ---
 
 <header>
   <nav>
-    <h2><a href={lang === 'en' ? '/en' : '/'}>{SITE_TITLE}</a></h2>
+    <h2><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
-      <HeaderLink href={lang === 'en' ? '/en' : '/'} exact>{t('nav.home')}</HeaderLink>
-      <HeaderLink href={lang === 'en' ? '/en/blog' : '/blog'}>{t('nav.blog')}</HeaderLink>
-      <HeaderLink href={lang === 'en' ? '/en/projects' : '/projects'}>{t('nav.projects')}</HeaderLink>
-      <HeaderLink href={lang === 'en' ? '/en/about' : '/about'}>{t('nav.about')}</HeaderLink>
+      <HeaderLink href="/" exact>Home</HeaderLink>
+      <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/projects">Projetos</HeaderLink>
+      <HeaderLink href="/about">Sobre</HeaderLink>
     </div>
     <div class="social-links">
       <a href={GITHUB} target="_blank">
@@ -65,9 +59,6 @@ const langToggleUrl = getOtherLocaleUrl(Astro.url.pathname, targetLang);
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
-    <a href={langToggleUrl} class="lang-toggle" aria-label={`Switch to ${t('lang.toggle')}`}>
-      {t('lang.toggle')}
-    </a>
     <button
       class="menu-toggle"
       id="menu-toggle"

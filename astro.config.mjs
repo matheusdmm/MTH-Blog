@@ -8,11 +8,4 @@ import { defineConfig, fontProviders } from "astro/config";
 export default defineConfig({
   site: "https://www.matheusdmm.dev/",
   integrations: [mdx(), sitemap()],
-  i18n: {
-    defaultLocale: "pt-br",
-    locales: ["pt-br", "en"],
-    routing: {
-      prefixDefaultLocale: false,
-    },
-  },
 });

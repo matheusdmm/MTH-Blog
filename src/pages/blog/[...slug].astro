@@ -3,11 +3,9 @@ import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-	const posts = (await getCollection('blog')).filter(
-		(p) => p.id.startsWith('pt-br/') && !p.data.hidden
-	);
+	const posts = (await getCollection('blog')).filter((p) => !p.data.hidden);
 	return posts.map((post) => ({
-		params: { slug: post.id.replace('pt-br/', '') },
+		params: { slug: post.id },
 		props: post,
 	}));
 }

@@ -3,15 +3,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
-import { useTranslations } from '../i18n/translations';
-
-const t = useTranslations('pt-br');
 ---
 
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <BaseHead title={SITE_TITLE} description={t('site.description')} />
+    <BaseHead title={SITE_TITLE} description="Meu espaço, seja bem-vindo!" />
   </head>
   <body>
     <Header />
@@ -40,11 +37,6 @@ const t = useTranslations('pt-br');
         criatividade e qualquer outra coisa que fique no meio do caminho.
       </p>
 
-      <p>
-        Disclaimer for my English speaking friends: The blog content is
-        primarily Portuguese, however, I have a localization pipeline at build
-        time, so You're more than welcome to read the posts in English.
-      </p>
     </main>
     <Footer />
   </body>

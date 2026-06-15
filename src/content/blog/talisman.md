@@ -3,7 +3,7 @@ title: 'Talisman: Um framework para artistas indenpentes'
 description: 'Projeto pra self-host dos seus albuns ou singles e também divulgar eventos.'
 pubDate: 'May 03 2026'
 tags: ['dev', 'music']
-heroImage: '../../../assets/talisman/talisman.jpg'
+heroImage: '../../assets/talisman/talisman.jpg'
 ---
 
 ## Um pouco do plano de fundo
@@ -26,7 +26,7 @@ Tailwind foi outra escolha óbvia pra mim. Lá nos primordios eu era fã do Boot
 
 WaveSurfer.js é uma biblioteca opensource de visualização de audio, ele pode gerar waveforms (aquelas ondinhas legais que representam o audio) e algumas outras paradas legais com o audio. No caso do TALISMAN, ele pega as fontes de audio dos discos/singles/eps e gera as waveworms para servir de barra de progresso ao invés de ter uma barra padrão. Dá pra ver um pouco melhor no print aqui em baixo, junto com Lucide que é a biblioteca de componentes de interface.
 
-[![TALISMAN](../../../assets/talisman/talisman-player.jpg)](https://talisman-eight.vercel.app/)
+[![TALISMAN](../../assets/talisman/talisman-player.jpg)](https://talisman-eight.vercel.app/)
 
 ## O uso
 
