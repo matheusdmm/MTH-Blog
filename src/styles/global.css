@@ -43,8 +43,6 @@
     --accent-fg:    #ECEFF4;  /* nord6  */
     --header-bg:    rgba(236, 239, 244, 0.9);
     --card-shadow:  0 1px 3px rgba(46, 52, 64, 0.08), 0 1px 2px rgba(46, 52, 64, 0.05);
-    --card-hover-shadow: 0 12px 32px rgba(46, 52, 64, 0.12), 0 0 0 1px rgba(94, 129, 172, 0.15);
-    --glow:         rgba(94, 129, 172, 0.15);
 }
 
 [data-theme="dark"] {
@@ -61,8 +59,6 @@
     --accent-fg:    #0A0E14;
     --header-bg:    rgba(10, 14, 20, 0.92);
     --card-shadow:  0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
-    --card-hover-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 143, 64, 0.15);
-    --glow:         rgba(255, 143, 64, 0.15);
 }
 
 /* ============================================================
@@ -248,18 +244,6 @@ hr {
 /* ============================================================
    Accessibility
    ============================================================ */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
 :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
