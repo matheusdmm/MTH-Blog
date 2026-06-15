@@ -1,90 +1,180 @@
 ---
-import { SITE_TITLE, GITHUB, BANDCAMP } from '../consts';
+import { SITE_TITLE, GITHUB } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-  <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
-    <div class="internal-links">
-      <HeaderLink href="/" exact>Home</HeaderLink>
+<header id="site-header">
+  <div class="header-inner">
+    <a href="/" class="site-name">{SITE_TITLE}</a>
+
+    <nav class="nav-links" aria-label="Main navigation">
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/projects">Projetos</HeaderLink>
       <HeaderLink href="/about">Sobre</HeaderLink>
-    </div>
-    <div class="social-links">
-      <a href={GITHUB} target="_blank">
-        <span class="sr-only">Go to my GH Profile</span>
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" width="32" height="32"
-          ><path
-            fill="currentColor"
-            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-          ></path></svg
-        >
-      </a>
-      <a href={BANDCAMP} target="_blank">
-        <span class="sr-only">Go to My Bandcamp</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="32" height="32"
-          ><path fill="currentColor" d="M0 18.75l7.437-13.5H24L16.563 18.75z"
-          ></path></svg
-        >
-      </a>
-      <a href="/kofi" target="_self">
-        <span class="sr-only">Support me on Ko-fi</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="32" height="32"
-          ><path
-            fill="currentColor"
-            d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 004 4h6a4 4 0 004-4V9h2a2 2 0 002-2V5a2 2 0 00-2-2z"
-          ></path></svg
-        >
-      </a>
-    </div>
-    <button
-      id="theme-toggle"
-      class="theme-toggle"
-      aria-label="Toggle dark mode"
-    >
-      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      </svg>
+      <a href={GITHUB} target="_blank" rel="noopener noreferrer" class="nav-external">GitHub</a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <span class="icon-moon" aria-hidden="true">◗</span>
+        <span class="icon-sun" aria-hidden="true">◖</span>
+      </button>
+    </nav>
+
+    <button id="menu-toggle" class="menu-btn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
-    <button
-      class="menu-toggle"
-      id="menu-toggle"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </nav>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <a href="/blog">Blog</a>
+    <a href="/projects">Projetos</a>
+    <a href="/about">Sobre</a>
+    <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+  </div>
 </header>
+
+<style>
+  #site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 52px;
+  }
+
+  .site-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--fg);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .site-name:hover { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .nav-links :global(.header-link) {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .nav-links :global(.header-link:hover),
+  .nav-links :global(.header-link.active) {
+    color: var(--fg);
+  }
+
+  .nav-external {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .nav-external:hover { color: var(--fg); }
+
+  .theme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--fg-muted);
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.12s;
+    display: flex;
+    align-items: center;
+  }
+
+  .theme-btn:hover { color: var(--fg); }
+
+  .icon-moon { display: block; }
+  .icon-sun  { display: none;  }
+  [data-theme="dark"] .icon-moon { display: none;  }
+  [data-theme="dark"] .icon-sun  { display: block; }
+
+  /* Hamburger */
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--fg-muted);
+    border-radius: 1px;
+    transition: transform 0.18s, opacity 0.18s;
+  }
+
+  #site-header.open .menu-btn span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  #site-header.open .menu-btn span:nth-child(2) { opacity: 0; }
+  #site-header.open .menu-btn span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  .mobile-menu {
+    border-top: 1px solid var(--border);
+    padding: 1rem 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .mobile-menu a {
+    font-size: 1rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.12s;
+  }
+
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--fg); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; }
+    .header-inner { padding: 0 1.25rem; }
+  }
+</style>
+
 <script>
   const themeBtn = document.getElementById('theme-toggle') as HTMLButtonElement;
   const menuBtn = document.getElementById('menu-toggle') as HTMLButtonElement;
-  const headerEl = menuBtn.closest('header') as HTMLElement;
+  const mobileMenu = document.getElementById('mobile-menu') as HTMLElement;
+  const header = document.getElementById('site-header') as HTMLElement;
 
-  themeBtn.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
+  themeBtn?.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
   });
 
-  menuBtn.addEventListener('click', () => {
-    const isOpen = headerEl.classList.toggle('menu-open');
-    menuBtn.setAttribute('aria-expanded', String(isOpen));
+  menuBtn?.addEventListener('click', () => {
+    const open = header.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    mobileMenu.hidden = !open;
   });
 </script>

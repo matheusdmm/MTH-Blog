@@ -1,43 +1,196 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
+
+const recentPosts = (await getCollection('blog'))
+  .filter((p) => !p.data.hidden)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
 ---
 
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <BaseHead title={SITE_TITLE} description="Meu espaço, seja bem-vindo!" />
+    <BaseHead
+      title={SITE_TITLE}
+      description="Engenheiro de software, músico e escritor. Artigos sobre tecnologia, código e criatividade."
+    />
   </head>
   <body>
     <Header />
-    <main>
-      <h1>Matheus aqui!</h1>
-      <p>
-        Engenheiro de software de dia, musico e escritor sempre que eu tenho um
-        tempo livre (as vezes pode ser tudo isso misturado também, depende do
-        café).
-      </p>
-      <p>
-        Eu passei mais de 10 anos resolvendo uma série de problemas com codigo,
-        indo desde rede em fibra óptica, passando por servidores Linux e salas
-        de aula, e mais recentemente como lider de projeto na Philip Morris
-        International. No meio do caminho eu acabei aprendendo que nem sempre a
-        melhor solução pode ser a mais obvia (e que paciencia pra entender os
-        problemas vale um pouco mais do que qualquer framework da moda).
-      </p>
-      <p>
-        Fora do terminal tu vai me encontrar compondo, tocando ou escrevendo.
-        Acredito que a arte e o código venham do mesmo lugar: A vontade de fazer
-        uma ideia se tornar algo que outras pessoas possam sentir.
-      </p>
-      <p>
-        Esse blog é onde todas essas paradas se encontram: Tecnologia,
-        criatividade e qualquer outra coisa que fique no meio do caminho.
-      </p>
 
+    <main class="main">
+      <section class="intro">
+        <p class="intro-lead">
+          Matheus aqui.
+        </p>
+        <p>
+          Engenheiro de software de dia, músico e escritor sempre que eu tenho
+          um tempo livre — às vezes pode ser tudo isso misturado também, depende
+          do café.
+        </p>
+        <p>
+          Eu passei mais de 10 anos resolvendo uma série de problemas com código,
+          indo desde rede em fibra óptica, passando por servidores Linux e salas
+          de aula, e mais recentemente como líder de projeto na Philip Morris
+          International. No meio do caminho eu acabei aprendendo que nem sempre
+          a melhor solução pode ser a mais óbvia.
+        </p>
+        <p>
+          Fora do terminal você me encontra compondo, tocando ou escrevendo.
+          Esse blog é onde tecnologia, criatividade e o que ficar no meio do
+          caminho se encontram.
+        </p>
+      </section>
+
+      {recentPosts.length > 0 && (
+        <section class="recent">
+          <h2 class="section-label">Publicações recentes</h2>
+          <ul class="post-list">
+            {recentPosts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`} class="post-row">
+                  <div class="post-info">
+                    <span class="post-title">{post.data.title}</span>
+                    {post.data.description && (
+                      <span class="post-desc">{post.data.description}</span>
+                    )}
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <span class="post-tags">
+                        {post.data.tags.map((t) => <span class="tag">{t}</span>)}
+                      </span>
+                    )}
+                  </div>
+                  <span class="post-date">
+                    <FormattedDate date={post.data.pubDate} />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href="/blog" class="all-link">Ver todas as publicações →</a>
+        </section>
+      )}
     </main>
+
     <Footer />
   </body>
 </html>
+
+<style>
+  .main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  /* ── Intro ─────────────────────────────────── */
+  .intro {
+    margin-bottom: 4rem;
+  }
+
+  .intro-lead {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .intro p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--fg-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* ── Recent posts ──────────────────────────── */
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .post-list li { border-bottom: 1px solid var(--border); }
+
+  .post-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    text-decoration: none;
+    color: var(--fg);
+    transition: color 0.12s;
+  }
+
+  .post-row:hover { color: var(--fg); }
+  .post-row:hover .post-title { color: var(--accent); }
+
+  .post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  .post-title {
+    font-size: 0.975rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.35;
+    transition: color 0.12s;
+  }
+
+  .post-desc {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    line-height: 1.5;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.15rem;
+  }
+
+  .post-date {
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    white-space: nowrap;
+    padding-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .all-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.12s;
+  }
+
+  .all-link:hover { color: var(--accent-hover); }
+
+  @media (max-width: 520px) {
+    .post-row { flex-direction: column; gap: 0.4rem; }
+    .post-date { padding-top: 0; }
+  }
+</style>

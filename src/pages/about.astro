@@ -7,68 +7,37 @@ import { SITE_TITLE } from '../consts';
 const avatarUrl = 'https://avatars.githubusercontent.com/u/11928307?v=4';
 
 const skills = {
-  languages: [
-    'JavaScript',
-    'TypeScript',
-    'HTML',
-    'CSS',
-    'Java',
-    'Python',
-    'C#/.NET',
-  ],
-  technologies: [
-    'React',
-    'Next.js',
-    'NestJS',
-    'Jest',
-    'Tailwind',
-    'Docker',
-    'MongoDB',
-    'Firebase',
-    'MySQL',
-    'Node.js',
-    'Git',
-    'Linux/Unix',
-    'Azure',
-    'AWS',
-    'Figma',
-  ],
-  soft: [
-    'Agile/Scrum',
-    'Self-driven',
-    'Fast learner',
-    'Team Player',
-    'Communicative',
-    'Adaptable',
-  ],
+  languages: ['JavaScript', 'TypeScript', 'HTML', 'CSS', 'Java', 'Python', 'C#/.NET'],
+  technologies: ['React', 'Next.js', 'NestJS', 'Jest', 'Tailwind', 'Docker', 'MongoDB', 'Firebase', 'MySQL', 'Node.js', 'Git', 'Linux/Unix', 'Azure', 'AWS', 'Figma'],
+  soft: ['Agile/Scrum', 'Self-driven', 'Fast learner', 'Team Player', 'Communicative', 'Adaptable'],
 };
 
 const experience = [
   {
     role: 'Project Leader',
     company: 'Philip Morris International',
-    period: 'May 2022 — Present',
+    period: 'Mai 2022 — Presente',
     bullets: [
-      'Sprints management, project monitoring, interface usability and automation across dev and business teams.',
-      'Used JavaScript and Python daily to ship features and build benchmarks that drove a 50% performance improvement.',
+      'Gestão de sprints, monitoramento de projetos, usabilidade e automação entre equipes de dev e negócios.',
+      'Utilizei JavaScript e Python diariamente para entregar funcionalidades e criar benchmarks com 50% de melhoria de performance.',
     ],
   },
   {
     role: 'Senior Frontend Developer',
     company: 'Bosch USA',
-    period: 'Oct 2022 — Dec 2022',
+    period: 'Out 2022 — Dez 2022',
     bullets: [
-      'Led migration of legacy pages to React, including localization (i18n), routing, new backend connections and a revamped shopping cart.',
-      'Full migration delivered and live within 90 days.',
+      'Liderei a migração de páginas legadas para React, incluindo i18n, roteamento e carrinho de compras reformulado.',
+      'Migração completa entregue em 90 dias.',
     ],
   },
   {
     role: 'Staff Developer',
     company: 'Discovery Bowl',
-    period: 'May 2020 — Dec 2021',
+    period: 'Mai 2020 — Dez 2021',
     bullets: [
-      'Built the frontend UI of an access control system in React and integrated it with backend services via Axios.',
-      'Delivered a fully cross-platform solution running on smart TVs, smartphones, and any internet-connected device.',
+      'Construí o UI de um sistema de controle de acesso em React integrado com serviços backend via Axios.',
+      'Solução cross-platform rodando em smart TVs, smartphones e qualquer dispositivo conectado.',
     ],
   },
   {
@@ -76,39 +45,30 @@ const experience = [
     company: 'SENAI',
     period: 'Jan 2021 — Jul 2022',
     bullets: [
-      'First teacher of the System Development class in the state — taught algorithms, logic, and web/desktop technologies using a project-based approach.',
+      'Primeiro professor da turma de Desenvolvimento de Sistemas no estado — ensinei algoritmos, lógica e tecnologias web/desktop.',
     ],
   },
   {
     role: 'Freelancer Analyst',
-    company: 'Various local companies',
+    company: 'Diversas empresas',
     period: 'Jan 2016 — 2023',
     bullets: [
-      'System integration, workflow automation, Linux server configuration, and Python data dashboards for small businesses.',
-      'Full-stack support and development.',
+      'Integração de sistemas, automação de fluxos, configuração de servidores Linux e dashboards de dados em Python.',
     ],
   },
   {
     role: 'Network Engineer',
     company: 'Viavale Telecom',
-    period: 'Feb 2015 — Jul 2015',
+    period: 'Fev 2015 — Jul 2015',
     bullets: [
-      'Designed optical fiber routes, handled server-side configurations and used AutoCAD, Python and Bash to tailor networks to client specs on physical and digital domain.',
+      'Projetos de rotas em fibra óptica, configurações server-side e uso de AutoCAD, Python e Bash.',
     ],
   },
 ];
 
 const education = [
-  {
-    title: 'Postgraduate Specialization in Computer Engineering',
-    institution: 'Uninter',
-    year: '2022',
-  },
-  {
-    title: "Bachelor's Degree in Analysis and Systems Development",
-    institution: 'Uninter',
-    year: '2020',
-  },
+  { title: 'Pós-graduação em Engenharia de Computação', institution: 'Uninter', year: '2022' },
+  { title: 'Bacharel em Análise e Desenvolvimento de Sistemas', institution: 'Uninter', year: '2020' },
   { title: 'UI/UX', institution: 'FIAP', year: '2020' },
   { title: 'Machine Learning', institution: 'FIAP', year: '2021' },
   { title: 'Linux/Unix', institution: 'Cisco', year: '2022' },
@@ -119,103 +79,421 @@ const education = [
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <BaseHead title={`About — ${SITE_TITLE}`} description="About me" />
+    <BaseHead title={`Sobre — ${SITE_TITLE}`} description="Engenheiro de software, músico e escritor. Trabalhando com tecnologia desde 2015." />
   </head>
   <body>
     <Header />
-    <main>
-      <div class="profile">
-        <img src={avatarUrl} alt="Matheus" />
-        <div class="profile-info">
-          <h1>Matheus aqui!</h1>
-          <p>Engenheiro de software · Trabalhando desde 2015 · Brasil</p>
+
+    <!-- Profile hero -->
+    <div class="profile-hero">
+      <div class="container">
+        <div class="profile-layout">
+          <img src={avatarUrl} alt="Matheus" class="avatar" />
+          <div class="profile-info">
+            <span class="eyebrow">Engenheiro de Software</span>
+            <h1 class="profile-name">Matheus</h1>
+            <p class="profile-tagline">Trabalhando com tecnologia desde 2015 · Brasil</p>
+            <p class="profile-bio">
+              Engenheiro de software de dia, músico e escritor nas horas vagas.
+              Passei 10+ anos resolvendo problemas com código — de fibra óptica
+              a liderança de projetos numa multinacional. Acredito que paciência
+              pra entender o problema vale mais do que qualquer framework da moda.
+            </p>
+            <div class="profile-actions">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="action-link primary">
+                Download CV (PDF) ↓
+              </a>
+              <a href="/projects" class="action-link">Ver projetos →</a>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <p>
-        Engenheiro de software de dia, musico e escritor sempre que eu tenho
-        um tempo livre (as vezes pode ser tudo isso misturado também,
-        depende do café).
-      </p>
-      <p>
-        Eu passei mais de 10 anos resolvendo uma série de problemas com
-        codigo, indo desde rede em fibra óptica, passando por servidores
-        Linux e salas de aula, e mais recentemente como lider de projeto na
-        Philip Morris International. No meio do caminho eu acabei aprendendo
-        que nem sempre a melhor solução pode ser a mais obvia (e que
-        paciencia pra entender os problemas vale um pouco mais do que
-        qualquer framework da moda).
-      </p>
-      <p>
-        Fora do terminal tu vai me encontrar compondo, tocando ou
-        escrevendo. Acredito que a arte e o código venham do mesmo lugar: A
-        vontade de fazer uma ideia se tornar algo que outras pessoas possam
-        sentir.
-      </p>
+    <div class="container main">
 
-      <section class="resume-section">
-        <h2 class="section-title">Skills</h2>
-        <div class="skill-group">
-          <div class="skill-row">
-            <span class="skill-label">Languages</span>
-            {skills.languages.map((s) => <span class="tag">{s}</span>)}
+      <!-- Skills -->
+      <section class="section">
+        <div class="section-label">Skills</div>
+        <div class="skills-grid">
+          <div class="skill-group">
+            <span class="skill-category">Linguagens</span>
+            <div class="skill-tags">
+              {skills.languages.map((s) => <span class="tag">{s}</span>)}
+            </div>
           </div>
-          <div class="skill-row">
-            <span class="skill-label">Technologies</span>
-            {skills.technologies.map((s) => <span class="tag">{s}</span>)}
+          <div class="skill-group">
+            <span class="skill-category">Tecnologias</span>
+            <div class="skill-tags">
+              {skills.technologies.map((s) => <span class="tag">{s}</span>)}
+            </div>
           </div>
-          <div class="skill-row">
-            <span class="skill-label">Soft skills</span>
-            {skills.soft.map((s) => <span class="tag">{s}</span>)}
+          <div class="skill-group">
+            <span class="skill-category">Soft skills</span>
+            <div class="skill-tags">
+              {skills.soft.map((s) => <span class="tag">{s}</span>)}
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="resume-section">
-        <h2 class="section-title">Experience</h2>
-        <div class="exp-list">
-          {
-            experience.map((e) => (
-              <div class="exp-item">
-                <div class="exp-header">
-                  <span>
-                    <span class="exp-role">{e.role}</span>
-                    {' · '}
-                    <span class="exp-company">{e.company}</span>
-                  </span>
-                  <span class="exp-period">{e.period}</span>
+      <!-- Experience -->
+      <section class="section">
+        <div class="section-label">Experiência</div>
+        <div class="timeline">
+          {experience.map((e) => (
+            <div class="timeline-item">
+              <div class="timeline-marker">
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <div class="timeline-role-wrap">
+                    <span class="timeline-role">{e.role}</span>
+                    <span class="timeline-company">{e.company}</span>
+                  </div>
+                  <span class="timeline-period">{e.period}</span>
                 </div>
-                <ul class="exp-bullets">
-                  {e.bullets.map((b) => (
-                    <li>{b}</li>
-                  ))}
+                <ul class="timeline-bullets">
+                  {e.bullets.map((b) => <li>{b}</li>)}
                 </ul>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
       </section>
 
-      <section class="resume-section">
-        <h2 class="section-title">Education</h2>
-        <div class="edu-list">
-          {
-            education.map((e) => (
-              <div class="edu-item">
+      <!-- Education -->
+      <section class="section">
+        <div class="section-label">Formação</div>
+        <div class="edu-grid">
+          {education.map((e) => (
+            <div class="edu-item">
+              <div class="edu-main">
                 <span class="edu-title">{e.title}</span>
-                <span class="edu-meta">
-                  {e.institution} · {e.year}
-                </span>
+                <span class="edu-institution">{e.institution}</span>
               </div>
-            ))
-          }
+              <span class="edu-year">{e.year}</span>
+            </div>
+          ))}
         </div>
       </section>
+    </div>
 
-      <a href="/resume.pdf" target="_blank" class="resume-link"
-        >Download Resume (PDF)</a
-      >
-    </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── Profile hero ──────────────────────────── */
+  .profile-hero {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .profile-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .profile-name {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin: 0 0 0.4rem;
+    line-height: 1.1;
+    color: var(--fg);
+  }
+
+  .profile-tagline {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .profile-bio {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--fg-muted);
+    max-width: 560px;
+    margin: 0 0 1.75rem;
+  }
+
+  .profile-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .action-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.12s;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1px;
+  }
+
+  .action-link:hover { color: var(--fg); }
+
+  .action-link.primary {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .action-link.primary:hover { color: var(--accent-hover); }
+
+  /* ── Sections ──────────────────────────────── */
+  .main {
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .section {
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.75rem;
+  }
+
+  /* ── Skills ────────────────────────────────── */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .skill-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .skill-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    min-width: 100px;
+    padding-top: 0.25rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── Timeline ──────────────────────────────── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .timeline-line {
+    flex: 1;
+    width: 1px;
+    background: var(--border);
+    margin-top: 6px;
+  }
+
+  .timeline-item:last-child .timeline-line {
+    display: none;
+  }
+
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .timeline-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .timeline-role-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .timeline-role {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+
+  .timeline-company {
+    font-size: 0.875rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .timeline-period {
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .timeline-bullets li {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    line-height: 1.6;
+    padding-left: 1em;
+    position: relative;
+  }
+
+  .timeline-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg-muted);
+  }
+
+  /* ── Education ─────────────────────────────── */
+  .edu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .edu-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .edu-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .edu-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .edu-institution {
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+
+  .edu-year {
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ────────────────────────────── */
+  @media (max-width: 640px) {
+    .profile-layout {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .avatar { width: 90px; height: 90px; }
+
+    .skill-group {
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .skill-category { min-width: auto; }
+
+    .timeline-header { flex-direction: column; gap: 0.25rem; }
+    .timeline-period { margin-top: 0; }
+  }
+</style>
