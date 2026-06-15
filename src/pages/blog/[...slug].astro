@@ -14,7 +14,9 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const { Content } = await render(post);
 
-const readTime = Math.ceil(post.body.split(/\s+/).filter(Boolean).length / 200);
+const readTime = post.body
+  ? Math.ceil(post.body.split(/\s+/).filter(Boolean).length / 200)
+  : undefined;
 ---
 
 <BlogPost {...post.data} readTime={readTime}>

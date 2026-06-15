@@ -8,7 +8,13 @@ import { SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.hidden)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map((p) => ({
+    ...p,
+    readTime: p.body
+      ? Math.ceil(p.body.split(/\s+/).filter(Boolean).length / 200)
+      : undefined,
+  }));
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 ---
@@ -53,6 +59,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
               </div>
               <span class="post-date">
                 <FormattedDate date={post.data.pubDate} />
+                {post.readTime && <span class="read-time">· {post.readTime} min</span>}
               </span>
             </div>
           </li>
@@ -219,6 +226,16 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
     white-space: nowrap;
     padding-top: 0.15rem;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .read-time {
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+    opacity: 0.7;
   }
 
   .empty {

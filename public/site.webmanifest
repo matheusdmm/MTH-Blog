@@ -1,0 +1,10 @@
+{
+  "name": "MTH",
+  "short_name": "MTH",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "any", "type": "image/png" }
+  ],
+  "theme_color": "#ECEFF4",
+  "background_color": "#ECEFF4",
+  "display": "minimal-ui"
+}
