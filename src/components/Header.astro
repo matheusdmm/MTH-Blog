@@ -8,26 +8,47 @@ import HeaderLink from './HeaderLink.astro';
     <a href="/" class="site-name">{SITE_TITLE}</a>
 
     <nav class="nav-links" aria-label="Main navigation">
+      <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/projects">Projetos</HeaderLink>
       <HeaderLink href="/about">Sobre</HeaderLink>
-      <a href={GITHUB} target="_blank" rel="noopener noreferrer" class="nav-external">GitHub</a>
+      <a
+        href={GITHUB}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-external">GitHub</a
+      >
       <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
         <span class="icon-moon" aria-hidden="true">◗</span>
         <span class="icon-sun" aria-hidden="true">◖</span>
       </button>
     </nav>
 
-    <button id="menu-toggle" class="menu-btn" aria-label="Toggle menu" aria-expanded="false">
+    <button
+      id="menu-toggle"
+      class="menu-btn"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
       <span></span><span></span><span></span>
     </button>
   </div>
 
   <div id="mobile-menu" class="mobile-menu" hidden>
+    <a href="/">Home</a>
     <a href="/blog">Blog</a>
     <a href="/projects">Projetos</a>
     <a href="/about">Sobre</a>
     <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <button
+      id="theme-toggle-mobile"
+      class="theme-btn-mobile"
+      aria-label="Toggle dark mode"
+    >
+      <span class="icon-moon-m" aria-hidden="true">◗</span>
+      <span class="icon-sun-m" aria-hidden="true">◖</span>
+      <span>Alternar tema</span>
+    </button>
   </div>
 </header>
 
@@ -36,7 +57,9 @@ import HeaderLink from './HeaderLink.astro';
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--bg);
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
 
@@ -57,7 +80,9 @@ import HeaderLink from './HeaderLink.astro';
     flex-shrink: 0;
   }
 
-  .site-name:hover { color: var(--accent); }
+  .site-name:hover {
+    color: var(--accent);
+  }
 
   .nav-links {
     display: flex;
@@ -73,9 +98,12 @@ import HeaderLink from './HeaderLink.astro';
     transition: color 0.12s;
   }
 
-  .nav-links :global(.header-link:hover),
-  .nav-links :global(.header-link.active) {
+  .nav-links :global(.header-link:hover) {
     color: var(--fg);
+  }
+
+  .nav-links :global(.header-link.active) {
+    color: var(--accent);
   }
 
   .nav-external {
@@ -86,7 +114,9 @@ import HeaderLink from './HeaderLink.astro';
     transition: color 0.12s;
   }
 
-  .nav-external:hover { color: var(--fg); }
+  .nav-external:hover {
+    color: var(--fg);
+  }
 
   .theme-btn {
     background: none;
@@ -101,12 +131,22 @@ import HeaderLink from './HeaderLink.astro';
     align-items: center;
   }
 
-  .theme-btn:hover { color: var(--fg); }
+  .theme-btn:hover {
+    color: var(--fg);
+  }
 
-  .icon-moon { display: block; }
-  .icon-sun  { display: none;  }
-  [data-theme="dark"] .icon-moon { display: none;  }
-  [data-theme="dark"] .icon-sun  { display: block; }
+  .icon-moon {
+    display: block;
+  }
+  .icon-sun {
+    display: none;
+  }
+  [data-theme='dark'] .icon-moon {
+    display: none;
+  }
+  [data-theme='dark'] .icon-sun {
+    display: block;
+  }
 
   /* Hamburger */
   .menu-btn {
@@ -125,16 +165,25 @@ import HeaderLink from './HeaderLink.astro';
     height: 1.5px;
     background: var(--fg-muted);
     border-radius: 1px;
-    transition: transform 0.18s, opacity 0.18s;
+    transition:
+      transform 0.18s,
+      opacity 0.18s;
   }
 
-  #site-header.open .menu-btn span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  #site-header.open .menu-btn span:nth-child(2) { opacity: 0; }
-  #site-header.open .menu-btn span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  #site-header.open .menu-btn span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  #site-header.open .menu-btn span:nth-child(2) {
+    opacity: 0;
+  }
+  #site-header.open .menu-btn span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
 
   /* Mobile menu */
   .mobile-menu {
     border-top: 1px solid var(--border);
+    background: var(--header-bg);
     padding: 1rem 2rem 1.25rem;
     display: flex;
     flex-direction: column;
@@ -150,13 +199,54 @@ import HeaderLink from './HeaderLink.astro';
     transition: color 0.12s;
   }
 
-  .mobile-menu a:last-child { border-bottom: none; }
-  .mobile-menu a:hover { color: var(--fg); }
+  .mobile-menu a:hover {
+    color: var(--fg);
+  }
+
+  .theme-btn-mobile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    border-bottom: none;
+    cursor: pointer;
+    color: var(--fg-muted);
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 0.55rem 0 0.1rem;
+    width: 100%;
+    text-align: left;
+    transition: color 0.12s;
+  }
+
+  .theme-btn-mobile:hover {
+    color: var(--fg);
+  }
+
+  .icon-moon-m {
+    display: block;
+  }
+  .icon-sun-m {
+    display: none;
+  }
+  [data-theme='dark'] .icon-moon-m {
+    display: none;
+  }
+  [data-theme='dark'] .icon-sun-m {
+    display: block;
+  }
 
   @media (max-width: 640px) {
-    .nav-links { display: none; }
-    .menu-btn { display: flex; }
-    .header-inner { padding: 0 1.25rem; }
+    .nav-links {
+      display: none;
+    }
+    .menu-btn {
+      display: flex;
+    }
+    .header-inner {
+      padding: 0 1.25rem;
+    }
   }
 </style>
 
@@ -166,11 +256,19 @@ import HeaderLink from './HeaderLink.astro';
   const mobileMenu = document.getElementById('mobile-menu') as HTMLElement;
   const header = document.getElementById('site-header') as HTMLElement;
 
-  themeBtn?.addEventListener('click', () => {
-    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  function toggleTheme() {
+    const next =
+      document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'light'
+        : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-  });
+  }
+
+  themeBtn?.addEventListener('click', toggleTheme);
+  document
+    .getElementById('theme-toggle-mobile')
+    ?.addEventListener('click', toggleTheme);
 
   menuBtn?.addEventListener('click', () => {
     const open = header.classList.toggle('open');

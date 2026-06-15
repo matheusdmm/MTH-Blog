@@ -26,16 +26,6 @@ const {
     author = "Matheus",
 } = Astro.props;
 
-// hreflang: compute pt-BR and EN alternate URLs
-const pathname = Astro.url.pathname;
-const isEnglish = pathname.startsWith("/en/") || pathname === "/en";
-const ptBrURL = isEnglish
-    ? new URL(pathname.replace(/^\/en/, "") || "/", Astro.site)
-    : canonicalURL;
-const enURL = isEnglish
-    ? canonicalURL
-    : new URL("/en" + pathname, Astro.site);
-
 // JSON-LD structured data
 const jsonLd =
     type === "article"
@@ -93,11 +83,6 @@ const jsonLd =
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
-
-<!-- hreflang alternates -->
-<link rel="alternate" hreflang="pt-BR" href={ptBrURL} />
-<link rel="alternate" hreflang="en" href={enURL} />
-<link rel="alternate" hreflang="x-default" href={ptBrURL} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>

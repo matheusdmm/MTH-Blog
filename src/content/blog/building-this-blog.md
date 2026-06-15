@@ -14,37 +14,49 @@ Com isso em mente, eu comecei a juntar algumas possibilidades. Queria um site qu
 
 ## A stack
 
-O blog roda em cima do [Astro](https://astro.build), um gerator de sites estaticos que builda um total de zero JavaScript (olha a ironia, visto que foi por causa dele que eu tenho um trabalho hoje em dia) por padrão. As unicas dependencias são:
+O blog roda em cima do [Astro](https://astro.build), um gerador de sites estáticos que builda um total de zero JavaScript (olha a ironia, visto que foi por causa dele que eu tenho um trabalho hoje em dia) por padrão. As únicas dependências são:
 
 - `@astrojs/mdx` — Escreve os posts em Markdown com JSX se eu quiser
-- `@astrojs/rss` — RSS Automatico feed em `/rss.xml`
+- `@astrojs/rss` — RSS Automático feed em `/rss.xml`
 - `@astrojs/sitemap` — Mapa do site
 - `sharp` — Otimização de imagens durante a build
+- `tailwindcss` — Base de reset e utilitários CSS
 
-Sem nenhum framework, sem nenhum runtime de JS no cliente, a não ser que eu precise adicionar em uma pagina especifica.
+Sem nenhum framework de UI, sem nenhum runtime de JS no cliente, a não ser que eu precise adicionar em uma página específica.
 
 ## Escolhas de design
 
-A estetica é deliberadamente brutalista, cantos vivos, sem border-radius, sombra de `4px 4px 0` que se mexe com o tema ao invés de desfocar as coisas. Fonte serifada pra todos os metadados (datas, tags, rotulos, etc)
+A estética é minimalista e deliberada — cantos levemente arredondados, sombras sutis, sem explosão visual. Queria que parecesse uma leitura confortável, não um painel de controle.
 
-Como um entusiasta de fontes, Eu optei por usar a [Redaction](https://www.redaction.us/). Os snippets são escritos pela [JetBrains Mono](https://www.jetbrains.com/pt-br/lp/mono/).
-
-A paleta de cor são duas propriedades CSS `--bg` e `--fg` que flipam no `[data-theme="dark"]`. Todo o resto deriva dessas duas opções, logo qualquer outro componente que eu adicionar, vai ter o tema dark por padrão.
+O sistema de temas usa dois esquemas de cores distintos: **Nord Light** para o tema claro e **Ayu Dark** para o escuro. Escolhas bem diferentes em temperatura e personalidade, mas que funcionam bem nos dois extremos.
 
 ```css
 :root {
-  --bg: #ffffff;
-  --fg: #000000;
-  --shadow: 4px 4px 0 var(--fg);
+  /* Nord Light */
+  --bg:       #ECEFF4;
+  --fg:       #2E3440;
+  --fg-muted: #4C566A;
+  --accent:   #5E81AC;
+  --border:   rgba(46, 52, 64, 0.14);
 }
 
-[data-theme='dark'] {
-  --bg: #0d0d0d;
-  --fg: #f0f0f0;
+[data-theme="dark"] {
+  /* Ayu Dark */
+  --bg:       #0A0E14;
+  --fg:       #B3B1AD;
+  --fg-muted: #626A73;
+  --accent:   #FF8F40;
+  --border:   rgba(179, 177, 173, 0.08);
 }
 ```
 
-Quando tu altera o tema, ele escreve a informação `data-theme` pro html e a escolha é salva no `localStorage`.
+Para fontes, a combinação que funcionou:
+
+- **Inter** — UI, títulos, navegação
+- **Lora** — corpo dos posts (serifada, muito mais legível pra textos longos)
+- **JetBrains Mono** — snippets de código
+
+Quando o tema é alterado, o atributo `data-theme` é escrito no `<html>` e a escolha é salva no `localStorage`. Todo componente novo que eu adicionar herda os tokens sem precisar escrever variantes dark/light separadas.
 
 ## Como o Astro funciona
 

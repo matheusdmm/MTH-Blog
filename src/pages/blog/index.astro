@@ -39,22 +39,22 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
       <ul class="post-list" id="posts-grid">
         {posts.map((post) => (
           <li data-tags={post.data.tags?.join(',') ?? ''}>
-            <a href={`/blog/${post.id}/`} class="post-row">
+            <div class="post-row">
               <div class="post-info">
-                <span class="post-title">{post.data.title}</span>
+                <a href={`/blog/${post.id}/`} class="post-title">{post.data.title}</a>
                 {post.data.description && (
                   <span class="post-desc">{post.data.description}</span>
                 )}
                 {post.data.tags && post.data.tags.length > 0 && (
                   <span class="post-tags">
-                    {post.data.tags.map((t) => <span class="tag">{t}</span>)}
+                    {post.data.tags.map((t) => <a href={`/blog?tag=${t}`} class="tag">{t}</a>)}
                   </span>
                 )}
               </div>
               <span class="post-date">
                 <FormattedDate date={post.data.pubDate} />
               </span>
-            </a>
+            </div>
           </li>
         ))}
       </ul>
@@ -70,21 +70,27 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
       const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
       const items = document.querySelectorAll<HTMLLIElement>('[data-tags]');
 
-      btns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const tag = btn.dataset.filter!;
-          btns.forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-          items.forEach((item) => {
-            if (tag === 'all') {
-              item.hidden = false;
-            } else {
-              const tags = item.dataset.tags?.split(',').filter(Boolean) ?? [];
-              item.hidden = !tags.includes(tag);
-            }
-          });
+      function applyFilter(tag: string) {
+        btns.forEach((b) => b.classList.remove('active'));
+        const active = document.querySelector<HTMLButtonElement>(`[data-filter="${tag}"]`);
+        (active ?? document.querySelector<HTMLButtonElement>('[data-filter="all"]'))!.classList.add('active');
+        items.forEach((item) => {
+          if (tag === 'all') {
+            item.hidden = false;
+          } else {
+            const tags = item.dataset.tags?.split(',').filter(Boolean) ?? [];
+            item.hidden = !tags.includes(tag);
+          }
         });
+      }
+
+      btns.forEach((btn) => {
+        btn.addEventListener('click', () => applyFilter(btn.dataset.filter!));
       });
+
+      // Pre-select tag from URL param (?tag=X)
+      const initialTag = new URL(window.location.href).searchParams.get('tag');
+      if (initialTag) applyFilter(initialTag);
     </script>
   </body>
 </html>
@@ -115,7 +121,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 
   /* Filter buttons inherit the global .tag spec, add interactivity */
   .filter {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Mozilla Text', sans-serif;
     font-size: 0.72rem;
     font-weight: 500;
     padding: 0.2em 0.55em;
@@ -134,9 +140,9 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
   }
 
   .filter.active {
-    background: var(--fg);
-    color: var(--bg);
-    border-color: var(--fg);
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
   }
 
   /* ── Post list ─────────────────────────────── */
@@ -150,16 +156,14 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
   .post-list li { border-bottom: 1px solid var(--border); }
 
   .post-row {
+    position: relative;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1.5rem;
     padding: 1.1rem 0;
-    text-decoration: none;
     color: var(--fg);
   }
-
-  .post-row:hover .post-title { color: var(--accent); }
 
   .post-info {
     display: flex;
@@ -171,9 +175,29 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
   .post-title {
     font-size: 0.975rem;
     font-weight: 600;
-    color: var(--fg);
+    color: var(--accent);
     line-height: 1.35;
+    text-decoration: none;
     transition: color 0.12s;
+  }
+
+  .post-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .post-title:hover { color: var(--accent-hover); }
+
+  .post-tags .tag {
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  .post-tags .tag:hover {
+    color: var(--fg);
+    border-color: var(--fg-muted);
   }
 
   .post-desc {

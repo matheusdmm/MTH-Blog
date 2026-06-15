@@ -25,56 +25,69 @@ const recentPosts = (await getCollection('blog'))
 
     <main class="main">
       <section class="intro">
-        <p class="intro-lead">
-          Matheus aqui.
-        </p>
+        <p class="intro-lead">Matheus aqui.</p>
         <p>
           Engenheiro de software de dia, músico e escritor sempre que eu tenho
           um tempo livre — às vezes pode ser tudo isso misturado também, depende
           do café.
         </p>
         <p>
-          Eu passei mais de 10 anos resolvendo uma série de problemas com código,
-          indo desde rede em fibra óptica, passando por servidores Linux e salas
-          de aula, e mais recentemente como líder de projeto na Philip Morris
-          International. No meio do caminho eu acabei aprendendo que nem sempre
-          a melhor solução pode ser a mais óbvia.
+          Eu passei mais de 10 anos resolvendo uma série de problemas com
+          código, indo desde rede em fibra óptica, passando por servidores Linux
+          e salas de aula, e mais recentemente como líder de projeto na Philip
+          Morris International. No meio do caminho eu acabei aprendendo que nem
+          sempre a melhor solução pode ser a mais óbvia.
         </p>
         <p>
           Fora do terminal você me encontra compondo, tocando ou escrevendo.
           Esse blog é onde tecnologia, criatividade e o que ficar no meio do
           caminho se encontram.
         </p>
+        <p>
+          My blog focus primarily on PT-BR content, however, some content may be
+          written in english as well if I feel that it better or the reach would
+          be broader.
+        </p>
       </section>
 
-      {recentPosts.length > 0 && (
-        <section class="recent">
-          <h2 class="section-label">Publicações recentes</h2>
-          <ul class="post-list">
-            {recentPosts.map((post) => (
-              <li>
-                <a href={`/blog/${post.id}/`} class="post-row">
-                  <div class="post-info">
-                    <span class="post-title">{post.data.title}</span>
-                    {post.data.description && (
-                      <span class="post-desc">{post.data.description}</span>
-                    )}
-                    {post.data.tags && post.data.tags.length > 0 && (
-                      <span class="post-tags">
-                        {post.data.tags.map((t) => <span class="tag">{t}</span>)}
-                      </span>
-                    )}
+      {
+        recentPosts.length > 0 && (
+          <section class="recent">
+            <h2 class="section-label">Publicações recentes</h2>
+            <ul class="post-list">
+              {recentPosts.map((post) => (
+                <li>
+                  <div class="post-row">
+                    <div class="post-info">
+                      <a href={`/blog/${post.id}/`} class="post-title">
+                        {post.data.title}
+                      </a>
+                      {post.data.description && (
+                        <span class="post-desc">{post.data.description}</span>
+                      )}
+                      {post.data.tags && post.data.tags.length > 0 && (
+                        <span class="post-tags">
+                          {post.data.tags.map((t) => (
+                            <a href={`/blog?tag=${t}`} class="tag">
+                              {t}
+                            </a>
+                          ))}
+                        </span>
+                      )}
+                    </div>
+                    <span class="post-date">
+                      <FormattedDate date={post.data.pubDate} />
+                    </span>
                   </div>
-                  <span class="post-date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a href="/blog" class="all-link">Ver todas as publicações →</a>
-        </section>
-      )}
+                </li>
+              ))}
+            </ul>
+            <a href="/blog" class="all-link">
+              Ver todas as publicações →
+            </a>
+          </section>
+        )
+      }
     </main>
 
     <Footer />
@@ -108,7 +121,9 @@ const recentPosts = (await getCollection('blog'))
     margin-bottom: 1.25rem;
   }
 
-  .intro p:last-child { margin-bottom: 0; }
+  .intro p:last-child {
+    margin-bottom: 0;
+  }
 
   /* ── Recent posts ──────────────────────────── */
   .section-label {
@@ -127,21 +142,19 @@ const recentPosts = (await getCollection('blog'))
     border-top: 1px solid var(--border);
   }
 
-  .post-list li { border-bottom: 1px solid var(--border); }
+  .post-list li {
+    border-bottom: 1px solid var(--border);
+  }
 
   .post-row {
+    position: relative;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1.5rem;
     padding: 1rem 0;
-    text-decoration: none;
     color: var(--fg);
-    transition: color 0.12s;
   }
-
-  .post-row:hover { color: var(--fg); }
-  .post-row:hover .post-title { color: var(--accent); }
 
   .post-info {
     display: flex;
@@ -153,9 +166,32 @@ const recentPosts = (await getCollection('blog'))
   .post-title {
     font-size: 0.975rem;
     font-weight: 600;
-    color: var(--fg);
+    color: var(--accent);
     line-height: 1.35;
+    text-decoration: none;
     transition: color 0.12s;
+  }
+
+  /* Stretched link: covers the entire row, tags sit above via z-index */
+  .post-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .post-title:hover {
+    color: var(--accent-hover);
+  }
+
+  .post-tags .tag {
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  .post-tags .tag:hover {
+    color: var(--fg);
+    border-color: var(--fg-muted);
   }
 
   .post-desc {
@@ -187,10 +223,17 @@ const recentPosts = (await getCollection('blog'))
     transition: color 0.12s;
   }
 
-  .all-link:hover { color: var(--accent-hover); }
+  .all-link:hover {
+    color: var(--accent-hover);
+  }
 
   @media (max-width: 520px) {
-    .post-row { flex-direction: column; gap: 0.4rem; }
-    .post-date { padding-top: 0; }
+    .post-row {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .post-date {
+      padding-top: 0;
+    }
   }
 </style>

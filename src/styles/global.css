@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mozilla+Text:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Serif:ital,wght@0,100..700;1,100..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 @import "tailwindcss";
 
 @font-face {
@@ -79,7 +79,7 @@ html {
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Mozilla Text', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--bg);
@@ -156,14 +156,14 @@ hr {
     max-width: 680px;
     margin: 0 auto;
     padding: 0 1.5rem 4rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'IBM Plex Serif', Georgia, serif;
     font-size: 1.1rem;
     line-height: 1.85;
     color: var(--fg);
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Mozilla Text', sans-serif;
     font-weight: 800;
     line-height: 1.2;
     margin: 2.5em 0 0.75em;
@@ -200,7 +200,7 @@ hr {
     border-collapse: collapse;
     font-size: 0.9rem;
     margin: 2em 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Mozilla Text', sans-serif;
 }
 .prose th, .prose td {
     border: 1px solid var(--border);
@@ -225,7 +225,7 @@ hr {
     border: 1px solid var(--border);
     background: transparent;
     color: var(--fg-muted);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Mozilla Text', sans-serif;
     line-height: 1.6;
     white-space: nowrap;
 }

@@ -6,9 +6,9 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { readTime?: number };
 
-const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, readTime } = Astro.props;
 ---
 
 <!doctype html>
@@ -53,6 +53,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
           <p class="post-description">{description}</p>
           <div class="post-meta">
             <time class="post-date"><FormattedDate date={pubDate} /></time>
+            {readTime && <span class="post-read-time">{readTime} min de leitura</span>}
             {updatedDate && (
               <span class="post-updated">
                 Atualizado em <FormattedDate date={updatedDate} />
@@ -154,6 +155,17 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
     font-weight: 500;
     color: var(--fg-muted);
     letter-spacing: 0.02em;
+  }
+
+  .post-read-time {
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+
+  .post-read-time::before {
+    content: '·';
+    margin-right: 0.5rem;
+    opacity: 0.5;
   }
 
   .post-updated {
