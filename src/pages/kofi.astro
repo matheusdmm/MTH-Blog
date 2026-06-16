@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_TITLE, KOFI } from '../consts';
+import { SITE_TITLE, SUPPORT } from '../consts';
 ---
 
 <!doctype html>
@@ -20,7 +20,7 @@ import { SITE_TITLE, KOFI } from '../consts';
         sempre vai bem!
       </p>
 
-      <a href={KOFI} target="_blank" class="kofi-btn">
+      <a href={SUPPORT} target="_blank" class="kofi-btn">
         Me paga um cafézinho, link pro Mercado Pago ☕
       </a>
     </main>
@@ -41,7 +41,7 @@ import { SITE_TITLE, KOFI } from '../consts';
     text-transform: uppercase;
     letter-spacing: 0.08em;
     box-shadow: var(--card-shadow);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'JetBrains Mono', monospace;
     background: var(--bg);
   }
 

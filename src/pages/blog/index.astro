@@ -2,19 +2,15 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import PostList from '../../components/PostList.astro';
 import { SITE_TITLE } from '../../consts';
+import { readTime } from '../../utils';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.hidden)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map((p) => ({
-    ...p,
-    readTime: p.body
-      ? Math.ceil(p.body.split(/\s+/).filter(Boolean).length / 200)
-      : undefined,
-  }));
+  .map((p) => ({ ...p, readTime: readTime(p.body) }));
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 ---
@@ -42,29 +38,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
         </div>
       )}
 
-      <ul class="post-list" id="posts-grid">
-        {posts.map((post) => (
-          <li data-tags={post.data.tags?.join(',') ?? ''}>
-            <div class="post-row">
-              <div class="post-info">
-                <a href={`/blog/${post.id}/`} class="post-title">{post.data.title}</a>
-                {post.data.description && (
-                  <span class="post-desc">{post.data.description}</span>
-                )}
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <span class="post-tags">
-                    {post.data.tags.map((t) => <a href={`/blog?tag=${t}`} class="tag">{t}</a>)}
-                  </span>
-                )}
-              </div>
-              <span class="post-date">
-                <FormattedDate date={post.data.pubDate} />
-                {post.readTime && <span class="read-time">· {post.readTime} min</span>}
-              </span>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <PostList posts={posts} id="posts-grid" />
 
       {posts.length === 0 && (
         <p class="empty">Nenhum artigo publicado ainda.</p>
@@ -152,100 +126,9 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
     border-color: var(--accent);
   }
 
-  /* ── Post list ─────────────────────────────── */
-  .post-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .post-list li { border-bottom: 1px solid var(--border); }
-
-  .post-row {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.1rem 0;
-    color: var(--fg);
-  }
-
-  .post-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    min-width: 0;
-  }
-
-  .post-title {
-    font-size: 0.975rem;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1.35;
-    text-decoration: none;
-    transition: color 0.12s;
-  }
-
-  .post-title::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-  }
-
-  .post-title:hover { color: var(--accent-hover); }
-
-  .post-tags .tag {
-    position: relative;
-    z-index: 1;
-    text-decoration: none;
-  }
-
-  .post-tags .tag:hover {
-    color: var(--fg);
-    border-color: var(--fg-muted);
-  }
-
-  .post-desc {
-    font-size: 0.845rem;
-    color: var(--fg-muted);
-    line-height: 1.5;
-  }
-
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: 0.15rem;
-  }
-
-  .post-date {
-    font-size: 0.78rem;
-    color: var(--fg-muted);
-    white-space: nowrap;
-    padding-top: 0.15rem;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.15rem;
-  }
-
-  .read-time {
-    font-size: 0.72rem;
-    color: var(--fg-muted);
-    opacity: 0.7;
-  }
-
   .empty {
     color: var(--fg-muted);
     font-size: 0.95rem;
     padding: 3rem 0;
-  }
-
-  @media (max-width: 520px) {
-    .post-row { flex-direction: column; gap: 0.4rem; }
-    .post-date { padding-top: 0; }
   }
 </style>

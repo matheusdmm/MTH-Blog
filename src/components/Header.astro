@@ -1,6 +1,13 @@
 ---
 import { SITE_TITLE, GITHUB } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/projects', label: 'Projetos' },
+  { href: '/about', label: 'Sobre' },
+];
 ---
 
 <header id="site-header">
@@ -8,10 +15,7 @@ import HeaderLink from './HeaderLink.astro';
     <a href="/" class="site-name">{SITE_TITLE}</a>
 
     <nav class="nav-links" aria-label="Main navigation">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/projects">Projetos</HeaderLink>
-      <HeaderLink href="/about">Sobre</HeaderLink>
+      {navLinks.map(({ href, label }) => <HeaderLink href={href}>{label}</HeaderLink>)}
       <a
         href={GITHUB}
         target="_blank"
@@ -35,10 +39,7 @@ import HeaderLink from './HeaderLink.astro';
   </div>
 
   <div id="mobile-menu" class="mobile-menu" hidden>
-    <a href="/">Home</a>
-    <a href="/blog">Blog</a>
-    <a href="/projects">Projetos</a>
-    <a href="/about">Sobre</a>
+    {navLinks.map(({ href, label }) => <a href={href}>{label}</a>)}
     <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     <button
       id="theme-toggle-mobile"
@@ -135,16 +136,16 @@ import HeaderLink from './HeaderLink.astro';
     color: var(--fg);
   }
 
-  .icon-moon {
+  .icon-moon, .icon-moon-m {
     display: block;
   }
-  .icon-sun {
+  .icon-sun, .icon-sun-m {
     display: none;
   }
-  [data-theme='dark'] .icon-moon {
+  [data-theme='dark'] .icon-moon, [data-theme='dark'] .icon-moon-m {
     display: none;
   }
-  [data-theme='dark'] .icon-sun {
+  [data-theme='dark'] .icon-sun, [data-theme='dark'] .icon-sun-m {
     display: block;
   }
 
@@ -222,19 +223,6 @@ import HeaderLink from './HeaderLink.astro';
 
   .theme-btn-mobile:hover {
     color: var(--fg);
-  }
-
-  .icon-moon-m {
-    display: block;
-  }
-  .icon-sun-m {
-    display: none;
-  }
-  [data-theme='dark'] .icon-moon-m {
-    display: none;
-  }
-  [data-theme='dark'] .icon-sun-m {
-    display: block;
   }
 
   @media (max-width: 640px) {

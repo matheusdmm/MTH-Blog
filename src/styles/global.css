@@ -1,28 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Mozilla+Text:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Serif:ital,wght@0,100..700;1,100..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 @import "tailwindcss";
 
-@font-face {
-    font-family: "Redaction";
-    src: url("../assets/fonts/Redaction-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: "Redaction";
-    src: url("../assets/fonts/Redaction-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: "Redaction";
-    src: url("../assets/fonts/Redaction-Italic.woff2") format("woff2");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
 /* Dark mode via data-theme attribute on <html> */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -59,6 +37,37 @@
     --accent-fg:    #0A0E14;
     --header-bg:    rgba(10, 14, 20, 0.92);
     --card-shadow:  0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   Tailwind bridge — exposes the tokens above as utilities
+   (bg-accent, text-fg-muted, border-border, font-mono, shadow-card...).
+   Values are var() refs, so utilities still follow [data-theme] swaps.
+   ============================================================ */
+@theme {
+    --color-bg:           var(--bg);
+    --color-bg-2:         var(--bg-2);
+    --color-bg-3:         var(--bg-3);
+    --color-fg:           var(--fg);
+    --color-fg-muted:     var(--fg-muted);
+    --color-border:       var(--border);
+    --color-accent:       var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-muted: var(--accent-muted);
+    --color-accent-fg:    var(--accent-fg);
+    --color-header-bg:    var(--header-bg);
+
+    --font-sans:  'Mozilla Text', system-ui, -apple-system, sans-serif;
+    --font-serif: 'IBM Plex Serif', Georgia, serif;
+    --font-mono:  'JetBrains Mono', monospace;
+
+    --shadow-card: var(--card-shadow);
+
+    --animate-blink: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
 }
 
 /* ============================================================

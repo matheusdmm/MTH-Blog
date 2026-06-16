@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { readTime } from '../../utils';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.hidden);
@@ -13,12 +14,8 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
-
-const readTime = post.body
-  ? Math.ceil(post.body.split(/\s+/).filter(Boolean).length / 200)
-  : undefined;
 ---
 
-<BlogPost {...post.data} readTime={readTime}>
+<BlogPost {...post.data} readTime={readTime(post.body)}>
   <Content />
 </BlogPost>

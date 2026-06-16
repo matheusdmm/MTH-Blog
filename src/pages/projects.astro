@@ -48,6 +48,7 @@ if (token) {
             body: JSON.stringify({ query }),
         });
         const json = await res.json();
+        if (json.errors) console.error('[projects] GraphQL errors:', json.errors);
         projects = json.data?.user?.pinnedItems?.nodes ?? [];
     } catch (err) {
         console.error('[projects] fetch failed:', err);

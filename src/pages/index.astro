@@ -2,8 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import PostList from '../components/PostList.astro';
 import { SITE_TITLE } from '../consts';
 
 const recentPosts = (await getCollection('blog'))
@@ -25,7 +25,7 @@ const recentPosts = (await getCollection('blog'))
 
     <main class="main">
       <section class="intro">
-        <p class="intro-lead">Matheus aqui.</p>
+        <p class="font-mono font-semibold text-fg text-[clamp(1.875rem,5vw,2.75rem)] tracking-[-0.01em] mb-6 after:content-['▌'] after:ml-[0.15em] after:animate-blink">Matheus aqui.</p>
         <p>
           Engenheiro de software de dia, músico e escritor sempre que eu tenho
           um tempo livre — às vezes pode ser tudo isso misturado também, depende
@@ -54,34 +54,7 @@ const recentPosts = (await getCollection('blog'))
         recentPosts.length > 0 && (
           <section class="recent">
             <h2 class="section-label">Publicações recentes</h2>
-            <ul class="post-list">
-              {recentPosts.map((post) => (
-                <li>
-                  <div class="post-row">
-                    <div class="post-info">
-                      <a href={`/blog/${post.id}/`} class="post-title">
-                        {post.data.title}
-                      </a>
-                      {post.data.description && (
-                        <span class="post-desc">{post.data.description}</span>
-                      )}
-                      {post.data.tags && post.data.tags.length > 0 && (
-                        <span class="post-tags">
-                          {post.data.tags.map((t) => (
-                            <a href={`/blog?tag=${t}`} class="tag">
-                              {t}
-                            </a>
-                          ))}
-                        </span>
-                      )}
-                    </div>
-                    <span class="post-date">
-                      <FormattedDate date={post.data.pubDate} />
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <PostList posts={recentPosts} />
             <a href="/blog" class="all-link">
               Ver todas as publicações →
             </a>
@@ -106,16 +79,8 @@ const recentPosts = (await getCollection('blog'))
     margin-bottom: 4rem;
   }
 
-  .intro-lead {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--fg);
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-
   .intro p {
-    font-size: 1rem;
+    font-size: 1.125rem;
     line-height: 1.75;
     color: var(--fg-muted);
     margin-bottom: 1.25rem;
@@ -135,87 +100,9 @@ const recentPosts = (await getCollection('blog'))
     margin: 0 0 1.25rem;
   }
 
-  .post-list {
-    list-style: none;
-    margin: 0 0 1.5rem;
-    padding: 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .post-list li {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .post-row {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1rem 0;
-    color: var(--fg);
-  }
-
-  .post-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    min-width: 0;
-  }
-
-  .post-title {
-    font-size: 0.975rem;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1.35;
-    text-decoration: none;
-    transition: color 0.12s;
-  }
-
-  /* Stretched link: covers the entire row, tags sit above via z-index */
-  .post-title::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-  }
-
-  .post-title:hover {
-    color: var(--accent-hover);
-  }
-
-  .post-tags .tag {
-    position: relative;
-    z-index: 1;
-    text-decoration: none;
-  }
-
-  .post-tags .tag:hover {
-    color: var(--fg);
-    border-color: var(--fg-muted);
-  }
-
-  .post-desc {
-    font-size: 0.85rem;
-    color: var(--fg-muted);
-    line-height: 1.5;
-  }
-
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: 0.15rem;
-  }
-
-  .post-date {
-    font-size: 0.78rem;
-    color: var(--fg-muted);
-    white-space: nowrap;
-    padding-top: 0.15rem;
-    flex-shrink: 0;
-  }
-
   .all-link {
+    display: inline-block;
+    margin-top: 1.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--accent);
@@ -225,15 +112,5 @@ const recentPosts = (await getCollection('blog'))
 
   .all-link:hover {
     color: var(--accent-hover);
-  }
-
-  @media (max-width: 520px) {
-    .post-row {
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .post-date {
-      padding-top: 0;
-    }
   }
 </style>
