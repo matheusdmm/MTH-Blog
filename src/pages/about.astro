@@ -90,14 +90,13 @@ const education = [
         <div class="profile-layout">
           <img src={avatarUrl} alt="Matheus" class="avatar" />
           <div class="profile-info">
-            <span class="eyebrow">Engenheiro de Software</span>
+            <span class="eyebrow">MTH / SOBRE</span>
             <h1 class="profile-name">Matheus</h1>
             <p class="profile-tagline">Trabalhando com tecnologia desde 2015 · Brasil</p>
             <p class="profile-bio">
-              Engenheiro de software de dia, músico e escritor nas horas vagas.
-              Passei 10+ anos resolvendo problemas com código — de fibra óptica
-              a liderança de projetos numa multinacional. Acredito que paciência
-              pra entender o problema vale mais do que qualquer framework da moda.
+              Trabalho com software desde 2015. Já passei por redes de fibra óptica,
+              servidores Linux, salas de aula, front-end e liderança de projetos.
+              Nas horas vagas, componho e escrevo sobre as coisas que me deixam curioso.
             </p>
             <div class="profile-actions">
               <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="action-link primary">
@@ -187,28 +186,28 @@ const education = [
 
 <style>
   .container {
-    max-width: 860px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 1.5rem;
   }
 
   /* ── Profile hero ──────────────────────────── */
   .profile-hero {
-    padding: 4rem 0 3rem;
+    padding: 6rem 0;
     border-bottom: 1px solid var(--border);
   }
 
   .profile-layout {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 3rem;
+    gap: 4rem;
     align-items: start;
   }
 
   .avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 6px;
+    width: clamp(180px, 24vw, 320px);
+    height: clamp(220px, 30vw, 390px);
+    border-radius: 0;
     object-fit: cover;
     border: 1px solid var(--border);
     flex-shrink: 0;
@@ -225,9 +224,10 @@ const education = [
   }
 
   .profile-name {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 900;
-    letter-spacing: -0.03em;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: clamp(4rem, 7vw, 6rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
     margin: 0 0 0.4rem;
     line-height: 1.1;
     color: var(--fg);
@@ -484,7 +484,7 @@ const education = [
       gap: 1.5rem;
     }
 
-    .avatar { width: 90px; height: 90px; }
+    .avatar { width: 100%; height: min(85vw, 430px); }
 
     .skill-group {
       flex-direction: column;

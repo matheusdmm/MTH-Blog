@@ -3,7 +3,7 @@ import { SITE_TITLE, GITHUB } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'Início' },
   { href: '/blog', label: 'Blog' },
   { href: '/projects', label: 'Projetos' },
   { href: '/about', label: 'Sobre' },
@@ -12,9 +12,9 @@ const navLinks = [
 
 <header id="site-header">
   <div class="header-inner">
-    <a href="/" class="site-name">{SITE_TITLE}</a>
+    <a href="/" class="site-name" aria-label="MTH — início">{SITE_TITLE}<span class="site-mark">.</span></a>
 
-    <nav class="nav-links" aria-label="Main navigation">
+    <nav class="nav-links" aria-label="Navegação principal">
       {navLinks.map(({ href, label }) => <HeaderLink href={href}>{label}</HeaderLink>)}
       <a
         href={GITHUB}
@@ -22,7 +22,7 @@ const navLinks = [
         rel="noopener noreferrer"
         class="nav-external">GitHub</a
       >
-      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+      <button id="theme-toggle" class="theme-btn" aria-label="Alternar tema claro ou escuro">
         <span class="icon-moon" aria-hidden="true">◗</span>
         <span class="icon-sun" aria-hidden="true">◖</span>
       </button>
@@ -31,7 +31,7 @@ const navLinks = [
     <button
       id="menu-toggle"
       class="menu-btn"
-      aria-label="Toggle menu"
+      aria-label="Abrir menu"
       aria-expanded="false"
     >
       <span></span><span></span><span></span>
@@ -44,7 +44,7 @@ const navLinks = [
     <button
       id="theme-toggle-mobile"
       class="theme-btn-mobile"
-      aria-label="Toggle dark mode"
+      aria-label="Alternar tema claro ou escuro"
     >
       <span class="icon-moon-m" aria-hidden="true">◗</span>
       <span class="icon-sun-m" aria-hidden="true">◖</span>
@@ -69,13 +69,14 @@ const navLinks = [
     align-items: center;
     justify-content: space-between;
     padding: 0 2rem;
-    height: 52px;
+    height: 64px;
   }
 
   .site-name {
-    font-size: 0.875rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.35rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: -0.075em;
     color: var(--fg);
     text-decoration: none;
     flex-shrink: 0;
@@ -84,6 +85,8 @@ const navLinks = [
   .site-name:hover {
     color: var(--accent);
   }
+
+  .site-mark { color: var(--accent); }
 
   .nav-links {
     display: flex;

@@ -2,7 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { SITE_TITLE } from "../consts";
+import { GITHUB, SITE_TITLE } from "../consts";
 
 const token = import.meta.env.GITHUB_TOKEN;
 
@@ -65,11 +65,12 @@ if (token) {
         <Header />
 
         <main class="main">
-            <h1 class="page-title">Projetos</h1>
-            <p class="page-desc">Repositórios fixados no GitHub — clique para abrir.</p>
+            <p class="page-kicker">MTH / CÓDIGO</p>
+            <h1 class="page-title">Coisas que fiz<span>.</span></h1>
+            <p class="page-desc">Os repositórios que deixei fixados no GitHub.</p>
 
             {projects.length === 0 ? (
-                <p class="empty">Nenhum repositório fixado encontrado.</p>
+                <p class="empty">Os repositórios não carregaram nesta página. <a href={GITHUB} target="_blank" rel="noopener noreferrer">Veja direto no GitHub ↗</a></p>
             ) : (
                 <div class="projects-grid">
                     {projects.map((project) => (
@@ -119,24 +120,27 @@ if (token) {
 
 <style>
     .main {
-        max-width: 860px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 4rem 1.5rem 6rem;
+        padding: 6rem 1.5rem 8rem;
     }
 
     .page-title {
-        font-size: 1.75rem;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: clamp(3.8rem, 7vw, 6.5rem);
         font-weight: 700;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.05em;
         color: var(--fg);
-        margin: 0 0 0.5rem;
+        margin: 0 0 1rem;
         line-height: 1;
     }
+    .page-title span { color: var(--accent); }
+    .page-kicker { color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: .17em; margin: 0 0 1.25rem; }
 
     .page-desc {
-        font-size: 0.9rem;
+        font-size: 1.06rem;
         color: var(--fg-muted);
-        margin: 0 0 2.5rem;
+        margin: 0 0 3rem;
     }
 
     .empty {
@@ -149,14 +153,14 @@ if (token) {
     .projects-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        border: 1px solid var(--border);
+        border-top: 1px solid var(--border);
     }
 
     .project-card {
         display: flex;
         flex-direction: column;
         gap: 0.6rem;
-        padding: 1.25rem;
+        padding: 2rem 1.5rem;
         background: var(--bg);
         border-right: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
@@ -187,7 +191,8 @@ if (token) {
     }
 
     .card-name {
-        font-size: 0.9rem;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 1.35rem;
         font-weight: 600;
         margin: 0;
         color: var(--fg);

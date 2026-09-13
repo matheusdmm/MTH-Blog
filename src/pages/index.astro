@@ -17,47 +17,47 @@ const recentPosts = (await getCollection('blog'))
   <head>
     <BaseHead
       title={SITE_TITLE}
-      description="Engenheiro de software, músico e escritor. Artigos sobre tecnologia, código e criatividade."
+      description="O caderno de Matheus: software, música, RPG e as coisas que aprendeu construindo."
     />
   </head>
   <body>
     <Header />
 
-    <main class="main">
-      <section class="intro">
-        <p class="font-mono font-semibold text-fg text-[clamp(1.875rem,5vw,2.75rem)] tracking-[-0.01em] mb-6 after:content-['▌'] after:ml-[0.15em] after:animate-blink">Matheus aqui.</p>
-        <p>
-          Engenheiro de software de dia, músico e escritor sempre que eu tenho
-          um tempo livre — às vezes pode ser tudo isso misturado também, depende
-          do café.
-        </p>
-        <p>
-          Eu passei mais de 10 anos resolvendo uma série de problemas com
-          código, indo desde rede em fibra óptica, passando por servidores Linux
-          e salas de aula, e mais recentemente como líder de projeto na Philip
-          Morris International. No meio do caminho eu acabei aprendendo que nem
-          sempre a melhor solução pode ser a mais óbvia.
-        </p>
-        <p>
-          Fora do terminal você me encontra compondo, tocando ou escrevendo.
-          Esse blog é onde tecnologia, criatividade e o que ficar no meio do
-          caminho se encontram.
-        </p>
-        <p>
-          My blog focus primarily on PT-BR content, however, some content may be
-          written in english as well if I feel that it better or the reach would
-          be broader.
-        </p>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow">MTH / CADERNO PESSOAL</p>
+            <h1 id="hero-title"><span class="hello">Oi, sou o</span><span class="name">Matheus.</span></h1>
+            <p class="hero-lead">Trabalho com software há mais de dez anos. Fora do editor, tô compondo, mexendo em pedais ou preparando uma mesa de RPG.</p>
+            <p class="hero-detail">Aqui anoto o que deu certo, o que quebrou e o que descobri tentando.</p>
+            <div class="hero-actions">
+              <a href="/blog">Ler as anotações <span aria-hidden="true">↗</span></a>
+              <a href="/about">Quem sou eu <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <figure class="portrait">
+            <img src="/avatar.jpg" alt="Matheus, em frente a uma árvore" width="460" height="460" loading="eager" />
+            <figcaption>01 / O AUTOR DESTE BLOG</figcaption>
+          </figure>
+        </div>
       </section>
+
+      <nav class="topics" aria-label="Assuntos do blog">
+        <span class="topics-label">POR AQUI</span>
+        <a href="/blog?tag=dev"><span>01</span> Software <span aria-hidden="true">↗</span></a>
+        <a href="/blog?tag=music"><span>02</span> Música <span aria-hidden="true">↗</span></a>
+        <a href="/blog?tag=dnd"><span>03</span> RPG <span aria-hidden="true">↗</span></a>
+      </nav>
 
       {
         recentPosts.length > 0 && (
-          <section class="recent">
-            <h2 class="section-label">Publicações recentes</h2>
+          <section class="recent" aria-labelledby="recent-title">
+            <div class="section-heading">
+              <div><span class="section-kicker">ÚLTIMAS ANOTAÇÕES</span><h2 id="recent-title">O que andei escrevendo.</h2></div>
+              <a href="/blog" class="all-link">Arquivo completo <span aria-hidden="true">↗</span></a>
+            </div>
             <PostList posts={recentPosts} />
-            <a href="/blog" class="all-link">
-              Ver todas as publicações →
-            </a>
           </section>
         )
       }
@@ -68,49 +68,123 @@ const recentPosts = (await getCollection('blog'))
 </html>
 
 <style>
-  .main {
-    max-width: 680px;
+  .hero {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .hero-inner {
+    max-width: 1280px;
+    min-height: min(700px, calc(100svh - 65px));
     margin: 0 auto;
-    padding: 4rem 1.5rem 6rem;
+    padding: clamp(3rem, 6vw, 6rem) 2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 9rem);
   }
-
-  /* ── Intro ─────────────────────────────────── */
-  .intro {
-    margin-bottom: 4rem;
-  }
-
-  .intro p {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--fg-muted);
-    margin-bottom: 1.25rem;
-  }
-
-  .intro p:last-child {
-    margin-bottom: 0;
-  }
-
-  /* ── Recent posts ──────────────────────────── */
-  .section-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    margin: 0 0 1.25rem;
-  }
-
-  .all-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+  .hero-copy { animation: arrive .65s ease both; }
+  .eyebrow, .section-kicker, .topics-label, .portrait figcaption {
     color: var(--accent);
-    text-decoration: none;
-    transition: color 0.12s;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .13em;
   }
-
-  .all-link:hover {
-    color: var(--accent-hover);
+  .eyebrow { margin: 0 0 2rem; }
+  h1 { margin: 0 0 2rem; letter-spacing: -.055em; line-height: 1; }
+  h1 span { display: block; }
+  .hello {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    font-weight: 500;
+    letter-spacing: -.04em;
+    line-height: 1.3;
   }
+  .name {
+    font-size: clamp(4.7rem, 8vw, 7.5rem);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .hero-lead { max-width: 610px; margin: 0 0 1rem; font-size: clamp(1.12rem, 1.6vw, 1.4rem); line-height: 1.6; }
+  .hero-detail { max-width: 530px; margin: 0; color: var(--fg-muted); font-size: 1rem; line-height: 1.65; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2.5rem; }
+  .hero-actions a, .all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: .35rem;
+    border-bottom: 1px solid currentColor;
+    color: var(--fg);
+    font-size: .86rem;
+    font-weight: 700;
+  }
+  .hero-actions a:hover, .all-link:hover { color: var(--accent); }
+  .portrait { margin: 0; align-self: center; }
+  .portrait img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(.8);
+    transition: filter .3s ease;
+  }
+  .portrait:hover img { filter: saturate(1); }
+  .portrait figcaption { display: block; margin-top: .75rem; color: var(--fg-muted); }
+  .topics {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 150px repeat(3, 1fr);
+    align-items: stretch;
+  }
+  .topics-label { align-self: center; }
+  .topics a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.65rem 1.4rem;
+    border-left: 1px solid var(--border);
+    color: var(--fg);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1;
+    transition: color .2s, background-color .2s;
+  }
+  .topics a:hover { color: var(--accent); background: var(--bg-2); }
+  .topics a span { font-family: 'IBM Plex Sans', sans-serif; font-size: .65rem; font-weight: 700; }
+  .topics a span:first-child { align-self: start; color: var(--fg-muted); }
+  .topics a span:last-child { align-self: end; }
+  .recent {
+    border-top: 1px solid var(--border);
+    max-width: none;
+    padding: clamp(4rem, 7vw, 7rem) max(2rem, calc((100vw - 1216px) / 2)) 8rem;
+  }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
+  h2 { margin: .8rem 0 0; font-size: clamp(2.2rem, 3.6vw, 3.5rem); line-height: 1.1; letter-spacing: -.04em; font-weight: 600; }
+  @keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 950px) {
+    .hero-inner { grid-template-columns: minmax(0, 1fr) 32%; gap: 2rem; }
+    .name { font-size: clamp(4.5rem, 9vw, 7rem); }
+    .topics { grid-template-columns: 110px repeat(3, 1fr); }
+    .topics a { padding: 1.4rem .9rem; font-size: 1.5rem; }
+  }
+  @media (max-width: 700px) {
+    .hero-inner { min-height: auto; padding: 4.5rem 1.5rem 3rem; display: flex; flex-direction: column; align-items: stretch; gap: 3.5rem; }
+    .name { font-size: clamp(4.4rem, 13vw, 7rem); }
+    .portrait { width: min(65%, 320px); margin-left: auto; }
+    .portrait img { aspect-ratio: 1; }
+    .topics { padding: 0 1.5rem; grid-template-columns: 1fr; }
+    .topics-label { padding: 1.3rem 0 .5rem; }
+    .topics a { border-left: 0; border-top: 1px solid var(--border); padding: 1.1rem 0; }
+    .recent { padding: 4.5rem 1.5rem 6rem; }
+  }
+  @media (max-width: 520px) {
+    .section-heading { align-items: start; flex-direction: column; }
+    .portrait { width: 75%; }
+    .name { font-size: clamp(3.7rem, 13vw, 5rem); }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-copy { animation: none; } }
 </style>
