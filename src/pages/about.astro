@@ -7,7 +7,7 @@ import { SITE_TITLE } from '../consts';
 const avatarUrl = '/avatar.jpg';
 
 const skills = {
-  languages: ['JavaScript', 'TypeScript', 'HTML', 'CSS', 'Java', 'Python', 'C#/.NET'],
+  languages: ['JavaScript', 'TypeScript', 'HTML', 'CSS', 'Go', 'Java', 'Python', 'C#/.NET'],
   technologies: ['React', 'Next.js', 'NestJS', 'Jest', 'Tailwind', 'Docker', 'MongoDB', 'Firebase', 'MySQL', 'Node.js', 'Git', 'Linux/Unix', 'Azure', 'AWS', 'Figma'],
   soft: ['Agile/Scrum', 'Self-driven', 'Fast learner', 'Team Player', 'Communicative', 'Adaptable'],
 };
@@ -67,12 +67,14 @@ const experience = [
 ];
 
 const education = [
-  { title: 'Pós-graduação em Engenharia de Computação', institution: 'Uninter', year: '2022' },
+  { title: 'Bacharel em Ciencia da Computação', institution: 'UNISC', year: '2013' },
   { title: 'Bacharel em Análise e Desenvolvimento de Sistemas', institution: 'Uninter', year: '2020' },
   { title: 'UI/UX', institution: 'FIAP', year: '2020' },
   { title: 'Machine Learning', institution: 'FIAP', year: '2021' },
+  { title: 'Pós-graduação em Engenharia de Computação', institution: 'Uninter', year: '2022' },
   { title: 'Linux/Unix', institution: 'Cisco', year: '2022' },
   { title: 'Automation Engine', institution: 'Esko', year: '2026' },
+  { title: 'Descomplicando o Go', institution: 'Linux Tips', year: '2026' },
 ];
 ---
 
@@ -207,9 +209,10 @@ const education = [
   .avatar {
     width: clamp(180px, 24vw, 320px);
     height: clamp(220px, 30vw, 390px);
-    border-radius: 0;
+    border-radius: 4px;
     object-fit: cover;
-    border: 1px solid var(--border);
+    border: 3px solid var(--fg);
+    box-shadow: 8px 8px 0 var(--accent);
     flex-shrink: 0;
   }
 
