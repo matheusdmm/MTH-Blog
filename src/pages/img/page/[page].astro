@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PhotoGallery from '../../../components/PhotoGallery.astro';
+import { getPhotos, PHOTO_PAGE_SIZE } from '../../../utils/photos';
+
+export async function getStaticPaths() {
+  const photos = await getPhotos();
+  const count = Math.ceil(photos.length / PHOTO_PAGE_SIZE);
+  return Array.from({ length: Math.max(0, count - 1) }, (_, index) => {
+    const pageNumber = index + 2;
+    return {
+      params: { page: String(pageNumber) },
+      props: {
+        photos: photos.slice((pageNumber - 1) * PHOTO_PAGE_SIZE, pageNumber * PHOTO_PAGE_SIZE),
+        pageNumber,
+        nextUrl: pageNumber < count ? `/img/page/${pageNumber + 1}` : undefined,
+      },
+    };
+  });
+}
+
+interface Props {
+  photos: CollectionEntry<'img'>[];
+  pageNumber: number;
+  nextUrl?: string;
+}
+
+const { photos, pageNumber, nextUrl } = Astro.props;
+---
+
+<PhotoGallery photos={photos} pageNumber={pageNumber} nextUrl={nextUrl} />
