@@ -54,7 +54,6 @@ const { photos, nextUrl, pageNumber } = Astro.props;
                 {photo.data.demo && <span class="demo-label">Exemplo</span>}
                 <span class="photo-overlay" aria-hidden="true">
                   <span>{photo.data.title ?? photo.data.date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'short', timeZone: 'UTC' })}</span>
-                  <span>↗</span>
                 </span>
               </a>
             </li>
