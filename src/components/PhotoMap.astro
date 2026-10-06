@@ -1,0 +1,132 @@
+---
+import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import 'leaflet/dist/leaflet.css';
+
+interface Props {
+  photos: CollectionEntry<'img'>[];
+}
+
+const { photos } = Astro.props;
+const located = photos.filter((photo) =>
+  photo.data.location?.latitude !== undefined && photo.data.location.longitude !== undefined,
+);
+const points = await Promise.all(located.map(async (photo) => ({
+  photo,
+  thumbnail: (await getImage({ src: photo.data.image, width: 160, height: 120, fit: 'cover', format: 'webp' })).src,
+})));
+---
+
+{points.length > 0 ? (
+  <section class="photo-map-section" aria-label="Mapa das fotografias">
+    <p class="map-count">{points.length} {points.length === 1 ? 'foto com localização' : 'fotos com localização'}</p>
+    <div id="photo-map" class="map" role="region" aria-label="Mapa das fotografias" data-tile-url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"></div>
+    <ol id="photo-map-points" class="map-locations" aria-label="Fotografias no mapa">
+      {points.map(({ photo, thumbnail }) => (
+        <li
+          data-lat={photo.data.location!.latitude}
+          data-lng={photo.data.location!.longitude}
+          data-title={photo.data.title ?? photo.data.alt}
+          data-location={photo.data.location!.name}
+          data-image={thumbnail}
+          data-url={`/img/${photo.id}`}
+        >
+          <a href={`/img/${photo.id}`}>
+            <span class="place">{photo.data.location!.name}</span>
+            <span class="photo-title">{photo.data.title ?? photo.data.alt} <span aria-hidden="true">↗</span></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+) : (
+  <p class="empty-map">Ainda não há fotografias com coordenadas para mostrar no mapa.</p>
+)}
+
+<script>
+  import L from 'leaflet';
+
+  const container = document.querySelector<HTMLElement>('#photo-map');
+  const items = document.querySelectorAll<HTMLLIElement>('#photo-map-points li');
+
+  if (container && items.length) {
+    const map = L.map(container, { scrollWheelZoom: false }).setView([-15, -50], 3);
+    L.tileLayer(container.dataset.tileUrl!, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const bounds: L.LatLngExpression[] = [];
+    const groups = new Map<string, { position: L.LatLngExpression; photos: HTMLLIElement[] }>();
+    for (const item of items) {
+      const lat = Number(item.dataset.lat);
+      const lng = Number(item.dataset.lng);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+      const position: L.LatLngExpression = [lat, lng];
+      const key = `${lat},${lng}`;
+      if (!groups.has(key)) {
+        groups.set(key, { position, photos: [] });
+        bounds.push(position);
+      }
+      groups.get(key)!.photos.push(item);
+    }
+
+    const selectedPhoto = new URLSearchParams(window.location.search).get('foto');
+    let foundSelected = false;
+    for (const { position, photos } of groups.values()) {
+      const popup = document.createElement('div');
+      popup.className = 'map-popup-list';
+      for (const item of photos) {
+        const link = document.createElement('a');
+        link.className = 'map-popup';
+        link.href = item.dataset.url!;
+        const image = document.createElement('img');
+        image.src = item.dataset.image!;
+        image.alt = '';
+        image.width = 160;
+        image.height = 120;
+        const label = document.createElement('span');
+        label.textContent = `${item.dataset.title} · ${item.dataset.location}`;
+        link.append(image, label);
+        popup.append(link);
+      }
+      const marker = L.circleMarker(position, {
+        radius: 9,
+        color: '#fffaf1',
+        weight: 2,
+        fillColor: '#aa492e',
+        fillOpacity: 1,
+      }).addTo(map).bindPopup(popup, { maxHeight: 320 });
+      if (selectedPhoto && photos.some((photo) => photo.dataset.url === `/img/${selectedPhoto}`)) {
+        foundSelected = true;
+        map.setView(position, 12);
+        marker.openPopup();
+      }
+    }
+    if (!foundSelected) {
+      if (bounds.length === 1) map.setView(bounds[0], 11);
+      else if (bounds.length > 1) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 11 });
+    }
+  }
+</script>
+
+<style>
+  .photo-map-section { margin: 0 0 4rem; }
+  .empty-map { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--fg-muted); }
+  .map-count { margin: 0 0 .75rem; color: var(--fg-muted); font-size: .78rem; text-align: right; }
+  .map { height: clamp(320px, 48vw, 520px); background: var(--bg-2); z-index: 0; }
+  .map-locations { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .map-locations li { border-bottom: 1px solid var(--border); }
+  .map-locations a { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 0; font-size: .8rem; }
+  .place { color: var(--fg-muted); }
+  .photo-title { color: var(--fg); font-weight: 600; text-align: right; }
+  .photo-title span { margin-left: .25rem; color: var(--accent); }
+  .map-locations a:hover .photo-title { color: var(--accent); }
+  .map :global(.leaflet-popup-content-wrapper) { border-radius: 0; box-shadow: 0 5px 25px #0003; }
+  .map :global(.leaflet-popup-content-wrapper), .map :global(.leaflet-popup-tip) { background: var(--bg); }
+  .map :global(.leaflet-popup-content) { margin: 8px; }
+  .map :global(.map-popup-list) { display: grid; gap: .5rem; }
+  .map :global(.map-popup) { display: grid; width: 160px; color: var(--fg); font-family: 'IBM Plex Sans', sans-serif; font-size: .8rem; font-weight: 600; line-height: 1.35; }
+  .map :global(.map-popup img) { display: block; width: 100%; height: 120px; object-fit: cover; }
+  .map :global(.map-popup span) { padding: .55rem .2rem .15rem; }
+</style>

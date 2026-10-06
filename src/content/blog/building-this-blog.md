@@ -87,7 +87,7 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ```
 
-Sem banco de dados, sem API, só arquivos.
+Sem banco de dados ou API.
 
 ## Configuração
 
@@ -110,15 +110,13 @@ As globais vivem em `src/consts.ts`e são importadas sempre que necessario, só 
 
 ## Porque Astro
 
-**O output é HTML estático.** Sem servidor para manter, sem _cold starts_. Faça o deploy na Vercel, Netlify ou qualquer CDN com `npm run build`.
+**O output é HTML estático.** Sem backend para manter.
 
-**Zero JS por padrão.** O client baixa apenas o que for estritamente necessário. Componentes interativos podem ser habilitados com as diretivas `client:load` ou `client:idle`.
+**Zero JS.** O client baixa apenas o que for estritamente necessário. Componentes interativos podem ser habilitados com `client:load` ou `client:idle`.
 
-**Markdown é simplificar.** Escrever um post é criar um arquivo `.md`. A validação captura os erros no _frontmatter_ antes mesmo do build ser finalizado.
+**MD é simples.** Escrever um post é escrever um arquivo `.md`.
 
-**Complexidade incremental.** O blog não possui configuração de _bundler_, gerenciamento de estado ou rotas de API. Se ele crescer e precisar disso, o Astro suporta sem exigir um _rewrite_, do contrário, continua sendo um HTML simples.
-
-**O tradeoff:** não tem _live preview_ em GUI e nem painel admin. Os posts são escritos em um editor de texto e commitados no git. Isso é um feature, não um bug. Uma forma de pensar.
+**Contras:** não tem _live preview_ em GUI e nem painel admin. Os posts são escritos em um editor de texto e commitados no git. Quase tão ortodoxo quanto os os Egipcios com uma pedra.
 
 Isso é a maneira mais minimalista que eu encontrei na web moderna para me expressar. De longe lembra um pouco a epoca do FTP. Massa demais.
 

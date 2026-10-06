@@ -27,7 +27,7 @@ const dateLabel = date.toLocaleDateString('pt-BR', {
   day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
 });
 const mapUrl = location?.latitude !== undefined && location.longitude !== undefined
-  ? `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=13/${location.latitude}/${location.longitude}`
+  ? `/img/mapa?foto=${encodeURIComponent(photo.id)}`
   : undefined;
 ---
 
@@ -43,7 +43,7 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
   <body>
     <Header />
     <main class="photo-page">
-      <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true">←</span> Todas as imagens</a></nav>
+      <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true"></span> Todas as imagens</a></nav>
       <article>
         <figure class="photo">
           <Image src={image} alt={photo.data.alt} width={1600} loading="eager" fetchpriority="high" />
@@ -57,14 +57,14 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
           {location && (
             <p class="location">
               <span aria-hidden="true">⌖</span> {location.name}
-              {mapUrl && <a href={mapUrl} target="_blank" rel="noopener noreferrer">Ver no mapa</a>}
+              {mapUrl && <a href={mapUrl}>Ver no mapa</a>}
             </p>
           )}
         </div>
       </article>
       <nav class="photo-nav" aria-label="Navegar pelas imagens">
-        {newer ? <a href={`/img/${newer.id}`}><span>← Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
-        {older ? <a href={`/img/${older.id}`}><span>Mais antiga →</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
+        {newer ? <a href={`/img/${newer.id}`}><span>Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
+        {older ? <a href={`/img/${older.id}`}><span>Mais antiga</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
       </nav>
     </main>
     <Footer />

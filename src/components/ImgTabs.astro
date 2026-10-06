@@ -1,0 +1,20 @@
+---
+interface Props {
+  active: 'photos' | 'map';
+}
+
+const { active } = Astro.props;
+---
+
+<nav class="img-tabs" aria-label="Visualização das imagens">
+  <a href="/img" aria-current={active === 'photos' ? 'page' : undefined}>Fotos</a>
+  <a href="/img/mapa" aria-current={active === 'map' ? 'page' : undefined}>Mapa</a>
+</nav>
+
+<style>
+  .img-tabs { display: flex; gap: 1.75rem; margin: 0 0 2.5rem; border-bottom: 1px solid var(--border); }
+  .img-tabs a { position: relative; display: block; padding: .65rem 0 .85rem; color: var(--fg-muted); font-size: .85rem; font-weight: 600; }
+  .img-tabs a:hover, .img-tabs a[aria-current="page"] { color: var(--fg); }
+  .img-tabs a[aria-current="page"]::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--accent); content: ''; }
+  .img-tabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>
