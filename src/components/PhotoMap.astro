@@ -33,7 +33,7 @@ const points = await Promise.all(located.map(async (photo) => ({
         >
           <a href={`/img/${photo.id}`}>
             <span class="place">{photo.data.location!.name}</span>
-            <span class="photo-title">{photo.data.title ?? photo.data.alt} <span aria-hidden="true">↗</span></span>
+            <span class="photo-title">{photo.data.title ?? photo.data.alt}</span>
           </a>
         </li>
       ))}
