@@ -43,7 +43,7 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
   <body>
     <Header />
     <main class="photo-page">
-      <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true">←</span> Todas as imagens</a></nav>
+      <nav class="back" aria-label="Voltar para a galeria"><a href="/img">Todas as imagens</a></nav>
       <article>
         <PhotoZoom image={image} alt={photo.data.alt} title={title ?? dateLabel} />
         <div class="details">
@@ -61,8 +61,8 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
         </div>
       </article>
       <nav class="photo-nav" aria-label="Navegar pelas imagens">
-        {newer ? <a href={`/img/${newer.id}`}><span>← Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
-        {older ? <a href={`/img/${older.id}`}><span>Mais antiga →</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
+        {newer ? <a href={`/img/${newer.id}`}><span>Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
+        {older ? <a href={`/img/${older.id}`}><span>Mais antiga</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
       </nav>
     </main>
     <Footer />
