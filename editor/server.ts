@@ -4,6 +4,11 @@ import { dirname, isAbsolute, join, resolve } from 'node:path';
 import html from './index.html' with { type: 'text' };
 import script from './app.js' with { type: 'text' };
 import styles from './style.css' with { type: 'text' };
+import photoHtml from './photo.html' with { type: 'text' };
+import photoScript from './photo.js' with { type: 'text' };
+import photoStyles from './photo.css' with { type: 'text' };
+import photoExif from './photo-exif.js' with { type: 'text' };
+import { savePhoto } from './photos';
 
 const editorDirArg = process.argv.indexOf('--editor-dir');
 const editorDir = editorDirArg >= 0 && process.argv[editorDirArg + 1]
@@ -11,8 +16,10 @@ const editorDir = editorDirArg >= 0 && process.argv[editorDirArg + 1]
   : Bun.isStandaloneExecutable ? dirname(process.execPath) : import.meta.dir;
 const root = resolve(editorDir, '..');
 const defaultPostsDir = join(root, 'src', 'content', 'blog');
+const defaultPhotosDir = join(root, 'src', 'content', 'img');
 const settingsPath = join(editorDir, 'editor-settings.json');
 let postsDir: string | null = null;
+let photosDir: string | null = null;
 const host = '127.0.0.1';
 const preferredPort = Number(process.env.EDITOR_PORT || 4177);
 let activePort = preferredPort;
@@ -40,25 +47,41 @@ async function isDirectory(path: string): Promise<boolean> {
 try {
   const settings = JSON.parse(await readFile(settingsPath, 'utf8'));
   if (typeof settings.postsDir === 'string' && await isDirectory(settings.postsDir)) postsDir = resolve(settings.postsDir);
+  if (typeof settings.photosDir === 'string' && await isDirectory(settings.photosDir)) photosDir = resolve(settings.photosDir);
 } catch { /* Ainda não há uma pasta salva. */ }
 if (!postsDir && await isDirectory(defaultPostsDir)) postsDir = defaultPostsDir;
+if (!photosDir && await isDirectory(defaultPhotosDir)) photosDir = defaultPhotosDir;
+
+async function saveSettings() {
+  await writeFile(settingsPath, JSON.stringify({ postsDir, photosDir }, null, 2));
+}
 
 async function setPostsDir(folder: string) {
   const path = folder.trim();
   if (!path || !isAbsolute(path) || !await isDirectory(path)) throw new Error('Selecione uma pasta válida.');
   const selected = resolve(path);
-  await writeFile(settingsPath, JSON.stringify({ postsDir: selected }, null, 2));
   postsDir = selected;
+  await saveSettings();
   return selected;
 }
 
-async function pickPostsDir(): Promise<string | null> {
+async function setPhotosDir(folder: string) {
+  const path = folder.trim();
+  if (!path || !isAbsolute(path) || !await isDirectory(path)) throw new Error('Selecione uma pasta válida.');
+  const selected = resolve(path);
+  photosDir = selected;
+  await saveSettings();
+  return selected;
+}
+
+async function pickFolder(kind: 'posts' | 'photos'): Promise<string | null> {
   if (process.platform !== 'win32') throw new Error('A seleção de pasta está disponível no Windows.');
+  const label = kind === 'posts' ? 'dos posts' : 'das fotos';
   const command = [
     'Add-Type -AssemblyName System.Windows.Forms',
     '[Console]::OutputEncoding = [System.Text.Encoding]::UTF8',
     '$dialog = New-Object System.Windows.Forms.FolderBrowserDialog',
-    "$dialog.Description = 'Selecione a pasta dos posts'",
+    `$dialog.Description = 'Selecione a pasta ${label}'`,
     'if ($dialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { [Console]::Write($dialog.SelectedPath) }',
   ].join('; ');
   const process = Bun.spawn(['powershell.exe', '-NoProfile', '-Sta', '-WindowStyle', 'Hidden', '-Command', command], {
@@ -225,9 +248,27 @@ const options = {
         return json({ folder, isProjectFolder: folder === defaultPostsDir });
       }
       if (url.pathname === '/api/folder/pick' && request.method === 'POST') {
-        const selected = await pickPostsDir();
+        const selected = await pickFolder('posts');
         const folder = selected ? await setPostsDir(selected) : postsDir;
         return json({ folder, isProjectFolder: folder === defaultPostsDir, canceled: !selected });
+      }
+      if (url.pathname === '/api/photo/config' && request.method === 'GET') return json({ folder: photosDir, isProjectFolder: photosDir === defaultPhotosDir });
+      if (url.pathname === '/api/photo/folder' && request.method === 'POST') {
+        const input = await request.json();
+        const folder = await setPhotosDir(asString(input?.folder));
+        return json({ folder, isProjectFolder: folder === defaultPhotosDir });
+      }
+      if (url.pathname === '/api/photo/folder/pick' && request.method === 'POST') {
+        const selected = await pickFolder('photos');
+        const folder = selected ? await setPhotosDir(selected) : photosDir;
+        return json({ folder, isProjectFolder: folder === defaultPhotosDir, canceled: !selected });
+      }
+      if (url.pathname === '/api/photo/import' && request.method === 'POST') {
+        if (!photosDir) throw new Error('Escolha a pasta da galeria antes de salvar.');
+        const length = Number(request.headers.get('content-length'));
+        if (length > 60_000_000) throw new Error('A imagem precisa ter até 50 MB.');
+        const result = await savePhoto(photosDir, await request.formData());
+        return json(result, 201);
       }
       if (url.pathname === '/api/posts' && request.method === 'GET') {
         if (!postsDir) return json([]);
@@ -264,8 +305,12 @@ const options = {
       }
       if (request.method !== 'GET') return json({ error: 'Operação não permitida.' }, 405);
       if (url.pathname === '/') return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+      if (url.pathname === '/photos') return new Response(photoHtml, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
       if (url.pathname === '/app.js') return new Response(script, { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } });
       if (url.pathname === '/style.css') return new Response(styles, { headers: { 'Content-Type': 'text/css; charset=utf-8' } });
+      if (url.pathname === '/photo.js') return new Response(photoScript, { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } });
+      if (url.pathname === '/photo.css') return new Response(photoStyles, { headers: { 'Content-Type': 'text/css; charset=utf-8' } });
+      if (url.pathname === '/photo-exif.js') return new Response(photoExif, { headers: { 'Content-Type': 'text/javascript; charset=utf-8' } });
       return new Response('Não encontrado', { status: 404 });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Erro inesperado.';
@@ -302,6 +347,10 @@ if (process.argv.includes('--self-test')) {
   const roundTrip = parsePost('teste.md', sample);
   const configResponse = await options.fetch(new Request(`http://${host}:${server.port}/api/config`));
   const config = await configResponse.json();
+  const photoConfigResponse = await options.fetch(new Request(`http://${host}:${server.port}/api/photo/config`));
+  const photoConfig = await photoConfigResponse.json();
+  const photoPage = await options.fetch(new Request(`http://${host}:${server.port}/photos`));
+  const photoScriptResponse = await options.fetch(new Request(`http://${host}:${server.port}/photo.js`));
   const response = await options.fetch(new Request(`http://${host}:${server.port}/api/posts`));
   const items = await response.json();
   const invalidFolder = await options.fetch(new Request(`http://${host}:${server.port}/api/folder`, {
@@ -311,7 +360,7 @@ if (process.argv.includes('--self-test')) {
   await options.fetch(new Request(`http://${host}:${server.port}/api/session/open`, { method: 'POST', body: sessionId }));
   const opened = clients.has(sessionId);
   await options.fetch(new Request(`http://${host}:${server.port}/api/session/close`, { method: 'POST', body: sessionId }));
-  if (!configResponse.ok || config.folder !== postsDir || !response.ok || !Array.isArray(items) || invalidFolder.status !== 400 || !opened || clients.has(sessionId) || roundTrip.title !== 'Título de teste' || roundTrip.tags[1] !== 'música') {
+  if (!configResponse.ok || config.folder !== postsDir || !photoConfigResponse.ok || photoConfig.folder !== photosDir || !photoPage.ok || !photoScriptResponse.ok || !response.ok || !Array.isArray(items) || invalidFolder.status !== 400 || !opened || clients.has(sessionId) || roundTrip.title !== 'Título de teste' || roundTrip.tags[1] !== 'música') {
     throw new Error('Falha na verificação do editor.');
   }
   console.log(`Verificação concluída: ${items.length} posts encontrados; executável: ${Bun.isStandaloneExecutable}.`);
