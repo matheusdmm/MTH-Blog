@@ -10,18 +10,16 @@ import { SITE_TITLE } from '../consts';
 
 interface Props {
   photos: CollectionEntry<'img'>[];
-  nextUrl?: string;
-  pageNumber: number;
 }
 
-const { photos, nextUrl, pageNumber } = Astro.props;
+const { photos } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="pt-BR">
   <head>
     <BaseHead
-      title={`Img${pageNumber > 1 ? ` · Página ${pageNumber}` : ''} — ${SITE_TITLE}`}
+      title={`Img — ${SITE_TITLE}`}
       description="Que mané instagram o que."
     />
   </head>
@@ -31,12 +29,6 @@ const { photos, nextUrl, pageNumber } = Astro.props;
       <ImgHeading />
 
       <ImgTabs active="photos" />
-
-      {pageNumber > 1 && (
-        <nav class="previous-page" aria-label="Página anterior">
-          <a href={pageNumber === 2 ? '/img' : `/img/page/${pageNumber - 1}`}>← Imagens anteriores</a>
-        </nav>
-      )}
 
       {photos.length > 0 ? (
         <ol id="photo-grid" class="photo-grid" aria-label="Galeria de fotografias">
@@ -63,53 +55,13 @@ const { photos, nextUrl, pageNumber } = Astro.props;
           <p>Nenhum post.</p>
         </div>
       )}
-
-      {nextUrl && (
-        <nav id="more-photos" class="more-photos" aria-label="Mais fotografias">
-          <a href={nextUrl}>Carregar mais imagens <span aria-hidden="true">↓</span></a>
-        </nav>
-      )}
     </main>
     <Footer />
-    <script>
-      const more = document.querySelector<HTMLAnchorElement>('#more-photos a');
-      const grid = document.querySelector<HTMLOListElement>('#photo-grid');
-
-      if (more && grid && 'IntersectionObserver' in window) {
-        let loading = false;
-        const observer = new IntersectionObserver(async (entries) => {
-          if (!entries[0]?.isIntersecting || loading) return;
-          loading = true;
-          const url = more.href;
-          try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const document = new DOMParser().parseFromString(await response.text(), 'text/html');
-            const nextGrid = document.querySelector('#photo-grid');
-            if (!nextGrid) throw new Error('Galeria não encontrada');
-            grid.append(...Array.from(nextGrid.children));
-            const next = document.querySelector<HTMLAnchorElement>('#more-photos a');
-            if (next) more.href = new URL(next.getAttribute('href')!, url).href;
-            else {
-              observer.disconnect();
-              more.parentElement?.remove();
-            }
-          } catch {
-            // O link permanece disponível para navegação normal.
-            observer.disconnect();
-          } finally {
-            loading = false;
-          }
-        }, { rootMargin: '500px 0px' });
-        observer.observe(more);
-      }
-    </script>
   </body>
 </html>
 
 <style>
   .gallery-page { max-width: 1280px; min-height: 60svh; margin: 0 auto; padding: 3.5rem 1rem 7rem; }
-  .previous-page { margin: -1rem 0 2rem; font-size: .82rem; font-weight: 600; }
   .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; margin: 0; padding: 0; list-style: none; }
   .photo-grid li { min-width: 0; }
   .photo-grid li:nth-child(7n + 5) { grid-column: span 2; }
@@ -120,9 +72,6 @@ const { photos, nextUrl, pageNumber } = Astro.props;
   .demo-label { position: absolute; top: .65rem; left: .65rem; padding: .2rem .45rem; background: var(--bg); color: var(--fg); font-size: .66rem; font-weight: 700; letter-spacing: .04em; }
   .photo-overlay { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; gap: 1rem; padding: 2rem .85rem .75rem; color: white; font-size: .83rem; font-weight: 600; background: linear-gradient(transparent, rgba(0, 0, 0, .6)); opacity: 0; transition: opacity .2s ease; }
   .photo-grid a:hover .photo-overlay, .photo-grid a:focus-visible .photo-overlay { opacity: 1; }
-  .more-photos { display: flex; justify-content: center; margin-top: 3.5rem; }
-  .more-photos a { border-bottom: 1px solid var(--accent); padding: .5rem 0; font-size: .9rem; font-weight: 600; }
-  .more-photos span { margin-left: .4rem; }
   .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; min-height: 38svh; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: var(--fg-muted); text-align: center; }
   .empty-state span { color: var(--accent); font-size: 3rem; line-height: 1; }
   .empty-state p { margin: 0; }

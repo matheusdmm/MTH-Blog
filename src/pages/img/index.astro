@@ -1,12 +1,8 @@
 ---
 import PhotoGallery from '../../components/PhotoGallery.astro';
-import { getPhotos, PHOTO_PAGE_SIZE } from '../../utils/photos';
+import { getPhotos } from '../../utils/photos';
 
 const photos = await getPhotos();
 ---
 
-<PhotoGallery
-  photos={photos.slice(0, PHOTO_PAGE_SIZE)}
-  pageNumber={1}
-  nextUrl={photos.length > PHOTO_PAGE_SIZE ? '/img/page/2' : undefined}
-/>
+<PhotoGallery photos={photos} />
