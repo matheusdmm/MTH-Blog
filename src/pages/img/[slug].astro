@@ -43,7 +43,7 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
   <body>
     <Header />
     <main class="photo-page">
-      <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true"></span> Todas as imagens</a></nav>
+      <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true">←</span> Todas as imagens</a></nav>
       <article>
         <figure class="photo">
           <Image src={image} alt={photo.data.alt} width={1600} loading="eager" fetchpriority="high" />
@@ -63,8 +63,8 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
         </div>
       </article>
       <nav class="photo-nav" aria-label="Navegar pelas imagens">
-        {newer ? <a href={`/img/${newer.id}`}><span>Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
-        {older ? <a href={`/img/${older.id}`}><span>Mais antiga</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
+        {newer ? <a href={`/img/${newer.id}`}><span>← Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
+        {older ? <a href={`/img/${older.id}`}><span>Mais antiga →</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
       </nav>
     </main>
     <Footer />
@@ -72,15 +72,15 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
 </html>
 
 <style>
-  .photo-page { max-width: 1440px; min-height: 65svh; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
+  .photo-page { width: 100%; max-width: 1440px; min-height: 65svh; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
   .back { margin-bottom: 1.5rem; font-size: .82rem; font-weight: 600; }
-  .back a { color: var(--fg-muted); }
+  .back a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-muted); }
   .back a:hover { color: var(--accent); }
-  .back span { margin-right: .45rem; }
-  article { display: grid; gap: 2rem; }
-  .photo { display: grid; place-items: center; min-width: 0; margin: 0; background: #fff; }
-  .photo :global(img) { width: 100%; height: auto; max-height: 78svh; object-fit: contain; }
-  .details { max-width: 560px; }
+  .back span { margin-right: .55rem; font-size: 1.1rem; }
+  article { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; min-width: 0; }
+  .photo { display: grid; place-items: center; min-width: 0; max-width: 100%; margin: 0; background: #fff; }
+  .photo :global(img) { display: block; width: 100%; max-width: 100%; height: auto; max-height: calc(100svh - 8rem); object-fit: contain; }
+  .details { min-width: 0; max-width: 560px; overflow-wrap: anywhere; }
   .kicker { margin: 0 0 1.2rem; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .17em; }
   h1 { margin: 0 0 .65rem; font-size: clamp(2.1rem, 5vw, 4rem); letter-spacing: -.055em; line-height: 1.1; }
   h1 span { color: var(--accent); }
@@ -90,9 +90,9 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
   .tags li { border: 1px solid var(--border); padding: .2rem .55rem; color: var(--fg-muted); font-size: .72rem; }
   .location { display: flex; flex-wrap: wrap; gap: .35rem; align-items: baseline; margin: 1.75rem 0 0; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--fg-muted); font-size: .85rem; }
   .location > span { color: var(--accent); font-size: 1.25rem; }
-  .location a { margin-left: auto; }
+  .location a { display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; }
   .photo-nav { display: flex; justify-content: space-between; gap: 2rem; margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
-  .photo-nav a { display: flex; flex-direction: column; max-width: 45%; gap: .3rem; color: var(--fg); }
+  .photo-nav a { display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 56px; max-width: 45%; gap: .3rem; padding: .5rem 0; color: var(--fg); overflow-wrap: anywhere; }
   .photo-nav a:last-child { margin-left: auto; text-align: right; }
   .photo-nav a:hover { color: var(--accent); }
   .photo-nav span { color: var(--fg-muted); font-size: .75rem; }
@@ -101,6 +101,7 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
     .photo-page { padding: 2rem 2rem 7rem; }
     .back { margin-bottom: 2rem; }
     article { grid-template-columns: minmax(0, 1.8fr) minmax(280px, .8fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+    .photo :global(img) { max-height: 78svh; }
     .details { position: sticky; top: 100px; padding-top: 1rem; }
   }
 </style>

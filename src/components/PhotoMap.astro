@@ -31,10 +31,8 @@ const points = await Promise.all(located.map(async (photo) => ({
           data-image={thumbnail}
           data-url={`/img/${photo.id}`}
         >
-          <a href={`/img/${photo.id}`}>
-            <span class="place">{photo.data.location!.name}</span>
-            <span class="photo-title">{photo.data.title ?? photo.data.alt}</span>
-          </a>
+          <button type="button" class="place" aria-label={`Mostrar ${photo.data.location!.name} no mapa`}>{photo.data.location!.name}</button>
+          <a class="photo-title" href={`/img/${photo.id}`} aria-label={`Abrir foto ${photo.data.title ?? photo.data.alt}`}>{photo.data.title ?? photo.data.alt} <span aria-hidden="true">↗</span></a>
         </li>
       ))}
     </ol>
@@ -56,24 +54,23 @@ const points = await Promise.all(located.map(async (photo) => ({
       maxZoom: 19,
     }).addTo(map);
 
+    type Place = { key: string; position: L.LatLng; photos: HTMLLIElement[] };
     const bounds: L.LatLngExpression[] = [];
-    const groups = new Map<string, { position: L.LatLngExpression; photos: HTMLLIElement[] }>();
+    const places = new Map<string, Place>();
     for (const item of items) {
       const lat = Number(item.dataset.lat);
       const lng = Number(item.dataset.lng);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
-      const position: L.LatLngExpression = [lat, lng];
+      const position = L.latLng(lat, lng);
       const key = `${lat},${lng}`;
-      if (!groups.has(key)) {
-        groups.set(key, { position, photos: [] });
+      if (!places.has(key)) {
+        places.set(key, { key, position, photos: [] });
         bounds.push(position);
       }
-      groups.get(key)!.photos.push(item);
+      places.get(key)!.photos.push(item);
     }
 
-    const selectedPhoto = new URLSearchParams(window.location.search).get('foto');
-    let foundSelected = false;
-    for (const { position, photos } of groups.values()) {
+    function makePopup(photos: HTMLLIElement[]) {
       const popup = document.createElement('div');
       popup.className = 'map-popup-list';
       for (const item of photos) {
@@ -90,22 +87,81 @@ const points = await Promise.all(located.map(async (photo) => ({
         link.append(image, label);
         popup.append(link);
       }
-      const marker = L.circleMarker(position, {
-        radius: 9,
-        color: '#fffaf1',
-        weight: 2,
-        fillColor: '#aa492e',
-        fillOpacity: 1,
-      }).addTo(map).bindPopup(popup, { maxHeight: 320 });
-      if (selectedPhoto && photos.some((photo) => photo.dataset.url === `/img/${selectedPhoto}`)) {
-        foundSelected = true;
-        map.setView(position, 12);
-        marker.openPopup();
+      return popup;
+    }
+
+    const markerLayer = L.layerGroup().addTo(map);
+    function renderMarkers(focusKey?: string) {
+      markerLayer.clearLayers();
+      const clusters: { places: Place[]; center: L.Point }[] = [];
+      for (const place of places.values()) {
+        const point = map.latLngToContainerPoint(place.position);
+        const cluster = clusters.find((candidate) => candidate.center.distanceTo(point) < 48);
+        if (cluster) {
+          cluster.center = L.point(
+            (cluster.center.x * cluster.places.length + point.x) / (cluster.places.length + 1),
+            (cluster.center.y * cluster.places.length + point.y) / (cluster.places.length + 1),
+          );
+          cluster.places.push(place);
+        } else {
+          clusters.push({ places: [place], center: point });
+        }
+      }
+
+      for (const cluster of clusters) {
+        const photos = cluster.places.flatMap((place) => place.photos);
+        if (cluster.places.length > 1) {
+          const position = L.latLng(
+            cluster.places.reduce((sum, place) => sum + place.position.lat, 0) / cluster.places.length,
+            cluster.places.reduce((sum, place) => sum + place.position.lng, 0) / cluster.places.length,
+          );
+          const marker = L.marker(position, {
+            title: `${photos.length} fotografias próximas`,
+            icon: L.divIcon({
+              className: 'photo-cluster',
+              html: `<span>${photos.length}</span>`,
+              iconSize: [40, 40],
+              iconAnchor: [20, 20],
+            }),
+          }).addTo(markerLayer).bindPopup(makePopup(photos), { maxHeight: 320 });
+          marker.on('click', () => {
+            if (map.getZoom() >= 17) marker.openPopup();
+            else map.setView(position, Math.min(map.getZoom() + 2, 17));
+          });
+        } else {
+          const place = cluster.places[0];
+          const marker = L.circleMarker(place.position, {
+            radius: 9,
+            color: '#fffaf1',
+            weight: 2,
+            fillColor: '#aa492e',
+            fillOpacity: 1,
+          }).addTo(markerLayer).bindPopup(makePopup(photos), { maxHeight: 320 });
+          if (focusKey === place.key) marker.openPopup();
+        }
       }
     }
-    if (!foundSelected) {
+
+    const selectedPhoto = new URLSearchParams(window.location.search).get('foto');
+    const selectedPlace = [...places.values()].find((place) =>
+      place.photos.some((photo) => photo.dataset.url === `/img/${selectedPhoto}`),
+    );
+    if (selectedPlace) map.setView(selectedPlace.position, 13);
+    else {
       if (bounds.length === 1) map.setView(bounds[0], 11);
       else if (bounds.length > 1) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 11 });
+    }
+    renderMarkers(selectedPlace?.key);
+    map.on('zoomend moveend', () => renderMarkers());
+
+    for (const item of items) {
+      item.querySelector<HTMLButtonElement>('.place')?.addEventListener('click', () => {
+        const place = places.get(`${item.dataset.lat},${item.dataset.lng}`);
+        if (!place) return;
+        map.setView(place.position, Math.max(map.getZoom(), 13), { animate: false });
+        renderMarkers(place.key);
+        container.scrollIntoView({ block: 'start' });
+      });
     }
   }
 </script>
@@ -114,14 +170,17 @@ const points = await Promise.all(located.map(async (photo) => ({
   .photo-map-section { margin: 0 0 4rem; }
   .empty-map { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--fg-muted); }
   .map-count { margin: 0 0 .75rem; color: var(--fg-muted); font-size: .78rem; text-align: right; }
-  .map { height: clamp(320px, 48vw, 520px); background: var(--bg-2); z-index: 0; }
-  .map-locations { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; }
-  .map-locations li { border-bottom: 1px solid var(--border); }
-  .map-locations a { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 0; font-size: .8rem; }
-  .place { color: var(--fg-muted); }
-  .photo-title { color: var(--fg); font-weight: 600; text-align: right; }
+  .map { height: clamp(360px, 52svh, 520px); scroll-margin-top: 80px; background: var(--bg-2); z-index: 0; }
+  .map-locations { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .map-locations li { display: flex; align-items: stretch; justify-content: space-between; gap: .75rem; min-width: 0; border-bottom: 1px solid var(--border); }
+  .map-locations button, .map-locations a { display: inline-flex; align-items: center; min-height: 48px; min-width: 44px; padding: .55rem 0; font: inherit; font-size: .85rem; line-height: 1.35; }
+  .place { max-width: 50%; border: 0; background: none; color: var(--fg-muted); text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+  .place:hover { color: var(--accent); }
+  .photo-title { max-width: 50%; color: var(--fg); font-weight: 600; text-align: right; overflow-wrap: anywhere; }
   .photo-title span { margin-left: .25rem; color: var(--accent); }
-  .map-locations a:hover .photo-title { color: var(--accent); }
+  .map-locations .photo-title:hover { color: var(--accent); }
+  .map :global(.photo-cluster) { display: grid; place-items: center; border: 2px solid #fffaf1; border-radius: 50%; background: #aa492e; box-shadow: 0 0 0 5px #aa492e44; color: #fffaf1; font-family: 'IBM Plex Sans', sans-serif; font-size: .9rem; font-weight: 700; }
+  .map :global(.leaflet-control-zoom a) { width: 44px; height: 44px; line-height: 44px; font-size: 1.35rem; }
   .map :global(.leaflet-popup-content-wrapper) { border-radius: 0; box-shadow: 0 5px 25px #0003; }
   .map :global(.leaflet-popup-content-wrapper), .map :global(.leaflet-popup-tip) { background: var(--bg); }
   .map :global(.leaflet-popup-content) { margin: 8px; }
@@ -129,4 +188,7 @@ const points = await Promise.all(located.map(async (photo) => ({
   .map :global(.map-popup) { display: grid; width: 160px; color: var(--fg); font-family: 'IBM Plex Sans', sans-serif; font-size: .8rem; font-weight: 600; line-height: 1.35; }
   .map :global(.map-popup img) { display: block; width: 100%; height: 120px; object-fit: cover; }
   .map :global(.map-popup span) { padding: .55rem .2rem .15rem; }
+  @media (min-width: 700px) {
+    .map-locations { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  }
 </style>
