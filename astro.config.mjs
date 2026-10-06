@@ -9,5 +9,14 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      proxy: {
+        "/api/now-listening": {
+          target: "https://lfm.xiffy.nl",
+          changeOrigin: true,
+          rewrite: () => "/matheusdmm",
+        },
+      },
+    },
   },
 });

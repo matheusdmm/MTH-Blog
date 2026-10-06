@@ -1,0 +1,99 @@
+---
+const feedUrl = 'https://lfm.xiffy.nl/matheusdmm';
+---
+
+<aside class="listening" aria-label="O que estou ouvindo">
+  <div class="listening-inner">
+    <div class="listening-heading">
+      <span class="note-mark" aria-hidden="true">♫</span>
+      <div>
+        <h2>Now Playing</h2>
+        <p id="listening-status">Buscando no Last.fm...</p>
+      </div>
+    </div>
+
+    <div class="track" id="listening-track" aria-live="polite">
+      <img id="listening-cover" alt="" width="54" height="54" loading="lazy" decoding="async" hidden />
+      <div class="track-copy">
+        <a class="track-title" id="listening-title" target="_blank" rel="noopener noreferrer" hidden></a>
+        <span class="track-meta" id="listening-meta"></span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  const status = document.getElementById('listening-status');
+  const title = document.getElementById('listening-title') as HTMLAnchorElement | null;
+  const meta = document.getElementById('listening-meta');
+  const cover = document.getElementById('listening-cover') as HTMLImageElement | null;
+
+  function safeUrl(value: string, hostname: string): string | undefined {
+    try {
+      const url = new URL(value);
+      return url.protocol === 'https:' && url.hostname === hostname ? url.href : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  async function updateListening() {
+    try {
+      const response = await fetch('/api/now-listening', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`Feed returned ${response.status}`);
+
+      const xml = new DOMParser().parseFromString(await response.text(), 'application/xml');
+      if (xml.querySelector('parsererror')) throw new Error('Invalid feed');
+      const item = xml.querySelector('item');
+      const get = (name: string) => item?.getElementsByTagName(name)[0]?.textContent?.trim() ?? '';
+      const trackName = get('lfm:track');
+      const artist = get('lfm:artist');
+      if (!trackName || !artist) throw new Error('No track in feed');
+
+      const trackUrl = safeUrl(get('lfm:track_url'), 'www.last.fm');
+      const coverUrl = safeUrl(item?.querySelector('enclosure')?.getAttribute('url') ?? '', 'lastfm-img.freetls.fastly.net');
+      if (title) {
+        title.textContent = trackName;
+        title.href = trackUrl ?? 'https://www.last.fm/user/matheusdmm';
+        title.hidden = false;
+      }
+      if (meta) meta.textContent = [artist, get('lfm:album')].filter(Boolean).join(' · ');
+      if (cover) {
+        cover.hidden = !coverUrl;
+        if (coverUrl) cover.src = coverUrl;
+      }
+      if (status) status.textContent = get('pubDate') ? 'Última faixa ouvida' : 'Tocando agora';
+    } catch {
+      if (status) status.textContent = 'Não foi possível carregar.';
+    }
+  }
+
+  updateListening();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') updateListening();
+  });
+</script>
+
+<style>
+  .listening { border-top: 1px solid var(--border); background: var(--bg-2); }
+  .listening-inner { max-width: 1280px; margin: 0 auto; padding: 1.5rem 2rem; display: grid; grid-template-columns: minmax(230px, 1fr) minmax(0, 1.2fr) auto; gap: 2rem; align-items: center; }
+  .listening-heading { display: flex; align-items: center; gap: 1rem; }
+  .note-mark { color: var(--accent); font-size: 1.6rem; line-height: 1; }
+  h2 { margin: 0; font-size: 1rem; font-weight: 600; line-height: 1.3; }
+  .listening-heading p { margin: .2rem 0 0; color: var(--fg-muted); font-size: .76rem; line-height: 1.4; }
+  .track { display: flex; align-items: center; gap: .9rem; min-width: 0; }
+  .track img { width: 54px; height: 54px; flex: none; object-fit: cover; }
+  .track-copy { min-width: 0; display: flex; flex-direction: column; }
+  .track-title { width: fit-content; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--fg); font-size: .94rem; font-weight: 600; line-height: 1.4; }
+  .track-title:hover, .history-link:hover { color: var(--accent); }
+  .track-meta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--fg-muted); font-size: .8rem; }
+  .history-link { justify-self: end; white-space: nowrap; color: var(--fg); border-bottom: 1px solid currentColor; font-size: .78rem; font-weight: 600; }
+  @media (max-width: 800px) {
+    .listening-inner { grid-template-columns: 1fr auto; gap: 1rem 1.5rem; }
+    .listening-heading { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .listening-inner { padding: 1.5rem; }
+    .history-link { align-self: end; }
+  }
+</style>
