@@ -18,7 +18,7 @@ const { image, alt, title } = Astro.props;
   </button>
 </figure>
 
-<dialog id="photo-zoom" class="photo-zoom" aria-label={`Imagem ampliada: ${title}`}>
+<dialog id="photo-zoom" class="photo-zoom" aria-label={`Imagem ampliada: ${title}`} tabindex="-1">
   <div class="zoom-header">
     <span class="zoom-title">{title}</span>
     <button id="zoom-close" class="zoom-close" type="button" aria-label="Fechar imagem ampliada">×</button>
@@ -95,6 +95,7 @@ const { image, alt, title } = Astro.props;
       previousOverflow = document.documentElement.style.overflow;
       document.documentElement.style.overflow = 'hidden';
       dialog.showModal();
+      dialog.focus({ preventScroll: true });
       reset();
     });
 
@@ -179,6 +180,7 @@ const { image, alt, title } = Astro.props;
   .zoom-open:hover .zoom-badge, .zoom-open:focus-visible .zoom-badge { background: var(--accent); }
   .photo-zoom { position: fixed; inset: 0; display: none; grid-template-rows: auto minmax(0, 1fr) auto; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: #171815; color: #fff; }
   .photo-zoom[open] { display: grid; }
+  .photo-zoom:focus-visible { outline: none; }
   .photo-zoom::backdrop { background: #171815; }
   .zoom-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 60px; padding: .5rem 1rem; padding-top: max(.5rem, env(safe-area-inset-top)); }
   .zoom-title { min-width: 0; overflow: hidden; color: #ddd9cf; font-size: .9rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
