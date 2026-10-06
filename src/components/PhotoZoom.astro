@@ -1,0 +1,197 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  title: string;
+}
+
+const { image, alt, title } = Astro.props;
+---
+
+<figure class="photo">
+  <button id="zoom-open" class="zoom-open" type="button" aria-label={`Ampliar imagem: ${alt}`}>
+    <Image src={image} alt={alt} width={1600} loading="eager" fetchpriority="high" />
+    <span class="zoom-badge" aria-hidden="true">⤢</span>
+  </button>
+</figure>
+
+<dialog id="photo-zoom" class="photo-zoom" aria-label={`Imagem ampliada: ${title}`}>
+  <div class="zoom-header">
+    <span class="zoom-title">{title}</span>
+    <button id="zoom-close" class="zoom-close" type="button" aria-label="Fechar imagem ampliada">×</button>
+  </div>
+  <div id="zoom-stage" class="zoom-stage">
+    <img id="zoom-image" alt={alt} draggable="false" />
+  </div>
+  <div class="zoom-controls" role="group" aria-label="Controles de zoom">
+    <button id="zoom-out" type="button" aria-label="Reduzir zoom">−</button>
+    <output id="zoom-level" aria-live="polite">100%</output>
+    <button id="zoom-in" type="button" aria-label="Ampliar zoom">+</button>
+    <button id="zoom-reset" class="zoom-reset" type="button" aria-label="Ajustar imagem à tela">↺</button>
+  </div>
+</dialog>
+
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('#zoom-open');
+  const photoImage = trigger?.querySelector<HTMLImageElement>('img');
+  const dialog = document.querySelector<HTMLDialogElement>('#photo-zoom');
+  const stage = document.querySelector<HTMLElement>('#zoom-stage');
+  const zoomImage = document.querySelector<HTMLImageElement>('#zoom-image');
+  const zoomLevel = document.querySelector<HTMLOutputElement>('#zoom-level');
+  const zoomIn = document.querySelector<HTMLButtonElement>('#zoom-in');
+  const zoomOut = document.querySelector<HTMLButtonElement>('#zoom-out');
+  const zoomReset = document.querySelector<HTMLButtonElement>('#zoom-reset');
+  const zoomClose = document.querySelector<HTMLButtonElement>('#zoom-close');
+
+  if (trigger && photoImage && dialog && stage && zoomImage && zoomLevel && zoomIn && zoomOut && zoomReset && zoomClose) {
+    const pointers = new Map<number, { x: number; y: number }>();
+    let scale = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let lastPoint: { x: number; y: number } | undefined;
+    let pinchDistance = 0;
+    let pinchScale = 1;
+    let previousOverflow = '';
+
+    function render() {
+      const maxX = Math.max(0, (zoomImage.clientWidth * scale - stage.clientWidth) / 2);
+      const maxY = Math.max(0, (zoomImage.clientHeight * scale - stage.clientHeight) / 2);
+      offsetX = Math.max(-maxX, Math.min(maxX, offsetX));
+      offsetY = Math.max(-maxY, Math.min(maxY, offsetY));
+      zoomImage.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+      zoomLevel.value = `${Math.round(scale * 100)}%`;
+      zoomIn.disabled = scale >= 4;
+      zoomOut.disabled = scale <= 1;
+      zoomReset.disabled = scale <= 1;
+      stage.classList.toggle('is-zoomed', scale > 1);
+    }
+
+    function setScale(nextScale: number, focalX = stage.clientWidth / 2, focalY = stage.clientHeight / 2) {
+      nextScale = Math.max(1, Math.min(4, nextScale));
+      const ratio = nextScale / scale;
+      offsetX = focalX - stage.clientWidth / 2 - (focalX - stage.clientWidth / 2 - offsetX) * ratio;
+      offsetY = focalY - stage.clientHeight / 2 - (focalY - stage.clientHeight / 2 - offsetY) * ratio;
+      scale = nextScale;
+      render();
+    }
+
+    function reset() {
+      scale = 1;
+      offsetX = 0;
+      offsetY = 0;
+      render();
+    }
+
+    function point(event: PointerEvent) {
+      const bounds = stage.getBoundingClientRect();
+      return { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+    }
+
+    trigger.addEventListener('click', () => {
+      zoomImage.src = photoImage.currentSrc || photoImage.src;
+      previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      dialog.showModal();
+      reset();
+    });
+
+    zoomClose.addEventListener('click', () => dialog.close());
+    zoomIn.addEventListener('click', () => setScale(scale + .5));
+    zoomOut.addEventListener('click', () => setScale(scale - .5));
+    zoomReset.addEventListener('click', reset);
+    dialog.addEventListener('close', () => {
+      document.documentElement.style.overflow = previousOverflow;
+      pointers.clear();
+      trigger.focus();
+    });
+
+    stage.addEventListener('pointerdown', (event) => {
+      stage.setPointerCapture(event.pointerId);
+      pointers.set(event.pointerId, point(event));
+      if (pointers.size === 1) lastPoint = point(event);
+      if (pointers.size === 2) {
+        const [first, second] = [...pointers.values()];
+        pinchDistance = Math.hypot(first.x - second.x, first.y - second.y);
+        pinchScale = scale;
+      }
+    });
+
+    stage.addEventListener('pointermove', (event) => {
+      if (!pointers.has(event.pointerId)) return;
+      const current = point(event);
+      pointers.set(event.pointerId, current);
+      if (pointers.size === 2 && pinchDistance > 0) {
+        const [first, second] = [...pointers.values()];
+        const distance = Math.hypot(first.x - second.x, first.y - second.y);
+        setScale(pinchScale * distance / pinchDistance, (first.x + second.x) / 2, (first.y + second.y) / 2);
+      } else if (pointers.size === 1 && lastPoint && scale > 1) {
+        offsetX += current.x - lastPoint.x;
+        offsetY += current.y - lastPoint.y;
+        render();
+        lastPoint = current;
+      }
+    });
+
+    function endPointer(event: PointerEvent) {
+      pointers.delete(event.pointerId);
+      if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+      lastPoint = pointers.size === 1 ? [...pointers.values()][0] : undefined;
+      if (pointers.size < 2) pinchDistance = 0;
+    }
+    stage.addEventListener('pointerup', endPointer);
+    stage.addEventListener('pointercancel', endPointer);
+
+    stage.addEventListener('wheel', (event) => {
+      event.preventDefault();
+      const bounds = stage.getBoundingClientRect();
+      setScale(scale + (event.deltaY < 0 ? .25 : -.25), event.clientX - bounds.left, event.clientY - bounds.top);
+    }, { passive: false });
+
+    zoomImage.addEventListener('dblclick', (event) => {
+      const bounds = stage.getBoundingClientRect();
+      if (scale > 1) reset();
+      else setScale(2, event.clientX - bounds.left, event.clientY - bounds.top);
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === '+' || event.key === '=') setScale(scale + .5);
+      else if (event.key === '-') setScale(scale - .5);
+      else if (event.key === '0') reset();
+      else if (scale > 1 && event.key === 'ArrowLeft') { offsetX += 40; render(); }
+      else if (scale > 1 && event.key === 'ArrowRight') { offsetX -= 40; render(); }
+      else if (scale > 1 && event.key === 'ArrowUp') { offsetY += 40; render(); }
+      else if (scale > 1 && event.key === 'ArrowDown') { offsetY -= 40; render(); }
+      else return;
+      event.preventDefault();
+    });
+    window.addEventListener('resize', () => { if (dialog.open) render(); });
+  }
+</script>
+
+<style>
+  .photo { display: grid; place-items: center; min-width: 0; max-width: 100%; margin: 0; background: #fff; }
+  .zoom-open { position: relative; display: block; width: 100%; max-width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+  .zoom-open :global(img) { display: block; width: 100%; max-width: 100%; height: auto; max-height: calc(100svh - 8rem); object-fit: contain; }
+  .zoom-badge { position: absolute; right: .75rem; bottom: .75rem; display: grid; place-items: center; width: 36px; height: 36px; background: #191a18d9; color: #fff; font-size: 1.35rem; line-height: 1; }
+  .zoom-open:hover .zoom-badge, .zoom-open:focus-visible .zoom-badge { background: var(--accent); }
+  .photo-zoom { position: fixed; inset: 0; display: none; grid-template-rows: auto minmax(0, 1fr) auto; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: #171815; color: #fff; }
+  .photo-zoom[open] { display: grid; }
+  .photo-zoom::backdrop { background: #171815; }
+  .zoom-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 60px; padding: .5rem 1rem; padding-top: max(.5rem, env(safe-area-inset-top)); }
+  .zoom-title { min-width: 0; overflow: hidden; color: #ddd9cf; font-size: .9rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+  .zoom-close, .zoom-controls button { display: grid; flex: none; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #ffffff40; background: transparent; color: #fff; font: inherit; font-size: 1.5rem; cursor: pointer; }
+  .zoom-close { border: 0; font-size: 2rem; }
+  .zoom-close:hover, .zoom-controls button:hover:not(:disabled) { background: #ffffff24; }
+  .zoom-controls button:disabled { opacity: .35; cursor: default; }
+  .zoom-stage { display: grid; place-items: center; min-width: 0; min-height: 0; overflow: hidden; touch-action: none; cursor: zoom-in; }
+  .zoom-stage.is-zoomed { cursor: grab; }
+  .zoom-stage.is-zoomed:active { cursor: grabbing; }
+  .zoom-stage img { display: block; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+  .zoom-controls { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 68px; padding: .5rem 1rem; padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+  .zoom-controls output { min-width: 3.5rem; color: #ddd9cf; font-size: .85rem; text-align: center; }
+  .zoom-controls .zoom-reset { width: 48px; margin-left: .25rem; font-size: 1.35rem; }
+  @media (min-width: 900px) { .zoom-open :global(img) { max-height: 78svh; } }
+</style>

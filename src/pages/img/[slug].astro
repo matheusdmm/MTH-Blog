@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
+import PhotoZoom from '../../components/PhotoZoom.astro';
 import { SITE_TITLE } from '../../consts';
 import { getPhotos } from '../../utils/photos';
 
@@ -45,9 +45,7 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
     <main class="photo-page">
       <nav class="back" aria-label="Voltar para a galeria"><a href="/img"><span aria-hidden="true">←</span> Todas as imagens</a></nav>
       <article>
-        <figure class="photo">
-          <Image src={image} alt={photo.data.alt} width={1600} loading="eager" fetchpriority="high" />
-        </figure>
+        <PhotoZoom image={image} alt={photo.data.alt} title={title ?? dateLabel} />
         <div class="details">
           <p class="kicker">MTH / IMAGENS</p>
           <h1>{title ?? dateLabel}<span>.</span></h1>
@@ -78,8 +76,6 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
   .back a:hover { color: var(--accent); }
   .back span { margin-right: .55rem; font-size: 1.1rem; }
   article { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; min-width: 0; }
-  .photo { display: grid; place-items: center; min-width: 0; max-width: 100%; margin: 0; background: #fff; }
-  .photo :global(img) { display: block; width: 100%; max-width: 100%; height: auto; max-height: calc(100svh - 8rem); object-fit: contain; }
   .details { min-width: 0; max-width: 560px; overflow-wrap: anywhere; }
   .kicker { margin: 0 0 1.2rem; color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .17em; }
   h1 { margin: 0 0 .65rem; font-size: clamp(2.1rem, 5vw, 4rem); letter-spacing: -.055em; line-height: 1.1; }
@@ -101,7 +97,6 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
     .photo-page { padding: 2rem 2rem 7rem; }
     .back { margin-bottom: 2rem; }
     article { grid-template-columns: minmax(0, 1.8fr) minmax(280px, .8fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
-    .photo :global(img) { max-height: 78svh; }
     .details { position: sticky; top: 100px; padding-top: 1rem; }
   }
 </style>
