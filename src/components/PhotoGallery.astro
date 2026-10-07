@@ -32,14 +32,20 @@ const { photos } = Astro.props;
 
       {photos.length > 0 ? (
         <ol id="photo-grid" class="photo-grid" aria-label="Galeria de fotografias">
-          {photos.map((photo) => (
+          {photos.map((photo, index) => (
             <li>
               <a href={`/img/${photo.id}`} aria-label={photo.data.title ?? photo.data.alt}>
                 <span class="photo-media">
                   <Image
                     src={photo.data.image}
                     alt={photo.data.alt}
-                    width={720}
+                    width={960}
+                    widths={[360, 540, 720, 960]}
+                    sizes={index % 7 === 4
+                      ? '(min-width: 1280px) 800px, (min-width: 700px) 65vw, 100vw'
+                      : '(min-width: 1280px) 400px, (min-width: 700px) 32vw, 50vw'}
+                    format="webp"
+                    quality={85}
                     loading="lazy"
                     decoding="async"
                   />

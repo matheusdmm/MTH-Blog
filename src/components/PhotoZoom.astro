@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
@@ -13,7 +12,15 @@ const { image, alt, title } = Astro.props;
 
 <figure class="photo">
   <button id="zoom-open" class="zoom-open" type="button" aria-label={`Ampliar imagem: ${alt}`}>
-    <Image src={image} alt={alt} width={1600} loading="eager" fetchpriority="high" />
+    <img
+      src={image.src}
+      alt={alt}
+      width={image.width}
+      height={image.height}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
     <span class="zoom-badge" aria-hidden="true">⤢</span>
   </button>
 </figure>
