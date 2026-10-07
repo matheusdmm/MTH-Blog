@@ -47,7 +47,6 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
       <article>
         <PhotoZoom image={image} alt={photo.data.alt} title={title ?? dateLabel} />
         <div class="details">
-          <p class="kicker">MTH / IMAGENS</p>
           <h1>{title ?? dateLabel}<span>.</span></h1>
           <time datetime={date.toISOString().slice(0, 10)}>{dateLabel}</time>
           <p class="caption">{caption}</p>
