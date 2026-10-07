@@ -13,7 +13,10 @@ const navLinks = [
 
 <header id="site-header">
   <div class="header-inner">
-    <a href="/" class="site-name" aria-label="MTH — início">{SITE_TITLE}<span class="site-mark">.</span></a>
+    <a href="/" class="site-name" aria-label="MTH — início">
+      <img src="/favicon.svg" alt="" class="site-logo" width="28" height="28" />
+      <span>{SITE_TITLE}<span class="site-mark">.</span></span>
+    </a>
 
     <nav class="nav-links" aria-label="Navegação principal">
       {navLinks.map(({ href, label }) => <HeaderLink href={href}>{label}</HeaderLink>)}
@@ -74,6 +77,9 @@ const navLinks = [
   }
 
   .site-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1.35rem;
     font-weight: 700;
@@ -87,6 +93,7 @@ const navLinks = [
     color: var(--accent);
   }
 
+  .site-logo { width: 28px; height: 28px; flex: none; }
   .site-mark { color: var(--accent); }
 
   .nav-links {

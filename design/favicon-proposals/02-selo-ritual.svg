@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Selo ritual — monograma M dentro de círculo cobre</title>
+  <rect width="128" height="128" rx="22" fill="#f5f2eb"/>
+  <circle cx="64" cy="64" r="50" fill="#25251f"/>
+  <circle cx="64" cy="64" r="43" fill="none" stroke="#e58d69" stroke-width="2.5"/>
+  <path d="M37 88V42L64 70 91 42V88" fill="none" stroke="#f5f2eb" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M48 82h32M64 70v20" fill="none" stroke="#f5f2eb" stroke-width="5" stroke-linecap="square"/>
+  <circle cx="64" cy="36" r="4.5" fill="#e58d69"/>
+</svg>

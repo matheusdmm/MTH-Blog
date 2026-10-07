@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Estrela sigilo — monograma M pontiagudo com eixo central</title>
+  <rect width="128" height="128" rx="22" fill="#f5f2eb"/>
+  <path d="M24 94 45 33 64 64 83 33 104 94" fill="none" stroke="#25251f" stroke-width="9" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M42 85h44M64 64v34" fill="none" stroke="#aa492e" stroke-width="7" stroke-linecap="square"/>
+  <path d="M64 17v12M16 64h11M101 64h11" fill="none" stroke="#aa492e" stroke-width="4" stroke-linecap="square"/>
+  <circle cx="64" cy="64" r="5" fill="#aa492e"/>
+</svg>

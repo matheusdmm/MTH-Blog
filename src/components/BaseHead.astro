@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
-import FallbackImage from "../assets/placeholder/blog-placeholder-1.jpg";
+import FallbackImage from "../assets/brand/og-default.png";
 import { SITE_TITLE } from "../consts";
 
 interface Props {
@@ -73,9 +73,9 @@ const jsonLd =
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" href="/favicon.png" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+<link rel="icon" href="/favicon.ico?v=2" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
@@ -101,6 +101,8 @@ const jsonLd =
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={new URL(image.src, Astro.url)} />
 {
     type === "article" && publishedTime && (
         <meta

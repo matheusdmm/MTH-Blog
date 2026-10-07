@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
-  <title id="title">Sigilo MTH angular com M, T e H unidos no mesmo ponto</title>
+  <title id="title">Sigilo MTH angular — H formado pelas hastes externas e barra transversal</title>
   <path d="M14 0h100l14 14v100l-14 14H14L0 114V14Z" fill="#191a18"/>
-  <path d="M27 99V31l37 53 37-53v68" fill="none" stroke="#f1ede3" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M27 99V31l37 41 37-41v68" fill="none" stroke="#f1ede3" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
   <path d="M28 84h72M64 84v17" fill="none" stroke="#f1ede3" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"/>
   <path d="m64 16 8 8-8 8-8-8Z" fill="#e58d69"/>
 </svg>
