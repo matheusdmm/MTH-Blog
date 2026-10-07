@@ -32,7 +32,7 @@ const points = await Promise.all(located.map(async (photo) => ({
           data-url={`/img/${photo.id}`}
         >
           <button type="button" class="place" aria-label={`Mostrar ${photo.data.location!.name} no mapa`}>{photo.data.location!.name}</button>
-          <a class="photo-title" href={`/img/${photo.id}`} aria-label={`Abrir foto ${photo.data.title ?? photo.data.alt}`}>{photo.data.title ?? photo.data.alt} <span aria-hidden="true">↗</span></a>
+          <a class="photo-title" href={`/img/${photo.id}`} aria-label={`Abrir foto ${photo.data.title ?? photo.data.alt}`}>{photo.data.title ?? photo.data.alt}</a>
         </li>
       ))}
     </ol>
