@@ -14,9 +14,22 @@ const editorDirArg = process.argv.indexOf('--editor-dir');
 const editorDir = editorDirArg >= 0 && process.argv[editorDirArg + 1]
   ? resolve(process.argv[editorDirArg + 1])
   : Bun.isStandaloneExecutable ? dirname(process.execPath) : import.meta.dir;
-const root = resolve(editorDir, '..');
-const defaultPostsDir = join(root, 'src', 'content', 'blog');
-const defaultPhotosDir = join(root, 'src', 'content', 'img');
+const parentDir = resolve(editorDir, '..');
+const projectCandidates = [
+  process.env.MTH_BLOG_DIR,
+  parentDir, // Compatibilidade com o editor dentro do blog.
+  join(parentDir, 'MTH-Blog'), // Repositórios lado a lado.
+].filter((path): path is string => Boolean(path));
+const projectRoot = await (async () => {
+  for (const candidate of projectCandidates) {
+    const path = resolve(candidate);
+    if (await isDirectory(join(path, 'src', 'content', 'blog')) &&
+        await isDirectory(join(path, 'src', 'content', 'img'))) return path;
+  }
+  return null;
+})();
+const defaultPostsDir = projectRoot ? join(projectRoot, 'src', 'content', 'blog') : null;
+const defaultPhotosDir = projectRoot ? join(projectRoot, 'src', 'content', 'img') : null;
 const settingsPath = join(editorDir, 'editor-settings.json');
 let postsDir: string | null = null;
 let photosDir: string | null = null;
@@ -49,8 +62,8 @@ try {
   if (typeof settings.postsDir === 'string' && await isDirectory(settings.postsDir)) postsDir = resolve(settings.postsDir);
   if (typeof settings.photosDir === 'string' && await isDirectory(settings.photosDir)) photosDir = resolve(settings.photosDir);
 } catch { /* Ainda não há uma pasta salva. */ }
-if (!postsDir && await isDirectory(defaultPostsDir)) postsDir = defaultPostsDir;
-if (!photosDir && await isDirectory(defaultPhotosDir)) photosDir = defaultPhotosDir;
+if (!postsDir && defaultPostsDir) postsDir = defaultPostsDir;
+if (!photosDir && defaultPhotosDir) photosDir = defaultPhotosDir;
 
 async function saveSettings() {
   await writeFile(settingsPath, JSON.stringify({ postsDir, photosDir }, null, 2));
