@@ -19,7 +19,6 @@ const query = `
             forkCount
             primaryLanguage {
               name
-              color
             }
           }
         }
@@ -34,7 +33,7 @@ let projects: {
     url: string;
     stargazerCount: number;
     forkCount: number;
-    primaryLanguage: { name: string; color: string } | null;
+    primaryLanguage: { name: string } | null;
 }[] = [];
 
 if (token) {
@@ -61,7 +60,7 @@ if (token) {
     <head>
         <BaseHead title={`Projetos — ${SITE_TITLE}`} description="Repositórios GitHub em destaque — meu trabalho em código aberto." />
     </head>
-    <body>
+    <body class="page-projects">
         <Header />
 
         <main class="main">
@@ -88,11 +87,8 @@ if (token) {
 
                             <div class="card-footer">
                                 {project.primaryLanguage && (
-                                    <span class="lang-badge">
-                                        <span
-                                            class="lang-dot"
-                                            style={`background: ${project.primaryLanguage.color}`}
-                                        ></span>
+                                    <span class="lang-badge" data-language={project.primaryLanguage.name}>
+                                        <span class="lang-dot"></span>
                                         {project.primaryLanguage.name}
                                     </span>
                                 )}
@@ -114,138 +110,3 @@ if (token) {
         <Footer />
     </body>
 </html>
-
-<style>
-    .main {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 6rem 1.5rem 8rem;
-    }
-
-    .page-title {
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: clamp(3.8rem, 7vw, 6.5rem);
-        font-weight: 700;
-        letter-spacing: -0.05em;
-        color: var(--fg);
-        margin: 0 0 1rem;
-        line-height: 1;
-    }
-    .page-title span { color: var(--accent); }
-    .page-kicker { color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: .17em; margin: 0 0 1.25rem; }
-
-    .page-desc {
-        font-size: 1.06rem;
-        color: var(--fg-muted);
-        margin: 0 0 3rem;
-    }
-
-    .empty {
-        color: var(--fg-muted);
-        font-size: 0.95rem;
-        padding: 3rem 0;
-    }
-
-    /* ── Grid ───────────────────────────────────── */
-    .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        border-top: 1px solid var(--border);
-    }
-
-    .project-card {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        padding: 2rem 1.5rem;
-        background: var(--bg);
-        border-right: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        text-decoration: none;
-        color: var(--fg);
-        transition: background 0.12s;
-    }
-
-    .project-card:nth-child(even) {
-        border-right: none;
-    }
-
-    .project-card:nth-last-child(-n+2):nth-child(odd),
-    .project-card:last-child {
-        border-bottom: none;
-    }
-
-    .project-card:hover {
-        background: var(--bg-2);
-        color: var(--fg);
-    }
-
-    .card-name {
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: 1.35rem;
-        font-weight: 600;
-        margin: 0;
-        color: var(--fg);
-        letter-spacing: -0.01em;
-        transition: color 0.12s;
-    }
-
-    .project-card:hover .card-name { color: var(--accent); }
-
-    .card-desc {
-        font-size: 0.82rem;
-        color: var(--fg-muted);
-        line-height: 1.55;
-        margin: 0;
-        flex: 1;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .card-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-        margin-top: auto;
-        padding-top: 0.6rem;
-        border-top: 1px solid var(--border);
-    }
-
-    .lang-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-size: 0.72rem;
-        font-weight: 500;
-        color: var(--fg-muted);
-    }
-
-    .lang-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
-
-    .card-stats {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-    }
-
-    .stat {
-        font-size: 0.72rem;
-        font-weight: 500;
-        color: var(--fg-muted);
-    }
-
-    /* ── Responsive ─────────────────────────────── */
-    @media (max-width: 560px) {
-        .projects-grid { grid-template-columns: 1fr; }
-        .project-card { border-right: none; border-bottom: 1px solid var(--border); }
-        .project-card:last-child { border-bottom: none; }
-    }
-</style>

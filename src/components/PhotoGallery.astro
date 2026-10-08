@@ -59,29 +59,3 @@ const { photos } = Astro.props;
     <Footer />
   </body>
 </html>
-
-<style>
-  .gallery-page { max-width: 1280px; min-height: 60svh; margin: 0 auto; padding: 2rem 1rem 5rem; }
-  .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .5rem; margin: 0; padding: 0; list-style: none; }
-  .photo-grid li { min-width: 0; }
-  .photo-grid li:nth-child(7n + 5) { grid-column: span 2; }
-  .photo-grid a { display: grid; min-width: 0; gap: .45rem; color: var(--fg); }
-  .photo-grid a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .photo-media { position: relative; display: block; min-width: 0; overflow: hidden; background: #fff; }
-  .photo-grid :global(img) { width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .35s ease; }
-  .photo-grid li:nth-child(7n + 5) :global(img) { aspect-ratio: 16 / 9; }
-  .photo-title { display: block; min-width: 0; font-size: .8rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
-  .photo-grid a:hover .photo-title { color: var(--accent); }
-  .demo-label { position: absolute; top: .65rem; left: .65rem; padding: .2rem .45rem; background: var(--bg); color: var(--fg); font-size: .66rem; font-weight: 700; letter-spacing: .04em; }
-  .photo-grid a:hover :global(img) { transform: scale(1.025); }
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; min-height: 38svh; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: var(--fg-muted); text-align: center; }
-  .empty-state span { color: var(--accent); font-size: 3rem; line-height: 1; }
-  .empty-state p { margin: 0; }
-  @media (min-width: 700px) {
-    .gallery-page { padding: 5.5rem 2rem 8rem; }
-    .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem .85rem; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .photo-grid :global(img) { transition: none; }
-  }
-</style>

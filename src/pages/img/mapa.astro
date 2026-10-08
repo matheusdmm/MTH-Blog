@@ -16,7 +16,7 @@ const photos = await getPhotos();
   <head>
     <BaseHead title={`Mapa · IMG — ${SITE_TITLE}`} description="As fotografias e os lugares onde foram feitas." />
   </head>
-  <body>
+  <body class="page-photo-map">
     <Header />
     <main class="map-page">
       <ImgHeading />
@@ -26,10 +26,3 @@ const photos = await getPhotos();
     <Footer />
   </body>
 </html>
-
-<style>
-  .map-page { max-width: 1280px; min-height: 60svh; margin: 0 auto; padding: 2rem 1rem 5rem; }
-  @media (min-width: 700px) {
-    .map-page { padding: 5.5rem 2rem 8rem; }
-  }
-</style>

@@ -10,7 +10,7 @@ import { SITE_TITLE, SUPPORT } from '../consts';
   <head>
     <BaseHead title={`Support — ${SITE_TITLE}`} description="Support my work" />
   </head>
-  <body>
+  <body class="page-kofi">
     <Header />
     <main>
       <h1>Me apoia com um cafézinho</h1>
@@ -27,29 +27,3 @@ import { SITE_TITLE, SUPPORT } from '../consts';
     <Footer />
   </body>
 </html>
-
-<style>
-  .kofi-btn {
-    display: inline-block;
-    margin: 1rem 0 2rem;
-    padding: 0.7rem 1.75rem;
-    border: 2px solid var(--border);
-    color: var(--fg);
-    font-size: 1rem;
-    font-weight: 900;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    box-shadow: var(--card-shadow);
-    font-family: 'JetBrains Mono', monospace;
-    background: var(--bg);
-  }
-
-  .kofi-btn:hover {
-    background: var(--fg);
-    color: var(--bg);
-    box-shadow: none;
-    transform: translate(4px, 4px);
-    text-decoration: none;
-  }
-</style>
