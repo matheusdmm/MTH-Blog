@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  photos: CollectionEntry<'img'>[];
+  id?: string;
+  label?: string;
+}
+
+const { photos, id, label = 'Galeria de fotografias' } = Astro.props;
+---
+
+<ol id={id} class="photo-grid" aria-label={label}>
+  {photos.map((photo) => (
+    <li data-photo-tags={JSON.stringify(photo.data.tags)}>
+      <a href={`/img/${photo.id}`} aria-label={photo.data.title ?? photo.data.alt}>
+        <span class="photo-media">
+          <Image
+            src={photo.data.image}
+            alt={photo.data.alt}
+            width={720}
+            loading="lazy"
+            decoding="async"
+          />
+          {photo.data.demo && <span class="demo-label">Exemplo</span>}
+        </span>
+        <span class="photo-title">{photo.data.title ?? photo.data.date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'short', timeZone: 'UTC' })}</span>
+      </a>
+    </li>
+  ))}
+</ol>

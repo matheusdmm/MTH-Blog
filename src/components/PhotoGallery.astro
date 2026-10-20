@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from './BaseHead.astro';
 import Footer from './Footer.astro';
 import Header from './Header.astro';
 import ImgHeading from './ImgHeading.astro';
 import ImgTabs from './ImgTabs.astro';
+import PhotoGrid from './PhotoGrid.astro';
 import { SITE_TITLE } from '../consts';
 
 interface Props {
@@ -13,6 +13,9 @@ interface Props {
 }
 
 const { photos } = Astro.props;
+const counts = new Map<string, number>();
+photos.forEach((photo) => new Set(photo.data.tags).forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1)));
+const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'));
 ---
 
 <!doctype html>
@@ -30,26 +33,24 @@ const { photos } = Astro.props;
 
       <ImgTabs active="photos" />
 
+      {tags.length > 0 && (
+        <div class="photo-filters" hidden>
+          <div class="photo-filter-options" role="group" aria-label="Filtrar fotografias por assunto">
+            <button type="button" data-photo-filter="" aria-pressed="true" aria-controls="photo-grid">
+              Todas <span>{photos.length}</span>
+            </button>
+            {tags.map(([tag, count]) => (
+              <button type="button" data-photo-filter={tag} aria-pressed="false" aria-controls="photo-grid">
+                {tag} <span>{count}</span>
+              </button>
+            ))}
+          </div>
+          <p class="photo-filter-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        </div>
+      )}
+
       {photos.length > 0 ? (
-        <ol id="photo-grid" class="photo-grid" aria-label="Galeria de fotografias">
-          {photos.map((photo) => (
-            <li>
-              <a href={`/img/${photo.id}`} aria-label={photo.data.title ?? photo.data.alt}>
-                <span class="photo-media">
-                  <Image
-                    src={photo.data.image}
-                    alt={photo.data.alt}
-                    width={720}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  {photo.data.demo && <span class="demo-label">Exemplo</span>}
-                </span>
-                <span class="photo-title">{photo.data.title ?? photo.data.date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'short', timeZone: 'UTC' })}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
+        <PhotoGrid photos={photos} id="photo-grid" />
       ) : (
         <div class="empty-state">
           <p>Nenhum post.</p>
@@ -59,3 +60,47 @@ const { photos } = Astro.props;
     <Footer />
   </body>
 </html>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('.photo-filters');
+  const grid = document.querySelector<HTMLOListElement>('#photo-grid');
+  const status = document.querySelector<HTMLElement>('.photo-filter-status');
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-photo-filter]')];
+  const items = [...document.querySelectorAll<HTMLLIElement>('#photo-grid > li')].map((item) => ({
+    element: item,
+    tags: JSON.parse(item.dataset.photoTags ?? '[]') as string[],
+  }));
+
+  if (filters && grid && status) {
+    function applyFilter() {
+      const url = new URL(window.location.href);
+      const requested = url.searchParams.get('tag') ?? '';
+      const tag = buttons.some((button) => button.dataset.photoFilter === requested) ? requested : '';
+      // Unknown tags fall back to the complete gallery.
+      if (tag) url.searchParams.set('tag', tag);
+      else url.searchParams.delete('tag');
+      if (url.href !== window.location.href) window.history.replaceState(null, '', url);
+
+      buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.photoFilter === tag)));
+      let count = 0;
+      items.forEach(({ element, tags }) => {
+        element.hidden = Boolean(tag) && !tags.includes(tag);
+        if (!element.hidden) count++;
+      });
+      grid!.classList.toggle('is-filtered', Boolean(tag));
+      status!.textContent = `${count} ${count === 1 ? 'foto' : 'fotos'}${tag ? ` · ${tag}` : ' no total'}`;
+    }
+
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      const tag = button.dataset.photoFilter!;
+      if (tag) url.searchParams.set('tag', tag);
+      else url.searchParams.delete('tag');
+      if (url.href !== window.location.href) window.history.pushState(null, '', url);
+      applyFilter();
+    }));
+    window.addEventListener('popstate', applyFilter);
+    applyFilter();
+    filters.hidden = false;
+  }
+</script>

@@ -4,6 +4,7 @@ alt: "TP"
 caption: "Sonhos soterrados."
 date: 2026-09-27
 title: "TP"
+tags: ["travel", "landscape"]
 location:
   name: "Veranocity"
   latitude: -29.0080183

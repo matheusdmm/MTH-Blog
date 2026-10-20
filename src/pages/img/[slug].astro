@@ -4,14 +4,16 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import PhotoZoom from '../../components/PhotoZoom.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
 import { SITE_TITLE } from '../../consts';
-import { getPhotos } from '../../utils/photos';
+import { getPhotos, getRelatedPhotos } from '../../utils/photos';
+import { photoTagUrl } from '../../utils/photo-tags';
 
 export async function getStaticPaths() {
   const photos = await getPhotos();
   return photos.map((photo, index) => ({
     params: { slug: photo.id },
-    props: { photo, newer: photos[index - 1], older: photos[index + 1] },
+    props: { photo, newer: photos[index - 1], older: photos[index + 1], related: getRelatedPhotos(photo, photos) },
   }));
 }
 
@@ -19,9 +21,10 @@ interface Props {
   photo: CollectionEntry<'img'>;
   newer?: CollectionEntry<'img'>;
   older?: CollectionEntry<'img'>;
+  related: CollectionEntry<'img'>[];
 }
 
-const { photo, newer, older } = Astro.props;
+const { photo, newer, older, related } = Astro.props;
 const { title, caption, date, tags, location, image } = photo.data;
 const dateLabel = date.toLocaleDateString('pt-BR', {
   day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
@@ -50,7 +53,11 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
           <h1>{title ?? dateLabel}<span>.</span></h1>
           <time datetime={date.toISOString().slice(0, 10)}>{dateLabel}</time>
           <p class="caption">{caption}</p>
-          {tags.length > 0 && <ul class="tags" aria-label="Assuntos">{tags.map((tag) => <li>{tag}</li>)}</ul>}
+          {tags.length > 0 && (
+            <ul class="tags" aria-label="Assuntos">
+              {tags.map((tag) => <li><a href={photoTagUrl(tag)}>{tag}</a></li>)}
+            </ul>
+          )}
           {location && (
             <p class="location">
               <span aria-hidden="true">⌖</span> {location.name}
@@ -59,6 +66,13 @@ const mapUrl = location?.latitude !== undefined && location.longitude !== undefi
           )}
         </div>
       </article>
+      {related.length > 0 && (
+        <section class="related-photos" aria-labelledby="related-photos-heading">
+          <h2 id="related-photos-heading">Fotos relacionadas<span>.</span></h2>
+          <p>Mais registros com assuntos em comum.</p>
+          <PhotoGrid photos={related} label="Fotos relacionadas" />
+        </section>
+      )}
       <nav class="photo-nav" aria-label="Navegar pelas imagens">
         {newer ? <a href={`/img/${newer.id}`}><span>Mais recente</span><strong>{newer.data.title ?? newer.data.alt}</strong></a> : <span />}
         {older ? <a href={`/img/${older.id}`}><span>Mais antiga</span><strong>{older.data.title ?? older.data.alt}</strong></a> : <span />}
