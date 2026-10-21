@@ -119,6 +119,8 @@ Acabo por aqui meu momento palestrinha, se leu tudo, muito obrigado! Se tu traba
 
 O poder de decisão de segurança e de escolhas deve sempre ficar na mão do usuário, especialmente em hardware local. Os avisos são essenciais, mas impedir o usuário ou pelo menos não ter uma seção onde tu pode deliberadamente assinar que está ciente dos riscos é um padrão horrível.
 
+Faça tudo o que quiseres, é tudo da lei.
+
 ### Por enquanto é isso
 
 Valeu demais, continua arrasando 🤘- Matheus.
