@@ -85,7 +85,7 @@ Aqui vai o que eu encontrei.
 
 O firmware em si parece customizado para o vendor/operadora, tem algumas coisas especificas colocadas ali e analisando melhor o sistema, que na verdade é um front-end BEM jaguara com meia dúzia de configurações, descubro que a validação da senha é client-side only.
 
-No HTML montado, o javascript é exposto e a função do botão de salvar chama a função **"showPassLevel()". **Essa função roda um script que vai ler o campo **"txtPassword" **e ai fazer uma média do nível da tua senha, caso ela seja contraria a alguma da quelas regras ali de cima, ele não vai deixar tu salvar a senha. 
+No HTML montado, o javascript é exposto e a função do botão de salvar chama a função **"showPassLevel()"**. Essa função roda um script que vai ler o campo **"txtPassword"** e ai fazer uma média do nível da tua senha, caso ela seja contraria a alguma da quelas regras ali de cima, ele não vai deixar tu salvar a senha. 
 
 Não vou explanar muito e nem deixar o script aqui, mas digamos que se tu tem um pouco de maldade no coração, vai descobrir o caminho BEEEM rápido.
 
@@ -112,6 +112,8 @@ Pensa em algo mais ou menos nesse caminho aqui:
 ```
 
 E é mais ou menos isso que é preciso, só injetar no console na pagina de troca de senhas e vai ficar tudo verdinho e quando salvar, sem popup e com a senha que gostaria.
+
+Faço o possível para não ser um cadáver no Everest, mas as vezes a gente vai muito longe de casa pra continuar tendo o mínimo necessário.
 
 ### Final feliz
 
