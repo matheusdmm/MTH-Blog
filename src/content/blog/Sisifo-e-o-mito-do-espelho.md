@@ -29,7 +29,7 @@ E tal qual um albatroz voa em alto mar, aproveitando as correntes de vento, a ge
 
 No momento que nos damos conta de que participar, mesmo que de maneira involuntária, da pedra rolante, o mais comum é cair em negação já que agora conscientemente temos o vislumbre das engrenagens e dos grilhões mas da mesma forma, temos o poder de ver quais caminhos podemos seguir para tornar os obstáculos menos árduos e procurar a corrente de ar imaginária.
 
-Ainda que fiquemos presos em uma casca de nós, o universo há de ser infinito contanto que não nos fechemos em sua percepção. Tudo é permitido e nada é proibido.
+Ainda que fiquemos presos em uma casca de nozes, o universo há de ser infinito contanto que não nos fechemos em sua percepção. Tudo é permitido e nada é proibido.
 
 Com a permissão das coisas, vem também o espelho, que em muitos casos é escuro e só mostra a luz que é refletida por outros. A comparação e justificativa nesse caso é a mesma coisa que fazer a própria pedra rolar ao inicio da montanha. Muitas e muitas vezes a minha pedra rolou por causa disso. E ainda continua rolando, a perfeição tende a entropia e o que importa é a média de tentativas de rolar a pedra até o alto ser maior do que as pedras roladas no meio do percurso.
 
