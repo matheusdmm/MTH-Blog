@@ -24,9 +24,17 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readTime } = 
   </head>
 
   <body class="page-post">
-    <Header />
+    <Header>
+      <progress
+        slot="reading-progress"
+        id="reading-progress"
+        aria-label="Progresso de leitura"
+        max="1"
+        value="0"
+      ></progress>
+    </Header>
 
-    <article>
+    <article id="blog-post">
       <!-- Hero image full-bleed -->
       {heroImage && (
         <div class="post-hero-img">
@@ -77,3 +85,27 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readTime } = 
     <Footer />
   </body>
 </html>
+
+<script>
+  const progress = document.querySelector<HTMLProgressElement>('#reading-progress');
+  const article = document.getElementById('blog-post');
+  const header = document.getElementById('site-header');
+
+  if (progress && article && header) {
+    const updateProgress = () => {
+      const { top, bottom } = article.getBoundingClientRect();
+      const viewportBottom = document.documentElement.clientHeight;
+      const scrolled = header.getBoundingClientRect().bottom - top;
+      const remaining = bottom - viewportBottom;
+
+      progress.value = remaining <= 0 ? 1 : Math.max(0, scrolled / (scrolled + remaining));
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    const observer = new ResizeObserver(updateProgress);
+    observer.observe(article);
+    observer.observe(header);
+    updateProgress();
+  }
+</script>
