@@ -35,6 +35,8 @@ Com a permissão das coisas, vem também o espelho, que em muitos casos é escur
 
 Isso não significa que todo espelho seja ruim, muitas vezes a gente consegue ver angulos antes não percebidos com o uso do espelho.
 
+No caso de Sísifo, a felicidade vem da revolta durante o processo, depois de aceitar o destino descendo a montanha mas e o teu caso, qual que é?
+
 ### PS:.
 
 Comecei o texto querendo só falar do mano Sísifo mas acabei deixando os pensamentos intrusivos vencerem e praticamente ter meu ensaio filosofico tal qual os velhos tempos, quem diria que Eu gostava dessas coisas, não? :)
