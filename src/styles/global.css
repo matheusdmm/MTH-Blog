@@ -197,6 +197,16 @@ hr {
     box-shadow: var(--card-shadow);
 }
 
+.prose iframe {
+    max-width: 100%;
+}
+
+.prose iframe[src^="https://www.youtube.com/embed/"],
+.prose iframe[src^="https://www.youtube-nocookie.com/embed/"] {
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
 .prose table {
     width: 100%;
     border-collapse: collapse;
