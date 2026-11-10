@@ -35,12 +35,12 @@ const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 
 
       {tags.length > 0 && (
         <div class="photo-filters" hidden>
-          <div class="photo-filter-options" role="group" aria-label="Filtrar fotografias por assunto">
-            <button type="button" data-photo-filter="" aria-pressed="true" aria-controls="photo-grid">
+          <div class="tag-filters" role="group" aria-label="Filtrar fotografias por assunto">
+            <button class="tag-filter" type="button" data-photo-filter="" aria-pressed="true" aria-controls="photo-grid">
               Todas <span>{photos.length}</span>
             </button>
             {tags.map(([tag, count]) => (
-              <button type="button" data-photo-filter={tag} aria-pressed="false" aria-controls="photo-grid">
+              <button class="tag-filter" type="button" data-photo-filter={tag} aria-pressed="false" aria-controls="photo-grid">
                 {tag} <span>{count}</span>
               </button>
             ))}

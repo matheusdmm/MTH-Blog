@@ -32,10 +32,10 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
       <p class="page-intro">Software, pedais de guitarra, RPG e o que mais me deu vontade de desmontar para entender.</p>
 
       {allTags.length > 0 && (
-        <div class="filters" role="group" aria-label="Filtrar por assunto">
-          <button class="filter active" data-filter="all">Todos</button>
+        <div class="tag-filters" role="group" aria-label="Filtrar por assunto">
+          <button class="tag-filter" type="button" data-filter="all" aria-pressed="true" aria-controls="posts-grid">Todos</button>
           {allTags.map((tag) => (
-            <button class="filter" data-filter={tag}>{tag}</button>
+            <button class="tag-filter" type="button" data-filter={tag} aria-pressed="false" aria-controls="posts-grid">{tag}</button>
           ))}
         </div>
       )}
@@ -54,9 +54,8 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
       const items = document.querySelectorAll<HTMLLIElement>('[data-tags]');
 
       function applyFilter(tag: string) {
-        btns.forEach((b) => b.classList.remove('active'));
-        const active = document.querySelector<HTMLButtonElement>(`[data-filter="${tag}"]`);
-        (active ?? document.querySelector<HTMLButtonElement>('[data-filter="all"]'))!.classList.add('active');
+        const active = [...btns].find((button) => button.dataset.filter === tag) ?? btns[0];
+        btns.forEach((button) => button.setAttribute('aria-pressed', String(button === active)));
         items.forEach((item) => {
           if (tag === 'all') {
             item.hidden = false;

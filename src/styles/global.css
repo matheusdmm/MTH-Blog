@@ -215,9 +215,10 @@ hr {
 }
 
 /* ============================================================
-   Tag / label — shared base for all tags and filter buttons
+   Tags and tag filters
    ============================================================ */
-.tag {
+.tag,
+.tag-filter {
     display: inline-flex;
     align-items: center;
     font-size: 0.72rem;
@@ -230,6 +231,30 @@ hr {
     font-family: 'IBM Plex Sans', sans-serif;
     line-height: 1.6;
     white-space: nowrap;
+}
+
+.tag-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tag-filter {
+    gap: 0.45rem;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.tag-filter:hover {
+    color: var(--fg);
+    border-color: var(--fg-muted);
+}
+
+.tag-filter[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
 }
 
 /* ============================================================
@@ -548,12 +573,7 @@ hr {
 .gallery-page { max-width: 1280px; min-height: 60svh; margin: 0 auto; padding: 2rem 1rem 5rem; }
   .gallery-page .photo-filters { margin: 0 0 1.5rem; }
   .gallery-page .photo-filters[hidden] { display: none; }
-  .gallery-page .photo-filter-options { display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
-  .gallery-page .photo-filter-options button { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: .35rem .1rem; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--fg-muted); font: inherit; font-size: .82rem; cursor: pointer; transition: color .15s, border-color .15s; }
-  .gallery-page .photo-filter-options button span { font-size: .7rem; font-variant-numeric: tabular-nums; }
-  .gallery-page .photo-filter-options button:hover { color: var(--accent); }
-  .gallery-page .photo-filter-options button[aria-pressed="true"] { border-bottom-color: var(--accent); color: var(--accent); font-weight: 600; }
-  .gallery-page .photo-filter-options button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .gallery-page .tag-filter span { font-size: .7rem; font-variant-numeric: tabular-nums; }
   .gallery-page .photo-filter-status { margin: .8rem 0 0; color: var(--fg-muted); font-size: .75rem; }
   .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .5rem; margin: 0; padding: 0; list-style: none; }
   .photo-grid li { min-width: 0; }
@@ -1478,39 +1498,7 @@ body.page-blog .main {
   body.page-blog .page-kicker { color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: .17em; margin: 0 0 1.25rem; }
   body.page-blog .page-intro { max-width: 490px; color: var(--fg-muted); font-size: 1.06rem; line-height: 1.7; margin: 0 0 3rem; }
 
-  /* ── Filters ──────────────────────────────── */
-  body.page-blog .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 3rem;
-  }
-
-  /* Filter buttons inherit the global .tag spec, add interactivity */
-  body.page-blog .filter {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    padding: 0.2em 0.55em;
-    border-radius: 0;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--fg-muted);
-    line-height: 1.6;
-    cursor: pointer;
-    transition: background 0.12s, color 0.12s, border-color 0.12s;
-  }
-
-  body.page-blog .filter:hover {
-    color: var(--fg);
-    border-color: var(--fg-muted);
-  }
-
-  body.page-blog .filter.active {
-    background: var(--accent);
-    color: var(--accent-fg);
-    border-color: var(--accent);
-  }
+  body.page-blog .tag-filters { margin-bottom: 3rem; }
 
   body.page-blog .empty {
     color: var(--fg-muted);
