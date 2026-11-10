@@ -6,6 +6,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://www.matheusdmm.dev/",
+  redirects: { "/projects": "/blog/mth-t00ls/" },
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

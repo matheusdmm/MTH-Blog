@@ -23,6 +23,8 @@ Logo, a coisa mais logica seria implementar um diff viewer entre a 5e e a 2024 e
 
 A aplicação em si foi feita com Vue e tailwind, estava um pouco saturado de React nesta época.
 
+![Tome of Changes comparando a magia Magic Missile nas edições de 2014 e 2024, com as mudanças destacadas](../../assets/mth-t00ls/tome-of-changes.webp)
+
 ### Cantrip
 
 [https://github.com/matheusdmm/CANTRIP](https://github.com/matheusdmm/CANTRIP)  
@@ -32,6 +34,8 @@ Seguindo o baile, também fiz o Cantrip que é basicamente um spellbook pros per
 Funciona como webapp favoritado no celular e o intuito é justamente esse. Também roda local com o local storage caso não tenha dados moveis na seção. 
 
 Foi feito usando Gleam e Alpinejs, foi muito interessante aprender Gleam e Glimr, quero fazer mais algumas coisas usando Gleam e entender melhor o mundo da programação funcional. Inclusive o mano que desenvolve e mantem o framework Glimr (Miguel J Arias) me segue no github e eu acho massa demais isso heh.
+
+![Cantrip mostrando as magias preparadas e os espaços de magia de um mago de nível 5](../../assets/mth-t00ls/cantrip.webp)
 
 ### Persona
 
@@ -45,6 +49,8 @@ Usei Vue, Tailwind e Go pra fugir um pouco do padrão. O Tailwind hoje em dia se
 
 O ponto mais interessante é que no final a ficha gerada é um pdf a4 pronto para impressão. Totalmente estilizado.
 
+![Persona na etapa de escolha da espécie, com opções e bônus na criação do personagem](../../assets/mth-t00ls/persona.webp)
+
 ### Night-creatures
 
 [https://github.com/matheusdmm/night-creatures](https://github.com/matheusdmm/night-creatures)  
@@ -52,6 +58,8 @@ O ponto mais interessante é que no final a ficha gerada é um pdf a4 pronto par
 Em certo período do ano eu senti vontade de jogar uma aventura de Vampiro, infelizmente fui o único que teve essa vontade 🤣, logo tive que usar um agente para mestrar as seções (Caso queira ver mais sobre, let me know) e aproveitando esse delírio, eu acabei desenvolvendo esse criador de fichas (que é bem menos rebuscado que o Persona). 
 
 Ele roda com React e Python/Fastapi e tem interatividade em tempo real, já que estava jogando in box para adicionar ou remover status dependendo das rolagens/fome mas isso não impede de se imprimir a ficha gerada e uma folha a4 ou pdf.
+
+![Night-creatures com uma ficha de exemplo do clã Toreador, mostrando atributos, perícias e disciplinas](../../assets/mth-t00ls/night-creatures.webp)
 
 ### Typewriter
 
@@ -65,6 +73,8 @@ Concebi o editor em typescript e bun pra rodar num server local mas aos poucos c
 
 Também coloquei uma engine de temas em css para dar uma diferenciada na estética conforme vou escrevendo heh.
 
+![Typewriter com esta postagem aberta no editor visual e o painel de dados ao lado](../../assets/mth-t00ls/typewriter.webp)
+
 ### Mogwai
 
 [https://github.com/matheusdmm/Mogwai](https://github.com/matheusdmm/Mogwai)  
@@ -77,6 +87,8 @@ Como é uma aplicação estática e tem um total de zero pacotes processados em 
 
 HTML, CSS e Javascript baunilha.
 
+![Mogwai destacando caracteres não ASCII e espaços invisíveis em um texto de exemplo](../../assets/mth-t00ls/mogwai.webp)
+
 ### Helios
 
 [https://github.com/matheusdmm/Helios](https://github.com/matheusdmm/Helios)  
@@ -88,6 +100,10 @@ Utilizando um pouco do tempo livre do meu estagiário Claudio Códigos e uma eng
 E tudo isso começou porque precisava ter uma média de eficiência antes e depois da limpeza das placas.
 
 Agora posso ter uma estimativa da próxima semana com base em um forecast, salvar e importar um csv com os dados gerados até o presente momento e também verificar a temperatura e status geral das placas e do inversor. Tudo isso de maneira relativamente eficiente, visto que a alternativa seria um serviço pago pela empresa que instalou as placas.
+
+![Painel do Helios com potência instantânea e totais de geração solar, usando dados de exemplo](../../assets/mth-t00ls/helios-overview.webp)
+
+![Gráfico do Helios com a potência solar ao longo de um dia de exemplo](../../assets/mth-t00ls/helios-history.webp)
 
 ### Por enquanto é isso
 
