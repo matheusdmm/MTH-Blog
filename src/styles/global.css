@@ -880,6 +880,41 @@ hr {
     color: var(--fg-muted);
   }
 
+  body.page-post .post-like:not([hidden]) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    color: var(--fg-muted);
+    font-size: .85rem;
+  }
+
+  body.page-post .post-like button {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  body.page-post .post-like button:hover,
+  body.page-post .post-like button[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--accent-muted);
+  }
+
+  body.page-post .post-like button[aria-disabled="true"] { cursor: wait; }
+  body.page-post .post-like svg { width: 1.1rem; height: 1.1rem; }
+  body.page-post .post-like button[aria-pressed="true"] svg { fill: currentColor; }
+  body.page-post .post-like [data-like-error]:empty { display: none; }
+
   /* Back link */
   body.page-post .back-wrap {
     max-width: 760px;

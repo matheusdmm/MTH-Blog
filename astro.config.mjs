@@ -7,7 +7,20 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://www.matheusdmm.dev/",
   redirects: { "/projects": "/blog/mth-t00ls/" },
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap(),
+    {
+      name: "local-likes",
+      hooks: {
+        "astro:config:setup": ({ command, injectRoute }) => {
+          if (command === "dev") {
+            injectRoute({ pattern: "/api/likes", entrypoint: "./scripts/likes-dev.ts" });
+          }
+        },
+      },
+    },
+  ],
   vite: {
     plugins: [tailwindcss()],
     server: {

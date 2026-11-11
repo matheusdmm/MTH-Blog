@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 const scriptHashes = new Set();
 const styleHashes = new Set();
+const likeablePosts = new Set();
 
 function collectHashes(hashes) {
   let content = '';
@@ -24,7 +25,13 @@ function collectHashes(hashes) {
 
 const rewriter = new HTMLRewriter()
   .on('script:not([src]):not([type="application/ld+json"])', collectHashes(scriptHashes))
-  .on('style', collectHashes(styleHashes));
+  .on('style', collectHashes(styleHashes))
+  .on('[data-post-like]', {
+    element(element) {
+      const post = element.getAttribute('data-post-like');
+      if (post) likeablePosts.add(post);
+    },
+  });
 
 for await (const path of new Bun.Glob('**/*.html').scan('dist')) {
   rewriter.transform(await Bun.file(`dist/${path}`).text());
@@ -44,3 +51,4 @@ const policy = [
 ].join('; ');
 
 await Bun.write('.astro/nginx-csp.conf', `add_header Content-Security-Policy-Report-Only "${policy}" always;\n`);
+await Bun.write('.astro/likeable-posts.json', JSON.stringify([...likeablePosts].sort()));

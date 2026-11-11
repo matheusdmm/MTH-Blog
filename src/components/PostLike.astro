@@ -1,0 +1,51 @@
+---
+interface Props {
+  postId: string;
+}
+
+const { postId } = Astro.props;
+---
+
+<div class="post-like" data-post-like={postId} hidden>
+  <button type="button" aria-label="Curtir" aria-pressed="false" aria-disabled="false">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+      <path d="M12 20.5 4.5 13a5 5 0 0 1 7.1-7.1l.4.4.4-.4a5 5 0 0 1 7.1 7.1Z" />
+    </svg>
+  </button>
+  <span data-like-count role="status"></span>
+  <span data-like-error role="status"></span>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-post-like]');
+  const button = root?.querySelector('button');
+  const count = root?.querySelector('[data-like-count]');
+  const error = root?.querySelector('[data-like-error]');
+
+  if (root && button && count && error && root.dataset.postLike) {
+    const url = '/api/likes?' + new URLSearchParams({ post: root.dataset.postLike });
+    const load = async (method: 'GET' | 'PUT' | 'DELETE') => {
+      const response = await fetch(url, { method });
+      if (!response.ok) throw new Error('Não foi possível consultar as curtidas.');
+      const state: { count: number; liked: boolean } = await response.json();
+      button.setAttribute('aria-pressed', String(state.liked));
+      count.textContent = state.count === 1 ? '1 curtida' : `${state.count} curtidas`;
+    };
+
+    button.addEventListener('click', async () => {
+      if (button.getAttribute('aria-disabled') === 'true') return;
+      button.setAttribute('aria-disabled', 'true');
+      error.textContent = '';
+      try {
+        await load(button.getAttribute('aria-pressed') === 'true' ? 'DELETE' : 'PUT');
+      } catch {
+        error.textContent = 'Não foi possível atualizar a curtida. Tente de novo.';
+        await load('GET').catch(() => {});
+      } finally {
+        button.setAttribute('aria-disabled', 'false');
+      }
+    });
+
+    load('GET').then(() => { root.hidden = false; }).catch(() => {});
+  }
+</script>

@@ -16,6 +16,6 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} readTime={readTime(post.body)}>
+<BlogPost {...post.data} postId={post.id} readTime={readTime(post.body)}>
   <Content />
 </BlogPost>

@@ -6,9 +6,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bun node_modules/astro/bin/astro.mjs dev",
     "build": "astro build && bun scripts/generate-csp.mjs",
     "preview": "astro preview",
+    "likes": "bun scripts/likes.mjs",
     "astro": "astro"
   },
   "dependencies": {

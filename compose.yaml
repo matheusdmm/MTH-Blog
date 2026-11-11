@@ -1,0 +1,21 @@
+services:
+  blog:
+    build:
+      context: .
+      target: blog
+    ports:
+      - "${BLOG_PORT:-8080}:80"
+    depends_on:
+      - likes
+    restart: unless-stopped
+
+  likes:
+    build:
+      context: .
+      target: likes
+    volumes:
+      - likes-data:/data
+    restart: unless-stopped
+
+volumes:
+  likes-data:
